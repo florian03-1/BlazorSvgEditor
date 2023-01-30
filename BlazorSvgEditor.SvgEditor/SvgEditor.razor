@@ -1,8 +1,37 @@
+@implements IAsyncDisposable
 
-<div>
-    <img src=""/>
+@using System.Globalization
+@using BlazorSvgEditor.SvgEditor.Helper
+
+<div style="border: 3px solid black; height: 60vh; width: 100%; overflow: hidden; display: flex;"
+     @onwheel="OnContainerWheel"
+     
+     oncontextmenu="return false"
+     
+     @onpointerdown="OnContainerPointerDown"
+     @onpointerdown:stopPropagation="true"
+     
+     @onpointermove="OnContainerPointerMove"
+        @onpointerup="OnContainerPointerUp"
+>    
+        <svg style="width: 100%; height: 100%; transform: translate(@(Translate.X.ToInvariantString())px, @(Translate.Y.ToInvariantString())px) scale(@Scale.ToInvariantString())" viewBox="0 0 @ImageSize.Width @ImageSize.Height" 
+             @ref="SvgElementReference"
+             @onpointerdown="OnSvgPointerDown">
+            
+            
+            <image href="@ImageSource" height="100%" width="100%"/>
+            
+            <rect fill="green" fill-opacity="0.3" height="100%" width="100%" @onpointerdown="UnSelect"></rect>
+
+            <circle
+                @onpointerdown="OnElementPointerDown"
+                cx="100" cy="100" r="50" fill="@color"/>
+
+            <circle
+                @onpointerdown="OnElementPointerDown"
+                cx="650" cy="350" r="50" fill="@color"/>
+        </svg>
     
-    <svg>
-        
-    </svg>
 </div>
+
+<button class="btn btn-primary" @onclick="TestButton">TestButton</button>
