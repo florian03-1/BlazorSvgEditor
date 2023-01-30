@@ -20,7 +20,9 @@ public partial class SvgEditor
     private ElementReference SvgElementReference;
     
     public List<Shape> Shapes { get; set; } = new();
-
+    public Shape SelectedShape { get; set; }
+    
+    public EditMode EditMode { get; set; } = EditMode.None;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -56,15 +58,13 @@ public partial class SvgEditor
         //Console.WriteLine("SVG POINTER DOWN: Offset: " + e.OffsetX + " " + e.OffsetY + "  Client: " + e.ClientX + " " + e.ClientY +  " Screen: " + e.ScreenX + " " + e.ScreenY  + "  Tilt: " + e.TiltX + " " + e.TiltY );
     }
     
-    private string color = "red";
-    private void OnElementPointerDown()
-    {
-        color = "blue";
-    }
+  
     
     private void UnSelect(PointerEventArgs e)
     {
-        color = "red";
+        SelectedShape = null;
+        Shapes.Where(x => x.State == ShapeState.Selected).ToList().ForEach(x => x.Unselect());
+        EditMode = EditMode.None;
     }
 
 

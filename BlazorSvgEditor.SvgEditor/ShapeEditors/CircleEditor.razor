@@ -3,14 +3,22 @@
 
 <circle @ref=ElementReference
  
+        @onpointerdown="Select"
+        
+        @onpointerenter="Enter"
+        @onpointerleave="Leave"
+        
         cx=@SvgElement.Cx.ToInvariantString()
         cy=@SvgElement.Cy.ToInvariantString()
         r=@SvgElement.R.ToInvariantString()
+        
         stroke="@SvgElement.Stroke"
         stroke-width="@SvgElement.StrokeWidth"
         stroke-linecap="@SvgElement.StrokeLinecap"
         stroke-linejoin="@SvgElement.StrokeLinejoin"
         stroke-dasharray="@SvgElement.StrokeDasharray"
         stroke-dashoffset="@SvgElement.StrokeDashoffset.ToInvariantString()"
-        fill="@SvgElement.Fill">
+        
+        fill="@SvgElement.Fill"
+        fill-opacity="@SvgElement.FillOpacity.ToInvariantString()">
 </circle>

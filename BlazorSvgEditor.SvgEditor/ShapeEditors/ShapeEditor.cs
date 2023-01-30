@@ -8,4 +8,25 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
     public TShape SvgElement { get; set; }
     
     public ElementReference ElementReference { get; set; }
+
+
+    public void Enter()
+    {
+        SvgElement.Hover();
+    }
+    
+    public void Leave()
+    {
+        SvgElement.Unhover();
+    }
+
+    public void Select()
+    {
+        if (SvgElement.SvgEditor.EditMode == EditMode.Add)
+        {
+            return;
+        }
+        
+        SvgElement.Select();
+    }
 }
