@@ -23,12 +23,18 @@
             
             <rect fill="green" fill-opacity="0.3" height="100%" width="100%" @onpointerdown="UnSelect"></rect>
 
+            
+            @foreach(var shape in Shapes)
+            {
+                <DynamicComponent Type="shape.Presenter" Parameters="@(new Dictionary<string, object>(){{"SvgElement", shape}})"/>
+            }
+            
             <circle
-                @onpointerdown="OnElementPointerDown"
+                @onclick="OnElementPointerDown"
                 cx="100" cy="100" r="50" fill="@color"/>
 
             <circle
-                @onpointerdown="OnElementPointerDown"
+                @onclick="OnElementPointerDown"
                 cx="650" cy="350" r="50" fill="@color"/>
         </svg>
     

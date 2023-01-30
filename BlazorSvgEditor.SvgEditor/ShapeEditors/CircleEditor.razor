@@ -1,0 +1,16 @@
+@using BlazorSvgEditor.SvgEditor.Helper
+@inherits ShapeEditor<Circle>
+
+<circle @ref=ElementReference
+ 
+        cx=@SvgElement.Cx.ToInvariantString()
+        cy=@SvgElement.Cy.ToInvariantString()
+        r=@SvgElement.R.ToInvariantString()
+        stroke="@SvgElement.Stroke"
+        stroke-width="@SvgElement.StrokeWidth"
+        stroke-linecap="@SvgElement.StrokeLinecap"
+        stroke-linejoin="@SvgElement.StrokeLinejoin"
+        stroke-dasharray="@SvgElement.StrokeDasharray"
+        stroke-dashoffset="@SvgElement.StrokeDashoffset.ToInvariantString()"
+        fill="@SvgElement.Fill">
+</circle>

@@ -6,26 +6,45 @@ namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor
 {
-    [Parameter] 
-    public (int Width, int Height) ImageSize { get; set; } = (700, 394);
+    [Parameter] public (int Width, int Height) ImageSize { get; set; }
+    [Parameter] public string ImageSource { get; set; } = string.Empty;
     
-    [Parameter]
-    public string ImageSource { get; set; } = "https://www.bentleymotors.com/content/dam/bentley/Master/World%20of%20Bentley/Mulliner/redesign/coachbuilt/Mulliner%20Batur%201920x1080.jpg/_jcr_content/renditions/original.image_file.700.394.file/Mulliner%20Batur%201920x1080.jpg";//700 x 394
-
+    [Parameter] public bool SnapToInteger { get; set; } = true;
+    
+    //Must be between 0.05 and 0.5
+    [Parameter] public double MinScale { get; set; } = 0.4;
+    
+    //Must be between 1 and 10
+    [Parameter] public double MaxScale { get; set; } = 5;
+    
     private ElementReference SvgElementReference;
     
-    bool IsMooving { get; set; } = false;
-    
+    public List<Shape> Shapes { get; set; } = new();
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await GetBoundingBox(SvgElementReference);
+        //await GetBoundingBox(SvgElementReference);
         await base.OnAfterRenderAsync(firstRender);
     }
 
     protected override void OnInitialized()
     {
+        ImageSize = (700, 394);
+        ImageSource =  "https://www.bentleymotors.com/content/dam/bentley/Master/World%20of%20Bentley/Mulliner/redesign/coachbuilt/Mulliner%20Batur%201920x1080.jpg/_jcr_content/renditions/original.image_file.700.394.file/Mulliner%20Batur%201920x1080.jpg";//700 x 394
+        
+        
+        //Check if MinScale is between 0.05 and 0.8
+        if (MinScale < 0.05) MinScale = 0.05;
+        else if (MinScale > 0.8) MinScale = 0.8;
+        
+        //Check if MaxScale is between 1 and 10
+        if (MaxScale < 1) MaxScale = 1;
+        else if (MaxScale > 10) MaxScale = 10;
+        
+        Shapes.Add(new Circle(this){Cy = 300, Cx = 300, Fill = "green", R=40});
+        
+        //Initialize the task for JsInvokeAsync
         moduleTask = new(async () => await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
 
         base.OnInitialized();
@@ -38,9 +57,8 @@ public partial class SvgEditor
     }
     
     private string color = "red";
-    private void OnElementPointerDown(PointerEventArgs e)
+    private void OnElementPointerDown()
     {
-        Console.WriteLine("ELEMENT POINTER DOWN: Offset: " + e.OffsetX + " " + e.OffsetY + "  Client: " + e.ClientX + " " + e.ClientY +  " Screen: " + e.ScreenX + " " + e.ScreenY  + "  Tilt: " + e.TiltX + " " + e.TiltY );
         color = "blue";
     }
     

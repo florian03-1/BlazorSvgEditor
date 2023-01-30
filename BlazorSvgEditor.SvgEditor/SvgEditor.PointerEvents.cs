@@ -29,8 +29,10 @@ public partial class SvgEditor
     }
 
 
-    public void TestButton()
+    public async void TestButton()
     {
+        await GetBoundingBox(SvgElementReference);
+        
         Console.WriteLine("TestButton");
         ResetTransformation();
     }

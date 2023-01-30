@@ -15,7 +15,11 @@ public partial class SvgEditor
     public void Zoom(double delta, double x, double y)
     {
         var previousScale = Scale;
-        Scale = Scale * (1 - delta / 1000.0);
+        var newScale = Scale * (1 - delta / 1000.0);
+        
+        if (newScale > MinScale && newScale < MaxScale) Scale = newScale;
+        else if (newScale < MinScale) Scale = MinScale;
+        else if (newScale > MaxScale) Scale = MaxScale;
         
         //Translate.X += (x - Translate.X) * (1-Scale/previousScale);
         //Translate.Y += (y - Translate.Y) * (1-Scale/previousScale);
@@ -31,14 +35,8 @@ public partial class SvgEditor
     
     public void ResetTransformation()
     {
-        var conainerRelation = BoundingBox.Width / BoundingBox.Height;
-        var imageRelation = (double)ImageSize.Width / ImageSize.Height;
-        
-        Console.WriteLine($"conainerRelation: {conainerRelation}");
-        Console.WriteLine($"imageRelation: {imageRelation}");
-        
-        if(imageRelation < conainerRelation) Scale = (ImageSize.Height / BoundingBox.Height) * 2;
-        
+        Scale = 1;
         Translate = Coord<double>.Zero;
+        StateHasChanged();
     }
 }
