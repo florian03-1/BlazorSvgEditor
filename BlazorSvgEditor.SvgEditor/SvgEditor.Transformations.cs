@@ -1,4 +1,5 @@
 using BlazorSvgEditor.SvgEditor.Helper;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorSvgEditor.SvgEditor;
 
@@ -11,6 +12,8 @@ public partial class SvgEditor
     
     private bool IsTranslating = false;
     
+    public Coord<double> MoveStartDPoint;
+
     //Delta is the amount of change in the mouse wheel (+ -> zoom in, - -> zoom out)
     public void Zoom(double delta, double x, double y)
     {
@@ -74,5 +77,9 @@ public partial class SvgEditor
     public Coord<double> DetransformPoint(double x, double y)
     {
         return DetransformPoint(new Coord<double>(x, y));
+    }
+    public Coord<double> DetransformOffset(PointerEventArgs pointerEventArgs)
+    {
+        return DetransformPoint(new Coord<double>(pointerEventArgs.OffsetX, pointerEventArgs.OffsetY));
     }
 }

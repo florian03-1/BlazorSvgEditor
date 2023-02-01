@@ -29,7 +29,6 @@ public partial class SvgEditor : IAsyncDisposable
         
         ContainerBoundingBox = await GetBoundingBox(ContainerElementReference);
         SvgBoundingBox = await GetBoundingBox(SvgGElementReference);
-        Console.WriteLine("ContainerBoundingBox: " + JsonSerializer.Serialize(ContainerBoundingBox));
     }
     
     public async ValueTask DisposeAsync()

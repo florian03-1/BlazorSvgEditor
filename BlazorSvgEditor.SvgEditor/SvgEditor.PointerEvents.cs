@@ -16,7 +16,6 @@ public partial class SvgEditor
         {
             IsTranslating = true;
         }
-        EditMode = EditMode.Move;
         
         Console.WriteLine("OnContainerPointerDown");
     }
@@ -25,6 +24,7 @@ public partial class SvgEditor
     {
         IsTranslating = false;
         SelectedShape?.HandlePointerUp(e);
+        EditMode = EditMode.None;
     }
     
     public void OnContainerPointerMove(PointerEventArgs e)
@@ -32,6 +32,9 @@ public partial class SvgEditor
         _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
         if (IsTranslating) Pan(e.MovementX, e.MovementY);
         SelectedShape?.HandlePointerMove(e);
+        
+        MoveStartDPoint = DetransformOffset(e);
+
     }
     
     public void OnContainerWheel(WheelEventArgs e)

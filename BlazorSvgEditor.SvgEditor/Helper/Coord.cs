@@ -25,9 +25,7 @@ public struct Coord<T>
     public static Coord<T> Zero => new(default(T) ?? (dynamic)0,default(T)??(dynamic)0);
 
     public static Coord<T> operator +(Coord<T> a, Coord<T> b) => new((dynamic)a.X! + b.X, (dynamic)a.Y! + b.Y);
-    // public static Coord operator -(Coord a, Coord b) => new(a.X - b.X, a.Y - b.Y);
-    // public static Coord operator *(Coord a, T b) => new(a.X * b, a.Y * b);
-    //public static Coord operator /(Coord a, T b) => new(a.X / b, a.Y / b);
+    public static Coord<T> operator -(Coord<T> a, Coord<T> b) => new((dynamic)a.X! - b.X, (dynamic)a.Y! - b.Y);
     
     public static bool operator ==(Coord<T> a, Coord<T> b) => (dynamic)a.X! == b.X && (dynamic)a.Y! == b.Y;
     public static bool operator !=(Coord<T> a, Coord<T> b) => !(a == b);

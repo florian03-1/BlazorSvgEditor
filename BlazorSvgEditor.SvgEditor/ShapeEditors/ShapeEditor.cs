@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorSvgEditor.SvgEditor.ShapeEditors;
 
@@ -20,13 +21,13 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
         SvgElement.Unhover();
     }
 
-    public void Select()
+    public void Select(PointerEventArgs eventArgs)
     {
-        if (SvgElement.SvgEditor.EditMode == EditMode.Add)
-        {
-            return;
-        }
+        if (SvgElement.SvgEditor.EditMode == EditMode.Add) return;
         
+        SvgElement.SvgEditor.EditMode = EditMode.Move;
+        SvgElement.SvgEditor.SelectedShape = SvgElement;
+        SvgElement.SvgEditor.MoveStartDPoint = SvgElement.SvgEditor.DetransformOffset(eventArgs);
         SvgElement.Select();
     }
 }

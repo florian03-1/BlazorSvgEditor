@@ -25,11 +25,16 @@ public class Circle : Shape
 
     public override void HandlePointerMove(PointerEventArgs eventArgs)
     {
+        var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
+        Console.WriteLine(SvgEditor.MoveStartDPoint);
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
                 break;
             case EditMode.Move:
+                var diff = (point - SvgEditor.MoveStartDPoint);
+                Cx += diff.X;
+                Cy += diff.Y;
                 break;
             case EditMode.MoveAnchor:
                 break;

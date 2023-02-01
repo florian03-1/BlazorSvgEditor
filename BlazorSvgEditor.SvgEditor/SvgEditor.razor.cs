@@ -20,7 +20,7 @@ public partial class SvgEditor
 
     private ElementReference ContainerElementReference;
     private ElementReference SvgGElementReference;
-
+    
     public List<Shape> Shapes { get; set; } = new();
     public Shape? SelectedShape { get; set; }
 
