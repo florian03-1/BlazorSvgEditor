@@ -1,0 +1,46 @@
+@using BlazorSvgEditor.SvgEditor.Helper
+
+<circle cx=@X cy=@Y r="@((5+CircleThickness).ToInvariantString())" stroke-width="@CircleThickness.ToInvariantString()" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown style="cursor: n-resize" />
+<circle cx=@X cy=@Y r="5" stroke-width="@CircleThickness.ToInvariantString()" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
+
+@code {
+
+    [Parameter]
+    public EventCallback<PointerEventArgs> OnPointerDown { get; set; }
+
+    [Parameter, EditorRequired]
+    public Coord<double> Position { get; set; }
+
+    [Parameter]
+    public string RingColor { get; set; } = "#ff8c00"; //Oraange
+
+    [Parameter]
+    public string MiddleColor { get; set; } = "white";
+
+    [Parameter]
+    public double CircleThickness { get; set; } = 2;
+
+    [CascadingParameter]
+    protected SvgEditor SvgEditor { get; set; }
+
+
+
+    private string X => Position.X.ToInvariantString();
+
+    private string Y => Position.Y.ToInvariantString();
+
+    private string _State { get; set; }
+
+    private string State => $"{Position.X}{Position.Y}{RingColor}{MiddleColor}";
+
+    protected override bool ShouldRender()
+    {
+        if (_State != State)
+        {
+            _State = State;
+            return true;
+        }
+        return false;
+    }
+
+}

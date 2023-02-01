@@ -24,3 +24,11 @@
 
         style="cursor: move">
 </circle>
+
+@if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add)
+{
+        <Anchor OnPointerDown="() => OnAnchorSelected(0)" Position="new Coord<double>(SvgElement.Cx + SvgElement.R, SvgElement.Cy)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(1)" Position="new Coord<double>(SvgElement.Cx - SvgElement.R, SvgElement.Cy)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(2)" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy + SvgElement.R)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(3)" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy - SvgElement.R)" />
+}

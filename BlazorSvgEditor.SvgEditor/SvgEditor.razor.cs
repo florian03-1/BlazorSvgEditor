@@ -26,6 +26,7 @@ public partial class SvgEditor
     public Shape? SelectedShape { get; set; }
 
     public EditMode EditMode { get; set; } = EditMode.None;
+    public int? SelectedAnchorIndex { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -69,11 +70,9 @@ public partial class SvgEditor
     public void SelectShape(Shape shape, PointerEventArgs eventArgs)
     {
         SelectedShape?.Unselect();  //Wenn ein Shape ausgewählt ist, dann wird es abgewählt
-        
         SelectedShape = shape;      //Das neue Shape wird ausgewählt
 
         EditMode = EditMode.Move;
-        
         MoveStartDPoint = DetransformOffset(eventArgs);
     }
    

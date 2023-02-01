@@ -58,7 +58,26 @@ public class Circle : Shape
                 
                 break;
             case EditMode.MoveAnchor:
+                if (SvgEditor.SelectedAnchorIndex == null)
+                {
+                    SvgEditor.SelectedAnchorIndex = 0;
+                }
+                switch (SvgEditor.SelectedAnchorIndex)
+                {
+                    case 0:
+                    case 1:
+                        var rOld = R;
+                        R = Math.Abs(point.X - Cx);
+                        if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false)
+                            R = rOld;
+                        break;
+                    case 2:
+                    case 3:
+                        R = Math.Abs(point.Y - Cy);
+                        break;
+                }
                 break;
+            
             case EditMode.Scale:
                 break;
         }

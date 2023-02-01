@@ -49,6 +49,11 @@ public struct ContainerBox
         );
     }
     
+    public static bool IsContainerFitInto(ContainerBox innerBox, ContainerBox outerBox)
+    {
+        return innerBox.Left >= outerBox.Left && innerBox.Top >= outerBox.Top && innerBox.Right <= outerBox.Right && innerBox.Bottom <= outerBox.Bottom;
+    }
+    
     public static Coord<double> GetAvaiableMovingCoordinates(ContainerBox avaiableMovingValues, Coord<double> calculatedCoords)
     {
         Coord<double> res = new();

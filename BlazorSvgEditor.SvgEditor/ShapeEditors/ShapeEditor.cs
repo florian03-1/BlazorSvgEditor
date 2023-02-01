@@ -27,4 +27,11 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
         
         SvgElement.Select(eventArgs);
     }
+    
+    public void OnAnchorSelected(int anchorIndex)
+    {
+        SvgElement.SvgEditor.EditMode = EditMode.MoveAnchor;
+        SvgElement.SvgEditor.SelectedShape = SvgElement;
+        SvgElement.SvgEditor.SelectedAnchorIndex = anchorIndex;
+    }
 }
