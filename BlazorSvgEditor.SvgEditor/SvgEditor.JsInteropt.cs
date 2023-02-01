@@ -13,14 +13,14 @@ public partial class SvgEditor : IAsyncDisposable
     
     
     
-    public BoundingBox ContainerBoundingBox = new();
-    public BoundingBox SvgBoundingBox = new();
+    public JsBoundingBox ContainerBoundingBox = new();
+    public JsBoundingBox SvgBoundingBox = new();
     
-    private async Task<BoundingBox> GetBoundingBox(ElementReference elementReference)
+    private async Task<JsBoundingBox> GetBoundingBox(ElementReference elementReference)
     {
         var module = await moduleTask.Value;
         
-        return await module.InvokeAsync<BoundingBox>("getBoundingBox", elementReference);
+        return await module.InvokeAsync<JsBoundingBox>("getBoundingBox", elementReference);
     }
     
     public async Task SetContainerAndSvgBoundingBox()

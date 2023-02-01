@@ -17,6 +17,12 @@ public partial class SvgEditor
             IsTranslating = true;
         }
         
+        var point = DetransformPoint(e.OffsetX, e.OffsetY);
+        if (point.X < 0 || point.Y < 0 || point.X > ImageSize.Width || point.Y > ImageSize.Height)
+        {
+            OnUnselectPanelPointerDown(e);
+        }
+
         Console.WriteLine("OnContainerPointerDown");
     }
     
@@ -31,9 +37,13 @@ public partial class SvgEditor
     {
         _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
         if (IsTranslating) Pan(e.MovementX, e.MovementY);
-        SelectedShape?.HandlePointerMove(e);
+
+        if (SelectedShape != null)
+        {
+            SelectedShape.HandlePointerMove(e);
+            MoveStartDPoint = DetransformOffset(e);
+        }
         
-        MoveStartDPoint = DetransformOffset(e);
 
     }
     
@@ -43,6 +53,13 @@ public partial class SvgEditor
         Zoom(e.DeltaY, e.OffsetX, e.OffsetY);
     }
 
+    
+    private void OnUnselectPanelPointerDown(PointerEventArgs e)
+    {
+        SelectedShape?.Unselect();
+        SelectedShape = null;
+    }
+    
 
     public async void TestButton()
     {

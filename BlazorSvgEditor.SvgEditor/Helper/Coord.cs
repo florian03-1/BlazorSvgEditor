@@ -34,6 +34,13 @@ public struct Coord<T>
     public override int GetHashCode() => HashCode.Combine(X, Y);
     
     public override string ToString() => $"({X}, {Y})";
+    
+    
+    public static Coord<T> Max(Coord<T> a, Coord<T> b) => new(Math.Max((dynamic)a.X!, (dynamic)b.X!), Math.Max((dynamic)a.Y!, (dynamic)b.Y!));
+    
+    //Cast to Coord<int>
+    public static implicit operator Coord<int>(Coord<T> coord) => new((int)(dynamic)coord.X!, (int)(dynamic)coord.Y!);
+    public static implicit operator Coord<double>(Coord<T> coord) => new((double)(dynamic)coord.X!, (double)(dynamic)coord.Y!);
 }
 
 

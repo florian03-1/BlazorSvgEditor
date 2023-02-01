@@ -55,7 +55,9 @@
 
         <g style="transform: translate(@(Translate.X.ToInvariantString())px, @(Translate.Y.ToInvariantString())px) scale(@Scale.ToInvariantString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height" @ref="SvgGElementReference">
             <image href="@ImageSource"/>
-
+            
+            <rect height="@(ImageSize.Height)px" width="@(ImageSize.Width)px" @onpointerdown="OnUnselectPanelPointerDown"></rect>
+            
             @foreach (var shape in Shapes)
             {
                 <DynamicComponent Type="shape.Presenter" Parameters="@(new Dictionary<string, object>() { { "SvgElement", shape } })"/>

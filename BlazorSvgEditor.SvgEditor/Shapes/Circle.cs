@@ -1,3 +1,4 @@
+using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.ShapeEditors;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -17,24 +18,44 @@ public class Circle : Shape
     public double Cx { get; set; }
     public double Cy { get; set; }
     public double R { get; set; }
-    
+
+    public override ContainerBox Bounds
+    {
+        get
+        {
+            return new ContainerBox()
+            {
+                Left = (int) (Cx - R),
+                Top = (int) (Cy - R),
+                Right = (int) (Cx + R),
+                Bottom = (int) (Cy + R)
+            };
+        }
+    }
+
     public override void SnapToInteger()
     {
-        throw new NotImplementedException();
+        Cx = (int) Cx;
+        Cy = (int) Cy;
+        R = (int) R;
     }
 
     public override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
-        Console.WriteLine(SvgEditor.MoveStartDPoint);
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
                 break;
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
-                Cx += diff.X;
-                Cy += diff.Y;
+                
+                var avaiableMovingCoords = ContainerBox.GetAvaiableMoovingCoords(Bounds, SvgEditor.ImageBoundingBox);
+                var result = ContainerBox.GetAvaiableMovingCoordinates(avaiableMovingCoords, diff);
+                
+                Cx += result.X;
+                Cy += result.Y;
+                
                 break;
             case EditMode.MoveAnchor:
                 break;
