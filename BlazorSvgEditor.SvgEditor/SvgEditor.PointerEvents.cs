@@ -17,6 +17,8 @@ public partial class SvgEditor
             IsTranslating = true;
         }
         EditMode = EditMode.Move;
+        
+        Console.WriteLine("OnContainerPointerDown");
     }
     
     public void OnContainerPointerUp(PointerEventArgs e)

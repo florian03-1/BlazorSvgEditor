@@ -31,8 +31,8 @@ public partial class SvgEditor
         Translate.X += x;
         Translate.Y += y;
     }
-    
-    
+
+
     public void ResetTransformation()
     {
         var containerRatio = (double)ContainerBoundingBox.Width / ContainerBoundingBox.Height;
@@ -57,5 +57,22 @@ public partial class SvgEditor
         }
         
         StateHasChanged();
+    }
+    
+    
+    
+    //Transformation Logic
+    
+    //Rechnet die Koordinaten des Mauszeigers in die Koordinaten des SVG-Elements um
+    public Coord<double> DetransformPoint(Coord<double> point)
+    {
+        Coord<double> result = new();
+        result.X = (point.X - Translate.X) / Scale;
+        result.Y = (point.Y - Translate.Y) / Scale;
+        return result;
+    }
+    public Coord<double> DetransformPoint(double x, double y)
+    {
+        return DetransformPoint(new Coord<double>(x, y));
     }
 }

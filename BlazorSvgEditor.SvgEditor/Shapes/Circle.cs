@@ -30,17 +30,6 @@ public class Circle : Shape
             case EditMode.Add:
                 break;
             case EditMode.Move:
-                
-                Console.WriteLine(eventArgs.OffsetX);
-                
-                var relationWidth = SvgEditor.ImageSize.Width / SvgEditor.ContainerBoundingBox.Width;
-                var relationHeight = SvgEditor.ImageSize.Height / SvgEditor.SvgBoundingBox.Height;
-                
-                Console.WriteLine($"relationWidth: {relationWidth}, relationHeight: {relationHeight}");
-                
-                Cx += eventArgs.MovementX * relationWidth;
-                Cy += eventArgs.MovementY * relationHeight;
-                Console.WriteLine($"Cx: {Cx}, Cy: {Cy}");
                 break;
             case EditMode.MoveAnchor:
                 break;
@@ -51,7 +40,7 @@ public class Circle : Shape
 
     public override void HandlePointerUp(PointerEventArgs eventArgs)
     {
-       // throw new NotImplementedException();
+        SvgEditor.EditMode = EditMode.None;
     }
 
     public override void HandlePointerOut(PointerEventArgs eventArgs)

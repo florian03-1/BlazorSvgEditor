@@ -44,42 +44,42 @@
 
 <div style="border: 3px solid black; height: 60vh; width: 100%;" @ref="ContainerElementReference"
      @onwheel="OnContainerWheel"
+     
      oncontextmenu="return false"
+     
      @onpointerdown="OnContainerPointerDown"
      @onpointermove="OnContainerPointerMove"
      @onpointerup="OnContainerPointerUp">
+
+    <svg style="height: 100%; width: 100%;">
+
+        <g style="transform: translate(@(Translate.X.ToInvariantString())px, @(Translate.Y.ToInvariantString())px) scale(@Scale.ToInvariantString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height" @ref="SvgGElementReference">
+            <image href="@ImageSource"/>
+
+            @foreach (var shape in Shapes)
+            {
+                <DynamicComponent Type="shape.Presenter" Parameters="@(new Dictionary<string, object>() { { "SvgElement", shape } })"/>
+            }
+        </g>
         
-        <svg style="height: 100%; width: 100%;">
-                
-                <g style="transform: translate(@(Translate.X.ToInvariantString())px, @(Translate.Y.ToInvariantString())px) scale(@Scale.ToInvariantString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height" @ref="SvgGElementReference">
-                        <image href="@ImageSource"/>
-                        
-                        @foreach(var shape in Shapes)
-                            {
-                                <DynamicComponent Type="shape.Presenter" Parameters="@(new Dictionary<string, object>(){{"SvgElement", shape}})"/>
-                            }
-                </g>
-                
-                
+        <foreignObject height="94px" width="240px" class="unselectable" x="0" y="0" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+            <b>Scale</b> 1:@(Math.Round(Scale, 3).ToString())
+            <br/>
+            <b>Translate:</b> X: @(Math.Round(Translate.X, 1))px Y: @(Math.Round(Translate.Y, 1))px
+            <br/>
+            <b>Pointer Offset:</b> X: @(_pointerPosition.X)px Y: @(_pointerPosition.Y)px
+            <br/>
+            <b>Detramsform:</b> X: @(Math.Round((_pointerPosition.X - Translate.X) / Scale, 1))px Y: @(Math.Round(_pointerPosition.Y / Scale - Translate.Y / Scale, 1))px
+        </foreignObject>
 
-                <rect fill="green" fill-opacity="0.3" height="100%" width="100%" @onpointerdown="UnSelect" viewBox="0 0 600 400"></rect>
-                
-                <foreignObject height="70px" width="240px" class="unselectable" x="0" y="0" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white" >
-                        <b>Scale</b> 1:@(Math.Round(Scale, 3).ToString())
-                        <br/>
-                        <b>Translate:</b> X: @(Math.Round(Translate.X, 1))px  Y: @(Math.Round(Translate.Y, 1))px
-                        <br/>
-                        <b>Pointer Offset:</b> X: @(_pointerPosition.X)px  Y: @(_pointerPosition.Y)px
-                </foreignObject>
+        <foreignObject height="46px" width="250px" class="unselectable" x="@(ContainerBoundingBox.Width - 250)px" y="0" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+            <b>Svg G Box:</b> X: @(Math.Round(SvgBoundingBox.Width, 1))px Y: @(Math.Round(SvgBoundingBox.Height, 1))px
+            <br/>
+            <b>ContainerBox:</b> X: @(Math.Round(ContainerBoundingBox.Width, 1))px Y: @(Math.Round(ContainerBoundingBox.Height, 1))px
+        </foreignObject>
 
-                <foreignObject height="46px" width="250px" class="unselectable" x="@(ContainerBoundingBox.Width - 250)px" y="0" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white" >
-                        <b>Svg G Box:</b> X: @(Math.Round(SvgBoundingBox.Width, 1))px  Y: @(Math.Round(SvgBoundingBox.Height, 1))px
-                        <br/>
-                        <b>ContainerBox:</b> X: @(Math.Round(ContainerBoundingBox.Width, 1))px  Y: @(Math.Round(ContainerBoundingBox.Height, 1))px
-                </foreignObject>
+    </svg>
 
-        </svg>
-        
 </div>
 
 <button class="btn btn-primary" @onclick="TestButton">TestButton</button>

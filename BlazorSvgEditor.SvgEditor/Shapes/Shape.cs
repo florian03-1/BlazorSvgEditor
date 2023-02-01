@@ -49,6 +49,8 @@ public abstract class Shape
         
         Fill = "blue";
         FillOpacity = 0.3;
+        
+        Console.WriteLine("Hover");
     }
     public void Unhover()
     {
