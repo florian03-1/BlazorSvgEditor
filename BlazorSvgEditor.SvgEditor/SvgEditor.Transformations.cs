@@ -6,8 +6,8 @@ public partial class SvgEditor
 {
     //TRANSFORMATION Logic
 
-    private double Scale = 1;
-    private Coord<double> Translate;
+    public double Scale = 1;
+    public Coord<double> Translate;
     
     private bool IsTranslating = false;
     
@@ -21,8 +21,8 @@ public partial class SvgEditor
         else if (newScale < MinScale) Scale = MinScale;
         else if (newScale > MaxScale) Scale = MaxScale;
         
-        //Translate.X += (x - Translate.X) * (1-Scale/previousScale);
-        //Translate.Y += (y - Translate.Y) * (1-Scale/previousScale);
+        Translate = new (Translate.X + (x - Translate.X) * (1 - Scale / previousScale), Translate.Y + (y - Translate.Y) * (1 - Scale / previousScale));
+
     }
     
     //x and y are the amount of change the current translation 

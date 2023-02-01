@@ -2,23 +2,27 @@
 @inherits ShapeEditor<Circle>
 
 <circle @ref=ElementReference
- 
+
         @onpointerdown="Select"
-        
+
         @onpointerenter="Enter"
         @onpointerleave="Leave"
-        
+
         cx=@SvgElement.Cx.ToInvariantString()
         cy=@SvgElement.Cy.ToInvariantString()
         r=@SvgElement.R.ToInvariantString()
-        
+
         stroke="@SvgElement.Stroke"
         stroke-width="@SvgElement.StrokeWidth"
         stroke-linecap="@SvgElement.StrokeLinecap"
         stroke-linejoin="@SvgElement.StrokeLinejoin"
         stroke-dasharray="@SvgElement.StrokeDasharray"
         stroke-dashoffset="@SvgElement.StrokeDashoffset.ToInvariantString()"
-        
+
         fill="@SvgElement.Fill"
         fill-opacity="@SvgElement.FillOpacity.ToInvariantString()">
+        
+           @*
+                style="transform: translate(@(SvgElement.SvgEditor.Translate.X.ToInvariantString())px, @(SvgElement.SvgEditor.Translate.Y.ToInvariantString())px) scale(@SvgElement.SvgEditor.Scale.ToInvariantString())"
+                *@
 </circle>

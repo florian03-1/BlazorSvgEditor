@@ -1,25 +1,35 @@
+using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor
 {
+    private const int MOVE_BUTTON_INDEX = 2;
     
+    private Coord<int> _pointerPosition;
+
     //Container events (pointer events, wheel events)
     public void OnContainerPointerDown(PointerEventArgs e)
     {
-       IsTranslating = true;
+        if (e.Button == MOVE_BUTTON_INDEX)
+        {
+            IsTranslating = true;
+        }
+        EditMode = EditMode.Move;
     }
     
     public void OnContainerPointerUp(PointerEventArgs e)
     {
         IsTranslating = false;
+        SelectedShape?.HandlePointerUp(e);
     }
     
     public void OnContainerPointerMove(PointerEventArgs e)
     {
-        //Wenn "Bewegungstaste gedrückt" -> Transformation
+        _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
         if (IsTranslating) Pan(e.MovementX, e.MovementY);
+        SelectedShape?.HandlePointerMove(e);
     }
     
     public void OnContainerWheel(WheelEventArgs e)
@@ -31,9 +41,10 @@ public partial class SvgEditor
 
     public async void TestButton()
     {
-        await GetBoundingBox(SvgElementReference);
+        await SetContainerAndSvgBoundingBox();
         
         Console.WriteLine("TestButton");
+        
         ResetTransformation();
     }
 }

@@ -11,19 +11,25 @@ public partial class SvgEditor : IAsyncDisposable
 
     private Lazy<Task<IJSObjectReference>> moduleTask;
     
-    BoundingBox BoundingBox = new();
     
-    public async Task<(double width, double height)> GetBoundingBox(ElementReference elementReference)
+    
+    public BoundingBox ContainerBoundingBox = new();
+    public BoundingBox SvgBoundingBox = new();
+    
+    private async Task<BoundingBox> GetBoundingBox(ElementReference elementReference)
     {
         var module = await moduleTask.Value;
         
-        var widthHeightJson = await module.InvokeAsync<JsonElement>("getElementWidthAndHeight", elementReference);
-        var widthHeight = (widthHeightJson.GetProperty("width").GetDouble(), widthHeightJson.GetProperty("height").GetDouble());
+        return await module.InvokeAsync<BoundingBox>("getBoundingBox", elementReference);
+    }
+    
+    public async Task SetContainerAndSvgBoundingBox()
+    {
+        if (ContainerElementReference.Id == null || SvgGElementReference.Id == null) throw new Exception("ContainerElementReference or SvgElementReference is null");
         
-        Console.WriteLine(widthHeight);
-        BoundingBox = new BoundingBox(){Height = widthHeight.Item2, Width = widthHeight.Item1};
-
-        return widthHeight;
+        ContainerBoundingBox = await GetBoundingBox(ContainerElementReference);
+        SvgBoundingBox = await GetBoundingBox(SvgGElementReference);
+        Console.WriteLine("ContainerBoundingBox: " + JsonSerializer.Serialize(ContainerBoundingBox));
     }
     
     public async ValueTask DisposeAsync()

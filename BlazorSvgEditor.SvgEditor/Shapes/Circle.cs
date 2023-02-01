@@ -25,12 +25,33 @@ public class Circle : Shape
 
     public override void HandlePointerMove(PointerEventArgs eventArgs)
     {
-        throw new NotImplementedException();
+        switch (SvgEditor.EditMode)
+        {
+            case EditMode.Add:
+                break;
+            case EditMode.Move:
+                
+                Console.WriteLine(eventArgs.OffsetX);
+                
+                var relationWidth = SvgEditor.ImageSize.Width / SvgEditor.ContainerBoundingBox.Width;
+                var relationHeight = SvgEditor.ImageSize.Height / SvgEditor.SvgBoundingBox.Height;
+                
+                Console.WriteLine($"relationWidth: {relationWidth}, relationHeight: {relationHeight}");
+                
+                Cx += eventArgs.MovementX * relationWidth;
+                Cy += eventArgs.MovementY * relationHeight;
+                Console.WriteLine($"Cx: {Cx}, Cy: {Cy}");
+                break;
+            case EditMode.MoveAnchor:
+                break;
+            case EditMode.Scale:
+                break;
+        }
     }
 
     public override void HandlePointerUp(PointerEventArgs eventArgs)
     {
-        throw new NotImplementedException();
+       // throw new NotImplementedException();
     }
 
     public override void HandlePointerOut(PointerEventArgs eventArgs)

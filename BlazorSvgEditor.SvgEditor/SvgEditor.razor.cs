@@ -16,11 +16,12 @@ public partial class SvgEditor
     
     //Must be between 1 and 10
     [Parameter] public double MaxScale { get; set; } = 5;
-    
-    private ElementReference SvgElementReference;
+
+    private ElementReference ContainerElementReference;
+    private ElementReference SvgGElementReference;
     
     public List<Shape> Shapes { get; set; } = new();
-    public Shape SelectedShape { get; set; }
+    public Shape? SelectedShape { get; set; }
     
     public EditMode EditMode { get; set; } = EditMode.None;
 
@@ -30,11 +31,10 @@ public partial class SvgEditor
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         ImageSize = (700, 394);
         ImageSource =  "https://www.bentleymotors.com/content/dam/bentley/Master/World%20of%20Bentley/Mulliner/redesign/coachbuilt/Mulliner%20Batur%201920x1080.jpg/_jcr_content/renditions/original.image_file.700.394.file/Mulliner%20Batur%201920x1080.jpg";//700 x 394
-        
         
         //Check if MinScale is between 0.05 and 0.8
         if (MinScale < 0.05) MinScale = 0.05;
@@ -48,14 +48,20 @@ public partial class SvgEditor
         
         //Initialize the task for JsInvokeAsync
         moduleTask = new(async () => await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
+        
+        await base.OnInitializedAsync();
+    }
 
-        base.OnInitialized();
+    protected override void OnAfterRender(bool firstRender)
+    {
+        SetContainerAndSvgBoundingBox();
+        base.OnAfterRender(firstRender);
     }
 
 
     private void OnSvgPointerDown(PointerEventArgs e)
     {
-        //Console.WriteLine("SVG POINTER DOWN: Offset: " + e.OffsetX + " " + e.OffsetY + "  Client: " + e.ClientX + " " + e.ClientY +  " Screen: " + e.ScreenX + " " + e.ScreenY  + "  Tilt: " + e.TiltX + " " + e.TiltY );
+        
     }
     
   
