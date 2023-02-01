@@ -25,14 +25,20 @@ public abstract class Shape
     public double StrokeDashoffset { get; set; }
 
     public ShapeState State { get; set; } = ShapeState.None;
-    public void Select()
+    public void Select(PointerEventArgs eventArgs)
     {
-        SvgEditor.SelectedShape = this;
+        //Select logic for SvgEditor
+        SvgEditor.SelectShape(this, eventArgs);
+        
         State = ShapeState.Selected;
 
-        StrokeWidth = "3px;";
+        //Visual select logic
+        StrokeWidth = "3px";
+        StrokeDasharray = "5";
+        StrokeDashoffset = 0;
         Fill = "#ff8c00";
         FillOpacity = 0.4;
+        
     }
     public void Unselect()
     {
@@ -40,7 +46,9 @@ public abstract class Shape
         
         State = ShapeState.None;
         
+        //Visual unselect logic
         StrokeWidth = "2px";
+        StrokeDasharray = string.Empty;
         Fill = "transparent";
         FillOpacity = 1;
     }

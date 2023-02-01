@@ -48,7 +48,9 @@ public partial class SvgEditor
         if (MaxScale < 1) MaxScale = 1;
         else if (MaxScale > 10) MaxScale = 10;
 
-        Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, Fill = "green", R = 40 });
+        Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40 });
+        Shapes.Add(new Circle(this) { Cy = 300, Cx = 400, R = 40 });
+
 
         //Initialize the task for JsInvokeAsync
         moduleTask = new(async () =>
@@ -64,5 +66,15 @@ public partial class SvgEditor
         base.OnAfterRender(firstRender);
     }
 
+    public void SelectShape(Shape shape, PointerEventArgs eventArgs)
+    {
+        SelectedShape?.Unselect();  //Wenn ein Shape ausgewählt ist, dann wird es abgewählt
+        
+        SelectedShape = shape;      //Das neue Shape wird ausgewählt
+
+        EditMode = EditMode.Move;
+        
+        MoveStartDPoint = DetransformOffset(eventArgs);
+    }
    
 }
