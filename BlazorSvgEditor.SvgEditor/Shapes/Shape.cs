@@ -8,7 +8,6 @@ public abstract class Shape
     {
         SvgEditor = svgEditor;
     }
-    
     public SvgEditor SvgEditor { get; set; }
     public abstract Type Presenter { get; }
     

@@ -1,0 +1,35 @@
+@using BlazorSvgEditor.SvgEditor.Helper
+@inherits ShapeEditor<Rectangle>
+
+<rect @ref=ElementReference
+      
+      @onpointerdown="Select"
+      
+      @onpointerenter="Enter"
+      @onpointerleave="Leave"
+
+      
+      x=@SvgElement.X.ToInvariantString()
+      y=@SvgElement.Y.ToInvariantString()
+      width=@SvgElement.Width.ToInvariantString()
+      height=@SvgElement.Height.ToInvariantString()
+      stroke="@SvgElement.Stroke"
+      stroke-width="@SvgElement.StrokeWidth"
+      stroke-linecap="@SvgElement.StrokeLinecap"
+      stroke-linejoin="@SvgElement.StrokeLinejoin"
+      stroke-dasharray="@SvgElement.StrokeDasharray"
+      stroke-dashoffset="@SvgElement.StrokeDashoffset.ToInvariantString()"
+      
+      fill="@SvgElement.Fill"
+      fill-opacity="@SvgElement.FillOpacity.ToInvariantString()"
+>
+</rect>
+
+
+@if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add)
+{
+      <Anchor OnPointerDown="() => OnAnchorSelected(0)" Position="new Coord<double>(SvgElement.X, SvgElement.Y)" />
+      <Anchor OnPointerDown="() => OnAnchorSelected(1)" Position="new Coord<double>(SvgElement.X, SvgElement.Y + SvgElement.Height)" />
+      <Anchor OnPointerDown="() => OnAnchorSelected(2)" Position="new Coord<double>(SvgElement.X + SvgElement.Width, SvgElement.Y)" />
+      <Anchor OnPointerDown="() => OnAnchorSelected(3)" Position="new Coord<double>(SvgElement.X + SvgElement.Width, SvgElement.Y + SvgElement.Height)" />
+}

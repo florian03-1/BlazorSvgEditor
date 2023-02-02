@@ -51,7 +51,7 @@ public partial class SvgEditor
         else if (MaxScale > 10) MaxScale = 10;
 
         Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40 });
-        Shapes.Add(new Circle(this) { Cy = 300, Cx = 400, R = 40 });
+        Shapes.Add(new Rectangle(this) { Y = 50, X = 400, Height = 40, Width = 60});
 
 
         //Initialize the task for JsInvokeAsync
