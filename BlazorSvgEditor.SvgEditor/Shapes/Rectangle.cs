@@ -18,6 +18,7 @@ public class Rectangle : Shape
     public double Width { get; set; }
     public double Height { get; set; }
 
+    private Coord<double> AddPosition = new(-1, -1);
 
     public override ContainerBox Bounds =>
         new ContainerBox()
@@ -40,12 +41,45 @@ public class Rectangle : Shape
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
 
+        (double width, double height, double x, double y) oldData;
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
-                Width = 10;
-                Height = 10;
+                oldData = (Width, Height, X, Y); 
+
+                if (AddPosition.X == -1) AddPosition = new Coord<double>(X, Y);
+                
+                if (point.X < AddPosition.X)
+                {
+                    X = point.X;
+                    Width = AddPosition.X - point.X;
+                }
+                else
+                {
+                    X = AddPosition.X;
+                    Width = point.X - AddPosition.X;
+                }
+                if (point.Y < AddPosition.Y)
+                {
+                    Y = point.Y;
+                    Height = AddPosition.Y - point.Y;
+                }
+                else
+                {
+                    Y = AddPosition.Y;
+                    Height = point.Y - AddPosition.Y;
+                }
+                
+                if (ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false)
+                {
+                    X = oldData.x;
+                    Y = oldData.y;
+                    Width = oldData.width;
+                    Height = oldData.height;
+                }
+
                 break;
+            
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
                 var avaiableMovingCoords = ContainerBox.GetAvaiableMoovingCoords(Bounds, SvgEditor.ImageBoundingBox);
@@ -58,7 +92,7 @@ public class Rectangle : Shape
                 
                 //Lieber einen Test auf den Maximalen Wert der Erhöhung machen und wenn der Kreis zu groß wird, diesen Maximalen wert setzen!
 
-                (double width, double height, double x, double y) oldData = (Width, Height, X, Y); 
+                oldData = (Width, Height, X, Y); 
                 
                 SvgEditor.SelectedAnchorIndex ??= 0;
                 
