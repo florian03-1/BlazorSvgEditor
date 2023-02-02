@@ -66,6 +66,18 @@ public class Polygon : Shape
         }    
     }
 
+    //Delete Point
+    public void OnAnchorDoubleClicked(int anchorIndex)
+    {
+        if (SvgEditor.EditMode == EditMode.Add) return;
+        
+        if (anchorIndex < Points.Count) //wenn ja, dann ist es ein "echter" Anchor
+        {
+            Points.RemoveAt(anchorIndex);
+        }
+    }
+    
+
     public override void HandlePointerUp(PointerEventArgs eventArgs)
     {
         if (SvgEditor.EditMode == EditMode.Add) SvgEditor.EditMode = EditMode.None;

@@ -1,12 +1,15 @@
 @using BlazorSvgEditor.SvgEditor.Helper
 
-<circle cx=@X cy=@Y r="@((5+CircleThickness).ToInvariantString())" stroke-width="@CircleThickness.ToInvariantString()" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown style="cursor: @CssCursor" />
-<circle cx=@X cy=@Y r="5" stroke-width="@CircleThickness.ToInvariantString()" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
+<circle cx=@X cy=@Y r="@((7 * ScaleFactor).ToInvariantString())" stroke-width="@((2 * ScaleFactor).ToInvariantString())" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown @ondblclick="OnDoubleClick" style="cursor: @CssCursor" />
+<circle cx=@X cy=@Y r="@((4 * ScaleFactor).ToInvariantString())" stroke-width="@((2.5 * ScaleFactor).ToInvariantString())" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
 
 @code {
 
     [Parameter]
     public EventCallback<PointerEventArgs> OnPointerDown { get; set; }
+    
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnDoubleClick { get; set; }
 
     [Parameter, EditorRequired]
     public Coord<double> Position { get; set; }
@@ -18,7 +21,7 @@
     public string MiddleColor { get; set; } = "white";
 
     [Parameter]
-    public double CircleThickness { get; set; } = 2;
+    public double ScaleFactor { get; set; } = 1;
 
     [Parameter]
     public string CssCursor { get; set; } = "pointer";

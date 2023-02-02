@@ -30,14 +30,15 @@
     for (int i = 0; i < SvgElement.Points.Count; i++)
     {
         int j = i;
-        <Anchor OnPointerDown="() => OnAnchorSelected(j)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(j)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)" 
+                 OnDoubleClick="() => SvgElement.OnAnchorDoubleClicked(j)"/>
         
         var firstPointIndex = i;
         var secondPointIndex = i + 1;
         
         if (secondPointIndex >= SvgElement.Points.Count) secondPointIndex = 0;
         
-        <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" 
+        <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" ScaleFactor="0.5"
                 Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X)/2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y)/2)" />
     }
 
