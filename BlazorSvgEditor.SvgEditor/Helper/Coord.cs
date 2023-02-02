@@ -41,6 +41,9 @@ public struct Coord<T>
     //Cast to Coord<int>
     public static implicit operator Coord<int>(Coord<T> coord) => new((int)(dynamic)coord.X!, (int)(dynamic)coord.Y!);
     public static implicit operator Coord<double>(Coord<T> coord) => new((double)(dynamic)coord.X!, (double)(dynamic)coord.Y!);
+    
+    //Abstand
+    public static double Distance(Coord<T> a, Coord<T> b) => Math.Sqrt(Math.Pow((dynamic)a.X! - b.X, 2) + Math.Pow((dynamic)a.Y! - b.Y, 2));
 }
 
 

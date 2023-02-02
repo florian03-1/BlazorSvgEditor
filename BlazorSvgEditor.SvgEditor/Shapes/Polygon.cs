@@ -15,18 +15,28 @@ public class Polygon : Shape
     public List<Coord<double>> Points { get; set; } = new();
     public string PointsString => Points.Aggregate("", (current, point) => current + $"{point.X.ToInvariantString()},{point.Y.ToInvariantString()} ");
     
-    public event Action<Shape> Changed;
+    private bool _firstAdd = true;
+    
+    //Create Polygon Anchor Settings
+    private double _polygonCompleteThreshold => 10;
 
     public override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
-
+        
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
-                Points.Add(point);
+                if (_firstAdd)
+                {
+                    _firstAdd = false;
+                    Points.Add(point);
+                }
+                
+                Points[^1] = point;
+
                 break;
-            
+
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
                 var avaiableMovingCoords = ContainerBox.GetAvaiableMoovingCoords(Bounds, SvgEditor.ImageBoundingBox);
@@ -39,8 +49,6 @@ public class Polygon : Shape
                 }
                 Points = newPoints;
                 
-                Console.WriteLine(Bounds);
-                Changed?.Invoke(this);
                 break;
             case EditMode.MoveAnchor:
                 
@@ -70,7 +78,7 @@ public class Polygon : Shape
     public void OnAnchorDoubleClicked(int anchorIndex)
     {
         if (SvgEditor.EditMode == EditMode.Add) return;
-        
+        if (Points.Count <= 3) return;  //Mindestens 3 Punkte für ein Polygon
         if (anchorIndex < Points.Count) //wenn ja, dann ist es ein "echter" Anchor
         {
             Points.RemoveAt(anchorIndex);
@@ -80,9 +88,21 @@ public class Polygon : Shape
 
     public override void HandlePointerUp(PointerEventArgs eventArgs)
     {
-        if (SvgEditor.EditMode == EditMode.Add) SvgEditor.EditMode = EditMode.None;
-            
+        if (SvgEditor.EditMode == EditMode.Add)
+        {
+            if (Coord<double>.Distance(Points[^1], Points[0]) < _polygonCompleteThreshold && Points.Count > 2)
+            {
+                //Ende des Polygonss
+                Points.RemoveAt(Points.Count - 1);
+                Complete();
+            }
+
+            _firstAdd = true;
+        }
+        else
+        {
             SvgEditor.EditMode = EditMode.None;
+        }
     }
 
     
@@ -111,6 +131,6 @@ public class Polygon : Shape
 
     public override void Complete()
     {
-        throw new NotImplementedException();
+        SvgEditor.EditMode = EditMode.None;
     }
 }

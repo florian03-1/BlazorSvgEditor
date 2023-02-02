@@ -41,7 +41,27 @@
         <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" ScaleFactor="0.5"
                 Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X)/2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y)/2)" />
     }
+}
 
-  
-    
+@if(SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode == EditMode.Add)
+{
+    for (int i = 0; i < SvgElement.Points.Count; i++)
+    {
+        if (i == 0)
+        {
+            <Anchor CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
+                    RingColor="red"/>
+        }
+        else if (i == SvgElement.Points.Count - 1)
+        {
+            <Anchor CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
+                    RingColor="green"/>
+        }
+
+        else
+        {
+            <Anchor CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
+                    RingColor="grey"/>
+        }
+    }
 }

@@ -38,7 +38,6 @@ public partial class SvgEditor
         IsTranslating = false;
         SelectedShape?.HandlePointerUp(e);
         SelectedShape?.SnapToInteger();
-        EditMode = EditMode.None;
     }
     
     public void OnContainerPointerMove(PointerEventArgs e)
@@ -65,7 +64,16 @@ public partial class SvgEditor
         SelectedShape?.UnSelectShape();
         SelectedShape = null;
     }
-    
+
+    private void OnContainerDoubleClick()
+    {
+        if (EditMode == EditMode.Add && SelectedShape != null)
+        {
+            //SelectedShape.Complete();
+            
+            //Führt aktuell selten zu Fehlern
+        }
+    }
 
     public async void TestButton()
     {
