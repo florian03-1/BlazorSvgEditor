@@ -37,6 +37,7 @@ public partial class SvgEditor
     {
         IsTranslating = false;
         SelectedShape?.HandlePointerUp(e);
+        SelectedShape?.SnapToInteger();
         EditMode = EditMode.None;
     }
     
@@ -50,8 +51,6 @@ public partial class SvgEditor
             SelectedShape.HandlePointerMove(e);
             MoveStartDPoint = DetransformOffset(e);
         }
-        
-
     }
     
     public void OnContainerWheel(WheelEventArgs e)

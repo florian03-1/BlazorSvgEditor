@@ -1,3 +1,4 @@
+using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.ShapeEditors;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -29,10 +30,10 @@ public class Rectangle : Shape
 
     public override void SnapToInteger()
     {
-        X = (int)X;
-        Y = (int)Y;
-        Width = (int)Width;
-        Height = (int)Height;
+        X = X.ToInt();
+        Y = Y.ToInt();
+        Width = Width.ToInt();
+        Height = Height.ToInt();
     }
 
     public override void HandlePointerMove(PointerEventArgs eventArgs)

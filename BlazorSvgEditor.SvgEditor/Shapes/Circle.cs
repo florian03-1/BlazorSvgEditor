@@ -35,9 +35,9 @@ public class Circle : Shape
 
     public override void SnapToInteger()
     {
-        Cx = (int) Cx;
-        Cy = (int) Cy;
-        R = (int) R;
+        Cx = Cx.ToInt();
+        Cy = Cy.ToInt();
+        R = R.ToInt();
     }
 
     public override void HandlePointerMove(PointerEventArgs eventArgs)

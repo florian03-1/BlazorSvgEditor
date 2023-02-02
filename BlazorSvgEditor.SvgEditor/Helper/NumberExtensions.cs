@@ -8,4 +8,6 @@ public static class NumberExtensions
         var bAbs = Math.Abs(b);
         return aAbs > bAbs ? a : b;
     }
+
+    public static int ToInt(this double d) => Convert.ToInt32(d);
 }
