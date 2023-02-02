@@ -58,24 +58,29 @@ public class Circle : Shape
                 
                 break;
             case EditMode.MoveAnchor:
+                
+                //Lieber einen Test auf den Maximalen Wert der Erhöhung machen und wenn der Kreis zu groß wird, diesen Maximalen wert setzen!
+                
+                var rOld = R;
+
                 if (SvgEditor.SelectedAnchorIndex == null)
                 {
                     SvgEditor.SelectedAnchorIndex = 0;
                 }
                 switch (SvgEditor.SelectedAnchorIndex)
-                {
+                { 
                     case 0:
                     case 1:
-                        var rOld = R;
                         R = Math.Abs(point.X - Cx);
-                        if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false)
-                            R = rOld;
                         break;
                     case 2:
                     case 3:
                         R = Math.Abs(point.Y - Cy);
                         break;
                 }
+                
+                if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false) R = rOld;
+
                 break;
             
             case EditMode.Scale:
