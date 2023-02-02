@@ -52,7 +52,7 @@ public partial class SvgEditor
 
         Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40 });
         Shapes.Add(new Rectangle(this) { Y = 50, X = 400, Height = 40, Width = 60});
-
+        Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (100,50), new (200,50), new(200,100)}});
 
         //Initialize the task for JsInvokeAsync
         moduleTask = new(async () =>

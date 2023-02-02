@@ -1,0 +1,25 @@
+@using BlazorSvgEditor.SvgEditor.Helper
+@inherits ShapeEditor<Polygon>
+
+<polygon @ref=ElementReference
+
+         @onpointerdown="Select"
+
+         @onpointerenter="Enter"
+         @onpointerleave="Leave"
+
+         points="@SvgElement.PointsString"
+
+         stroke="@SvgElement.Stroke"
+         stroke-width="@SvgElement.StrokeWidth"
+         stroke-linecap="@SvgElement.StrokeLinecap"
+         stroke-linejoin="@SvgElement.StrokeLinejoin"
+         stroke-dasharray="@SvgElement.StrokeDasharray"
+         stroke-dashoffset="@SvgElement.StrokeDashoffset.ToInvariantString()"
+
+         fill="@SvgElement.Fill"
+         fill-opacity="@SvgElement.FillOpacity.ToInvariantString()"
+
+         style="cursor: @(SvgElement.State == ShapeState.Selected ? "move" : "pointer")">
+
+</polygon>

@@ -1,3 +1,4 @@
+using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorSvgEditor.SvgEditor;
@@ -31,9 +32,18 @@ public partial class SvgEditor
         switch (ShapeType)
         {
             case ShapeType.None:
-                break;
+                return;
+            
             case ShapeType.Polygon:
+                newShape = new Polygon(this)
+                {
+                    Points = new List<Coord<double>>()
+                    {
+                        new(DetransformOffset(e))
+                    }
+                };
                 break;
+            
             case ShapeType.Rectangle:
                 newShape = new Rectangle(this)
                 {
@@ -41,6 +51,7 @@ public partial class SvgEditor
                     Y = DetransformOffset(e).Y
                 };
                 break;
+            
             case ShapeType.Circle:
                 newShape = new Circle(this)
                 {
@@ -48,6 +59,7 @@ public partial class SvgEditor
                     Cy = DetransformOffset(e).Y
                 };
                 break;
+            
             default:
                 throw new ArgumentOutOfRangeException();
         }
