@@ -29,7 +29,7 @@
 @if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add)
 {
       <Anchor OnPointerDown="() => OnAnchorSelected(0)" Position="new Coord<double>(SvgElement.X, SvgElement.Y)" />
-      <Anchor OnPointerDown="() => OnAnchorSelected(1)" Position="new Coord<double>(SvgElement.X, SvgElement.Y + SvgElement.Height)" />
-      <Anchor OnPointerDown="() => OnAnchorSelected(2)" Position="new Coord<double>(SvgElement.X + SvgElement.Width, SvgElement.Y)" />
-      <Anchor OnPointerDown="() => OnAnchorSelected(3)" Position="new Coord<double>(SvgElement.X + SvgElement.Width, SvgElement.Y + SvgElement.Height)" />
+      <Anchor OnPointerDown="() => OnAnchorSelected(3)" Position="new Coord<double>(SvgElement.X, SvgElement.Y + SvgElement.Height)" />
+      <Anchor OnPointerDown="() => OnAnchorSelected(1)" Position="new Coord<double>(SvgElement.X + SvgElement.Width, SvgElement.Y)" />
+      <Anchor OnPointerDown="() => OnAnchorSelected(2)" Position="new Coord<double>(SvgElement.X + SvgElement.Width, SvgElement.Y + SvgElement.Height)" />
 }

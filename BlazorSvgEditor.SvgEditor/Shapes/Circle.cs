@@ -85,6 +85,8 @@ public class Circle : Shape
                 
                 if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false) R = rOld;
 
+                if (R < 1) R = 1; //Mindestgröße des Kreises
+                
                 break;
         }
     }

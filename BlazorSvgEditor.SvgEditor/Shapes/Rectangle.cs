@@ -54,6 +54,54 @@ public class Rectangle : Shape
             case EditMode.MoveAnchor:
                 
                 //Lieber einen Test auf den Maximalen Wert der Erhöhung machen und wenn der Kreis zu groß wird, diesen Maximalen wert setzen!
+
+                (double width, double height, double x, double y) oldData = (Width, Height, X, Y); 
+                
+                SvgEditor.SelectedAnchorIndex ??= 0;
+                
+                switch (SvgEditor.SelectedAnchorIndex)
+                {
+                    case 0:
+                        Width -= point.X - X;
+                        Height -= point.Y - Y;
+                        X = point.X;
+                        Y = point.Y;
+                        break;
+                    case 1:
+                        Width = point.X - X;
+                        Height -= point.Y - Y;
+                        Y = point.Y;
+                        break;
+                    case 2:
+                        Width = point.X - X;
+                        Height = point.Y - Y;
+                        break;
+                    case 3:
+                        Width -= point.X - X;
+                        Height = point.Y - Y;
+                        X = point.X;
+                        break;
+                }
+
+                if (ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false)
+                {
+                    X = oldData.x;
+                    Y = oldData.y;
+                    Width = oldData.width;
+                    Height = oldData.height;
+                }
+                
+                if (Width < 0)
+                {
+                    Width = 1;
+                    X = oldData.x;
+                }
+                if (Height < 0)
+                {
+                    Height = 1;
+                    Y = oldData.y;
+                }
+
                 break;
         }
     }
