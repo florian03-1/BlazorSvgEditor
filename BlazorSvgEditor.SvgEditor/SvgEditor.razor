@@ -13,7 +13,7 @@
      @onpointermove="OnContainerPointerMove"
      @onpointerup="OnContainerPointerUp">
 
-    <svg style="height: 100%; width: 100%; cursor: pointer">
+    <svg style="height: 100%; width: 100%;">
 
         <g style="transform: translate(@(Translate.X.ToInvariantString())px, @(Translate.Y.ToInvariantString())px) scale(@Scale.ToInvariantString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height" @ref="SvgGElementReference">
             <image href="@ImageSource"/>
@@ -40,6 +40,15 @@
             <b>Svg G Box:</b> X: @(Math.Round(SvgBoundingBox.Width, 1))px Y: @(Math.Round(SvgBoundingBox.Height, 1))px
             <br/>
             <b>ContainerBox:</b> X: @(Math.Round(ContainerBoundingBox.Width, 1))px Y: @(Math.Round(ContainerBoundingBox.Height, 1))px
+        </foreignObject>
+        
+        <foreignObject visibility="hidden" height="70px" width="300px" class="unselectable" x="0px" y="150" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+            @foreach(var shape in Shapes)
+            {
+                @shape.ToString()
+                <br/>
+            }
+           
         </foreignObject>
 
     </svg>

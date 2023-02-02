@@ -79,6 +79,12 @@ public abstract class Shape
     public abstract void HandlePointerUp(PointerEventArgs eventArgs);
     public abstract void HandlePointerOut(PointerEventArgs eventArgs);
     public abstract void Complete();
+
+
+    public override string ToString()
+    {
+        return $"{GetType().Name}: {Bounds}";
+    }
 }
 
 public enum ShapeState

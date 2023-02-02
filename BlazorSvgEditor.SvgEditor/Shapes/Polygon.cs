@@ -44,8 +44,24 @@ public class Polygon : Shape
                 break;
             case EditMode.MoveAnchor:
                 
+                Console.WriteLine("Anchor Index: " + SvgEditor.SelectedAnchorIndex);
+                
                 //Lieber einen Test auf den Maximalen Wert der Erhöhung machen und wenn der Kreis zu groß wird, diesen Maximalen wert setzen!
+                
+                SvgEditor.SelectedAnchorIndex ??= 0;
 
+                if (SvgEditor.SelectedAnchorIndex < Points.Count) //wenn ja, dann ist es ein "echter" Anchor
+                {
+                    Points[SvgEditor.SelectedAnchorIndex.Value] = point;
+                }
+                else
+                {
+                    int index = SvgEditor.SelectedAnchorIndex.Value - Points.Count + 1;
+                    var coord = new Coord<double>(point);
+                    Points.Insert(index, coord);
+                    SvgEditor.SelectedAnchorIndex = index;
+                }
+                
                 break;
         }    
     }
