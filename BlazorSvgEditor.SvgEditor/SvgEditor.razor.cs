@@ -61,23 +61,5 @@ public partial class SvgEditor
 
         await base.OnInitializedAsync();
     }
-
-    public void SelectShape(Shape shape, PointerEventArgs eventArgs)
-    {
-        SelectedShape?.Unselect();  //Wenn ein Shape ausgewählt ist, dann wird es abgewählt
-        SelectedShape = shape;      //Das neue Shape wird ausgewählt
-
-        EditMode = EditMode.Move;
-        MoveStartDPoint = DetransformOffset(eventArgs);
-    }
     
-    public void AddElement(ShapeType shapeType)
-    {
-        EditMode = EditMode.AddTool;
-        ShapeType = shapeType;
-        
-        SelectedShape?.Unselect();
-        SelectedShape = null;
-    }
-   
 }

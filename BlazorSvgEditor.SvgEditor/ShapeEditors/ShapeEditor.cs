@@ -13,19 +13,21 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
 
     public void Enter()
     {
-        SvgElement.Hover();
+        if(SvgElement.SvgEditor.EditMode != EditMode.None) return;
+        SvgElement.HoverShape();
     }
     
     public void Leave()
     {
-        SvgElement.Unhover();
+        SvgElement.UnHoverShape();
     }
 
     public void Select(PointerEventArgs eventArgs)
     {
         if (SvgElement.SvgEditor.EditMode == EditMode.Add) return;
         
-        SvgElement.Select(eventArgs);
+        SvgElement.SelectShape();
+        SvgElement.SvgEditor.SelectShape(SvgElement, eventArgs);
     }
     
     public void OnAnchorSelected(int anchorIndex)

@@ -84,7 +84,7 @@ public partial class SvgEditor
     
     private void OnUnselectPanelPointerDown(PointerEventArgs e)
     {
-        SelectedShape?.Unselect();
+        SelectedShape?.UnSelectShape();
         SelectedShape = null;
     }
     

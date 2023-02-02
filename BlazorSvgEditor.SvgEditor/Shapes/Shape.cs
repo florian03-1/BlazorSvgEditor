@@ -25,11 +25,11 @@ public abstract class Shape
     public double StrokeDashoffset { get; set; }
 
     public ShapeState State { get; set; } = ShapeState.None;
-    public void Select(PointerEventArgs eventArgs)
+
+
+    //Logic for visual styles - for changing selectedState use method from SvgEditor
+    public void SelectShape()
     {
-        //Select logic for SvgEditor
-        SvgEditor.SelectShape(this, eventArgs);
-        
         State = ShapeState.Selected;
 
         //Visual select logic
@@ -38,12 +38,10 @@ public abstract class Shape
         StrokeDashoffset = 0;
         Fill = "#ff8c00";
         FillOpacity = 0.4;
-        
     }
-    public void Unselect()
+    
+    public void UnSelectShape()
     {
-        if (State != ShapeState.Selected) return;
-        
         State = ShapeState.None;
         
         //Visual unselect logic
@@ -52,26 +50,28 @@ public abstract class Shape
         Fill = "transparent";
         FillOpacity = 1;
     }
-    public void Hover()
+    
+    public void HoverShape()
     {
         if (State == ShapeState.Selected) return;
+
         State = ShapeState.Hovered;
         
+        //Visual hover logic
         Fill = "#ff8c00";
         FillOpacity = 0.2;
-        
-        Console.WriteLine("Hover");
     }
-    public void Unhover()
+    
+    public void UnHoverShape()
     {
         if (State != ShapeState.Hovered) return;
         
         State = ShapeState.None;
         
+        //Visual unhover logic
         Fill = "transparent";
         FillOpacity = 1;
     }
-    
     
     public abstract ContainerBox Bounds { get; }
 
