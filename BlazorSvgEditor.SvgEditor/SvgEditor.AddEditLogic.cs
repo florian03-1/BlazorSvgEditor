@@ -43,8 +43,9 @@ public partial class SvgEditor
 
                 Shapes.Add(circle);
                 SelectedShape = circle;
+                SelectedShape.SelectShape();
+                
                 EditMode = EditMode.Add;
-                        
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
