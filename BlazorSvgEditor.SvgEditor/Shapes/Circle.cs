@@ -43,9 +43,13 @@ public class Circle : Shape
     public override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
+        double rOld;
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
+                rOld = R;
+                R = Math.Sqrt(Math.Pow(Cx - point.X, 2) + Math.Pow(Cy - point.Y, 2));
+                if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false) R = rOld;
                 break;
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
@@ -61,7 +65,7 @@ public class Circle : Shape
                 
                 //Lieber einen Test auf den Maximalen Wert der Erhöhung machen und wenn der Kreis zu groß wird, diesen Maximalen wert setzen!
                 
-                var rOld = R;
+                rOld = R;
 
                 if (SvgEditor.SelectedAnchorIndex == null)
                 {
@@ -81,9 +85,6 @@ public class Circle : Shape
                 
                 if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false) R = rOld;
 
-                break;
-            
-            case EditMode.Scale:
                 break;
         }
     }
