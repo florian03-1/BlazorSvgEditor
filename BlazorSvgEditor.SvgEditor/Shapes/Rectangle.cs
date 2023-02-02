@@ -41,7 +41,9 @@ public class Rectangle : Shape
 
         switch (SvgEditor.EditMode)
         {
-            case EditMode.Add: 
+            case EditMode.Add:
+                Width = 10;
+                Height = 10;
                 break;
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);

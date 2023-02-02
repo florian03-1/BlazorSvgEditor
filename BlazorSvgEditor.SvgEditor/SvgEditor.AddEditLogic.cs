@@ -27,6 +27,7 @@ public partial class SvgEditor
 
     public void AddToolPointerDown(PointerEventArgs e)
     {
+        Shape? newShape = null;
         switch (ShapeType)
         {
             case ShapeType.None:
@@ -34,22 +35,30 @@ public partial class SvgEditor
             case ShapeType.Polygon:
                 break;
             case ShapeType.Rectangle:
+                newShape = new Rectangle(this)
+                {
+                    X = DetransformOffset(e).X,
+                    Y = DetransformOffset(e).Y
+                };
                 break;
             case ShapeType.Circle:
-                var circle = new Circle(this);
-        
-                circle.Cx = DetransformOffset(e).X;
-                circle.Cy = DetransformOffset(e).Y;
-
-                Shapes.Add(circle);
-                SelectedShape = circle;
-                SelectedShape.SelectShape();
-                
-                EditMode = EditMode.Add;
+                newShape = new Circle(this)
+                {
+                    Cx = DetransformOffset(e).X,
+                    Cy = DetransformOffset(e).Y
+                };
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        if (newShape == null) return;
+        
+        Shapes.Add(newShape);
+        SelectedShape = newShape;
+        SelectedShape.SelectShape();
+                
+        EditMode = EditMode.Add;
     }
 
 }

@@ -46,7 +46,9 @@
 
 </div>
 
-<div style="display: flex; flex-direction: row">
-    <button class="btn btn-primary" @onclick="TestButton">TestButton</button>
-    <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Circle)">AddCircle</button>
+<div style="display: flex; flex-direction: row; gap: 10px">
+    <button class="btn btn-primary" @onclick="TestButton">Test Button</button>
+    <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Circle)">Add Circle</button>
+    <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Rectangle)">Add Rectangle</button>
+
 </div>
