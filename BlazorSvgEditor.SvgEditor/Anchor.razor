@@ -1,6 +1,6 @@
 @using BlazorSvgEditor.SvgEditor.Helper
 
-<circle cx=@X cy=@Y r="@((5+CircleThickness).ToInvariantString())" stroke-width="@CircleThickness.ToInvariantString()" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown style="cursor: n-resize" />
+<circle cx=@X cy=@Y r="@((5+CircleThickness).ToInvariantString())" stroke-width="@CircleThickness.ToInvariantString()" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown style="cursor: @CssCursor" />
 <circle cx=@X cy=@Y r="5" stroke-width="@CircleThickness.ToInvariantString()" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
 
 @code {
@@ -19,6 +19,9 @@
 
     [Parameter]
     public double CircleThickness { get; set; } = 2;
+
+    [Parameter]
+    public string CssCursor { get; set; } = "pointer";
     
     private string X => Position.X.ToInvariantString();
 

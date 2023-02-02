@@ -22,13 +22,13 @@
         fill="@SvgElement.Fill"
         fill-opacity="@SvgElement.FillOpacity.ToInvariantString()"
 
-        style="cursor: move">
+        style="cursor: @(SvgElement.State == ShapeState.Selected ? "move" : "pointer")">
 </circle>
 
 @if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add)
 {
-        <Anchor OnPointerDown="() => OnAnchorSelected(0)" Position="new Coord<double>(SvgElement.Cx + SvgElement.R, SvgElement.Cy)" />
-        <Anchor OnPointerDown="() => OnAnchorSelected(1)" Position="new Coord<double>(SvgElement.Cx - SvgElement.R, SvgElement.Cy)" />
-        <Anchor OnPointerDown="() => OnAnchorSelected(2)" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy + SvgElement.R)" />
-        <Anchor OnPointerDown="() => OnAnchorSelected(3)" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy - SvgElement.R)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(0)" CssCursor="ew-resize" Position="new Coord<double>(SvgElement.Cx + SvgElement.R, SvgElement.Cy)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(1)" CssCursor="ew-resize" Position="new Coord<double>(SvgElement.Cx - SvgElement.R, SvgElement.Cy)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(2)" CssCursor="ns-resize" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy + SvgElement.R)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(3)" CssCursor="ns-resize" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy - SvgElement.R)" />
 }
