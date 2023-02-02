@@ -7,9 +7,9 @@ namespace BlazorSvgEditor.SvgEditor;
 public partial class SvgEditor : IAsyncDisposable
 {
     [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
+    protected IJSRuntime JsRuntime { get; set; } = null!; //DI
 
-    private Lazy<Task<IJSObjectReference>> moduleTask;
+    private Lazy<Task<IJSObjectReference>> moduleTask = null!; //wird gesetzt in OnInitialized
     
     
     

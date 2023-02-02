@@ -19,17 +19,12 @@
 
     [Parameter]
     public double CircleThickness { get; set; } = 2;
-
-    [CascadingParameter]
-    protected SvgEditor SvgEditor { get; set; }
-
-
-
+    
     private string X => Position.X.ToInvariantString();
 
     private string Y => Position.Y.ToInvariantString();
 
-    private string _State { get; set; }
+    private string _State { get; set; } = string.Empty;
 
     private string State => $"{Position.X}{Position.Y}{RingColor}{MiddleColor}";
 

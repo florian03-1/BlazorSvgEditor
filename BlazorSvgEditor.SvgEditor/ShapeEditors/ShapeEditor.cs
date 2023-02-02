@@ -5,8 +5,8 @@ namespace BlazorSvgEditor.SvgEditor.ShapeEditors;
 
 public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
 {
-    [Parameter]
-    public TShape SvgElement { get; set; }
+    [Parameter, EditorRequired]
+    public TShape SvgElement { get; set; } = null!; //Wird zwingend im SvgEditor bei der Initialisierung gesetzt
     
     public ElementReference ElementReference { get; set; }
 

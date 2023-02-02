@@ -63,7 +63,7 @@ public partial class SvgEditor
 
     protected override void OnAfterRender(bool firstRender)
     {
-        SetContainerAndSvgBoundingBox();
+        Task.Run(SetContainerAndSvgBoundingBox);
         base.OnAfterRender(firstRender);
     }
 
