@@ -16,13 +16,39 @@ public partial class SvgEditor
         StateHasChanged();
     }
     
-    public void AddElement(ShapeType shapeType)
+    private void AddElement(ShapeType shapeType)
     {
         EditMode = EditMode.AddTool;
         ShapeType = shapeType;
         
         SelectedShape?.UnSelectShape();
         SelectedShape = null;
+    }
+
+    public void AddToolPointerDown(PointerEventArgs e)
+    {
+        switch (ShapeType)
+        {
+            case ShapeType.None:
+                break;
+            case ShapeType.Polygon:
+                break;
+            case ShapeType.Rectangle:
+                break;
+            case ShapeType.Circle:
+                var circle = new Circle(this);
+        
+                circle.Cx = DetransformOffset(e).X;
+                circle.Cy = DetransformOffset(e).Y;
+
+                Shapes.Add(circle);
+                SelectedShape = circle;
+                EditMode = EditMode.Add;
+                        
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
 }

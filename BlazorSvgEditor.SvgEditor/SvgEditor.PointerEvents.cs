@@ -26,28 +26,7 @@ public partial class SvgEditor
         {
             if (EditMode == EditMode.AddTool)
             {
-                switch (ShapeType)
-                {
-                    case ShapeType.None:
-                        break;
-                    case ShapeType.Polygon:
-                        break;
-                    case ShapeType.Rectangle:
-                        break;
-                    case ShapeType.Circle:
-                        var circle = new Circle(this);
-        
-                        circle.Cx = DetransformOffset(e).X;
-                        circle.Cy = DetransformOffset(e).Y;
-
-                        Shapes.Add(circle);
-                        SelectedShape = circle;
-                        EditMode = EditMode.Add;
-                        
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                AddToolPointerDown(e);
             }
         }
 

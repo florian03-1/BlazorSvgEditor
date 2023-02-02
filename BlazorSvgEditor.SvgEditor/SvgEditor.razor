@@ -36,7 +36,7 @@
             <b>Detramsform:</b> X: @(Math.Round((_pointerPosition.X - Translate.X) / Scale, 1))px Y: @(Math.Round(_pointerPosition.Y / Scale - Translate.Y / Scale, 1))px
         </foreignObject>
 
-        <foreignObject height="46px" width="250px" class="unselectable" x="@(ContainerBoundingBox.Width - 250)px" y="0" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+        <foreignObject height="46px" width="250px" class="unselectable" x="0px" y="400" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
             <b>Svg G Box:</b> X: @(Math.Round(SvgBoundingBox.Width, 1))px Y: @(Math.Round(SvgBoundingBox.Height, 1))px
             <br/>
             <b>ContainerBox:</b> X: @(Math.Round(ContainerBoundingBox.Width, 1))px Y: @(Math.Round(ContainerBoundingBox.Height, 1))px
