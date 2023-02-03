@@ -8,21 +8,21 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
     [Parameter, EditorRequired]
     public TShape SvgElement { get; set; } = null!; //Wird zwingend im SvgEditor bei der Initialisierung gesetzt
     
-    public ElementReference ElementReference { get; set; }
+    protected ElementReference ElementReference { get; set; }
 
 
-    public void Enter()
+    protected void Enter()
     {
         if(SvgElement.SvgEditor.EditMode != EditMode.None) return;
         SvgElement.HoverShape();
     }
     
-    public void Leave()
+    protected void Leave()
     {
         SvgElement.UnHoverShape();
     }
 
-    public void Select(PointerEventArgs eventArgs)
+    protected void Select(PointerEventArgs eventArgs)
     {
         if (SvgElement.SvgEditor.EditMode == EditMode.Add) return;
         
@@ -30,7 +30,7 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
         SvgElement.SvgEditor.SelectShape(SvgElement, eventArgs);
     }
     
-    public void OnAnchorSelected(int anchorIndex)
+    protected void OnAnchorSelected(int anchorIndex)
     {
         SvgElement.SvgEditor.EditMode = EditMode.MoveAnchor;
         SvgElement.SvgEditor.SelectedShape = SvgElement;
