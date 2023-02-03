@@ -20,6 +20,7 @@ public partial class SvgEditor
         var point = DetransformPoint(e.OffsetX, e.OffsetY);
         if (point.X < 0 || point.Y < 0 || point.X > ImageSize.Width || point.Y > ImageSize.Height)
         {
+            if (EditMode == EditMode.Add) return; //Wenn das Polygon erstellt wird und währenddessen aus dem Bild rausgezogen wird, soll nichts passieren
             OnUnselectPanelPointerDown(e);
         }
         else //Pointer is inside the image

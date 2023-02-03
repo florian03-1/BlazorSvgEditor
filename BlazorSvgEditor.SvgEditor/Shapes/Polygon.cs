@@ -15,7 +15,7 @@ public class Polygon : Shape
     public List<Coord<double>> Points { get; set; } = new();
     internal string PointsString => Points.Aggregate("", (current, point) => current + $"{point.X.ToInvariantString()},{point.Y.ToInvariantString()} ");
     
-    private bool _firstAdd = true;
+    private bool _addNewPointOnCreate = true;
     
     //Create Polygon Anchor Settings
     private double _polygonCompleteThreshold => 10;
@@ -28,9 +28,9 @@ public class Polygon : Shape
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
-                if (_firstAdd)
+                if (_addNewPointOnCreate)
                 {
-                    _firstAdd = false;
+                    _addNewPointOnCreate = false;
                     Points.Add(point);
                 }
                 
@@ -85,14 +85,16 @@ public class Polygon : Shape
     {
         if (SvgEditor.EditMode == EditMode.Add)
         {
-            if (Coord<double>.Distance(Points[^1], Points[0]) < _polygonCompleteThreshold && Points.Count > 2)
+            if (Coord<double>.Distance(Points[^1], Points[0]) < _polygonCompleteThreshold && Points.Count > 3) //Es müssen mehr als 3 Punkte sein da gleich ja einer entfernt wird
             {
                 //Ende des Polygonss
                 Points.RemoveAt(Points.Count - 1);
                 Complete();
             }
-
-            _firstAdd = true;
+            if (!(Coord<double>.Distance(Points[^1], Points[0]) < _polygonCompleteThreshold)) //Die Punkte sind zu nah beieinander - keinen neuen Punkt im Polygon erstellen
+            {
+                _addNewPointOnCreate = true;
+            }
         }
         else
         {

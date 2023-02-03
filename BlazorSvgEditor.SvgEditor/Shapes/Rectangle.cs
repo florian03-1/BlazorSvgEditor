@@ -60,6 +60,9 @@ public class Rectangle : Shape
                     Height = resultCoord.Y - AddPosition.Y;
                 }
                 
+                if (Width < 1) Width = 1;
+                if (Height < 1) Height = 1;
+                
                 break;
             
             case EditMode.Move:
@@ -97,12 +100,39 @@ public class Rectangle : Shape
                         break;
                 }
 
+                if (Width < 0)
+                {
+                    Width = -Width;
+                    X -= Width;
+                    if (SvgEditor.SelectedAnchorIndex == 0) SvgEditor.SelectedAnchorIndex = 1;
+                    else if (SvgEditor.SelectedAnchorIndex == 1) SvgEditor.SelectedAnchorIndex = 0;
+                    else if (SvgEditor.SelectedAnchorIndex == 2) SvgEditor.SelectedAnchorIndex = 3;
+                    else if (SvgEditor.SelectedAnchorIndex == 3) SvgEditor.SelectedAnchorIndex = 2;
+                }
+                if (Height < 0)
+                {
+                    Height = -Height;
+                    Y -= Height;
+                    if (SvgEditor.SelectedAnchorIndex == 0) SvgEditor.SelectedAnchorIndex = 3;
+                    else if (SvgEditor.SelectedAnchorIndex == 1) SvgEditor.SelectedAnchorIndex = 2;
+                    else if (SvgEditor.SelectedAnchorIndex == 2) SvgEditor.SelectedAnchorIndex = 1;
+                    else if (SvgEditor.SelectedAnchorIndex == 3) SvgEditor.SelectedAnchorIndex = 0;
+                }
+                
+                if (Width < 1) Width = 1;
+                if (Height < 1) Height = 1;
+                
                 break;
         }
     }
 
     internal override void HandlePointerUp(PointerEventArgs eventArgs)
     {
+        if (SvgEditor.EditMode == EditMode.Add)
+        {
+            if (Width < 1) Width = 1;
+            if (Height < 1) Height = 1;
+        }
         SvgEditor.EditMode = EditMode.None;
     }
 
@@ -113,6 +143,5 @@ public class Rectangle : Shape
 
     internal override void Complete()
     {
-        throw new NotImplementedException();
     }
 }

@@ -49,14 +49,15 @@ public class Circle : Shape
                 break;
             case EditMode.MoveAnchor:
                 
-                if (SvgEditor.SelectedAnchorIndex == null)
-                {
-                    SvgEditor.SelectedAnchorIndex = 0;
-                }
+                SvgEditor.SelectedAnchorIndex ??= 0;
+                
+                Console.WriteLine("SelectedAnchorIndex: " + SvgEditor.SelectedAnchorIndex);
+                
                 switch (SvgEditor.SelectedAnchorIndex)
                 { 
                     case 0:
                     case 1:
+                        Console.WriteLine("point.X - Cx: " + (point.X - Cx));
                         R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.X - Cx);
                         break;
                     case 2:
@@ -73,6 +74,10 @@ public class Circle : Shape
 
     internal override void HandlePointerUp(PointerEventArgs eventArgs)
     {
+        if (SvgEditor.EditMode == EditMode.Add)
+        {
+            if (R == 0) R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), 15); //Wenn Radius 0 ist, wurde der Kreis nur durch ein Klicken erzeugt, also wird er auf 15 gesetzt
+        }
         SvgEditor.EditMode = EditMode.None;
     }
 
@@ -93,7 +98,9 @@ public class Circle : Shape
     {
         var availableMovingValues = BoundingBox.GetAvailableMovingValues(outerBox, centerCoord);
         var maxRadius = Math.Min(Math.Min(availableMovingValues.Top, availableMovingValues.Left), Math.Min(availableMovingValues.Bottom, availableMovingValues.Right));
-        return Math.Min(maxRadius, askedRadius);
+        
+        if (Math.Abs(askedRadius) > maxRadius) return maxRadius;
+        return Math.Abs(askedRadius);
     }
     
 }

@@ -28,7 +28,7 @@
 </rect>
 
 
-@if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add)
+@if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add && SvgElement.SvgEditor.EditMode != EditMode.Move)
 {
       <Anchor OnPointerDown="() => OnAnchorSelected(0)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.X, SvgElement.Y)" />
       <Anchor OnPointerDown="() => OnAnchorSelected(1)" CssCursor="nesw-resize" Position="new Coord<double>(SvgElement.X + SvgElement.Width, SvgElement.Y)" />
