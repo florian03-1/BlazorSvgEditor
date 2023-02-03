@@ -81,7 +81,7 @@ public class Polygon : Shape
     }
     
 
-    internal override void HandlePointerUp(PointerEventArgs eventArgs)
+    internal override async Task HandlePointerUp(PointerEventArgs eventArgs)
     {
         if (SvgEditor.EditMode == EditMode.Add)
         {
@@ -98,6 +98,9 @@ public class Polygon : Shape
         }
         else
         {
+            if (SvgEditor.EditMode == EditMode.Move) await FireOnShapeChangedMove();
+            else if (SvgEditor.EditMode == EditMode.MoveAnchor) await FireOnShapeChangedEdit();
+
             SvgEditor.EditMode = EditMode.None;
         }
     }

@@ -126,13 +126,17 @@ public class Rectangle : Shape
         }
     }
 
-    internal override void HandlePointerUp(PointerEventArgs eventArgs)
+    internal override async Task HandlePointerUp(PointerEventArgs eventArgs)
     {
         if (SvgEditor.EditMode == EditMode.Add)
         {
             if (Width < 1) Width = 1;
             if (Height < 1) Height = 1;
         }
+        
+        if (SvgEditor.EditMode == EditMode.Move) await FireOnShapeChangedMove();
+        else if (SvgEditor.EditMode == EditMode.MoveAnchor) await FireOnShapeChangedEdit();
+
         SvgEditor.EditMode = EditMode.None;
     }
 

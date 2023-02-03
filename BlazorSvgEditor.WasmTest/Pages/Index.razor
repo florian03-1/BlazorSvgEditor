@@ -1,11 +1,30 @@
 ﻿@page "/"
 @using BlazorSvgEditor.SvgEditor
 
-<div style="display: flex; flex-direction: column">
+<div style="max-height: 90vh; display: flex; flex-direction: column; overflow: hidden">
     
-<h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
+    <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
     
 
-<SvgEditor MinScale="0.8"></SvgEditor>
+    <SvgEditor OnShapeChanged="OnChange" MinScale="0.8"></SvgEditor>
+    
+    <div style="overflow: scroll; margin-top:5px;">
+         @foreach (var shape in Changes)
+            {
+                <p style="margin:0px;">@shape</p>
+                <hr/>
+            }
+    </div>
+   
 
 </div>
+
+@code
+{
+    public List<string> Changes { get; set; } = new List<string>();
+
+    protected async Task OnChange(ShapeChangedEventArgs args)
+    {
+        Changes.Add(args.ChangeType.ToString() + ": " + args.CustomId);
+    }
+}

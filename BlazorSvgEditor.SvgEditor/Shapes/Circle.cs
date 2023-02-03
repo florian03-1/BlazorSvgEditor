@@ -72,13 +72,18 @@ public class Circle : Shape
         }
     }
 
-    internal override void HandlePointerUp(PointerEventArgs eventArgs)
+    internal override async Task HandlePointerUp(PointerEventArgs eventArgs)
     {
         if (SvgEditor.EditMode == EditMode.Add)
         {
             if (R == 0) R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), 15); //Wenn Radius 0 ist, wurde der Kreis nur durch ein Klicken erzeugt, also wird er auf 15 gesetzt
         }
+        
+        if (SvgEditor.EditMode == EditMode.Move) await FireOnShapeChangedMove();
+        else if (SvgEditor.EditMode == EditMode.MoveAnchor) await FireOnShapeChangedEdit();
+        
         SvgEditor.EditMode = EditMode.None;
+
     }
 
     internal override void HandlePointerOut(PointerEventArgs eventArgs)

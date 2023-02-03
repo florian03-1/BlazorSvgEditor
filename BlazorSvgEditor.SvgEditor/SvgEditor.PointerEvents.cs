@@ -10,7 +10,7 @@ public partial class SvgEditor
     private Coord<int> _pointerPosition;
 
     //Container events (pointer events, wheel events)
-    public void OnContainerPointerDown(PointerEventArgs e)
+    public async Task OnContainerPointerDown(PointerEventArgs e)
     {
         if (e.Button == MOVE_BUTTON_INDEX)
         {
@@ -27,14 +27,14 @@ public partial class SvgEditor
         {
             if (EditMode == EditMode.AddTool)
             {
-                AddToolPointerDown(e);
+                await AddToolPointerDown(e);
             }
         }
 
         Console.WriteLine("OnContainerPointerDown");
     }
     
-    public void OnContainerPointerUp(PointerEventArgs e)
+    private void OnContainerPointerUp(PointerEventArgs e)
     {
         IsTranslating = false;
         SelectedShape?.HandlePointerUp(e);

@@ -12,7 +12,7 @@ public abstract class Shape
     internal abstract Type Presenter { get; }
     
     internal string HtmlId { get; set; } = Guid.NewGuid().ToString();
-    public string CustomInformation { get; set; } = string.Empty;
+    public int CustomId { get; set; } = 0;
 
     internal string Fill { get; set; } = "transparent";
     internal double FillOpacity { get; set; } = 1;
@@ -77,10 +77,13 @@ public abstract class Shape
 
     internal abstract void SnapToInteger();
     internal abstract void HandlePointerMove(PointerEventArgs eventArgs);
-    internal abstract void HandlePointerUp(PointerEventArgs eventArgs);
+    internal abstract Task HandlePointerUp(PointerEventArgs eventArgs);
     internal abstract void HandlePointerOut(PointerEventArgs eventArgs);
     internal abstract void Complete();
 
+    
+    protected async Task FireOnShapeChangedMove() => await SvgEditor.OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeMoved(CustomId));
+    protected async Task FireOnShapeChangedEdit() => await SvgEditor.OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeEdited(CustomId));
 
     public override string ToString()
     {

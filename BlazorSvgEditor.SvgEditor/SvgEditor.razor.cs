@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -22,7 +23,13 @@ public partial class SvgEditor
     private ElementReference ContainerElementReference;
     private ElementReference SvgGElementReference;
     
+    
+    [Parameter]
     public List<Shape> Shapes { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<ShapeChangedEventArgs> OnShapeChanged { get; set; }
+
     public Shape? SelectedShape { get; set; }
 
     public EditMode EditMode { get; set; } = EditMode.None;
@@ -49,10 +56,23 @@ public partial class SvgEditor
         //Check if MaxScale is between 1 and 10
         if (MaxScale < 1) MaxScale = 1;
         else if (MaxScale > 10) MaxScale = 10;
+        
+        //Seed Test data
+        await AddTestShapes();
 
+        //Initialize the task for JsInvokeAsync
+        moduleTask = new(async () =>
+            await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                "./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task AddTestShapes()
+    {
         //Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40 });
         //Shapes.Add(new Rectangle(this) { Y = 50, X = 400, Height = 40, Width = 60});
-       // Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}});
+        // Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}});
 
         var poligonPoints = new List<Coord<double>>();
         Random rnd = new();
@@ -61,24 +81,70 @@ public partial class SvgEditor
             poligonPoints.Add(new (rnd.Next(100, 400), rnd.Next(50, 350)));
         }
         
-        Shapes.Add(new Polygon(this){Points = poligonPoints});
+        Shapes.Add(new Polygon(this){Points = poligonPoints, CustomId = 3});
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(3));
         
         var poligonPoints2 = new List<Coord<double>>();
         for (int i = 0; i < 15; i++)
         {
             poligonPoints2.Add(new (rnd.Next(500, 650), rnd.Next(50, 350)));
         }
-        
-        Shapes.Add(new Polygon(this){Points = poligonPoints2});
-        
-        
-        
-        //Initialize the task for JsInvokeAsync
-        moduleTask = new(async () =>
-            await JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                "./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
 
-        await base.OnInitializedAsync();
+        Shapes.Add(new Polygon(this){Points = poligonPoints2,CustomId =5});
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(5));
+
     }
     
+}
+
+
+
+public class ShapeChangedEventArgs : EventArgs
+{
+    public ShapeChangeType ChangeType { get; set; }
+    public int CustomId { get; set; } = -1; //-1 is new Shape
+    
+    public static ShapeChangedEventArgs ShapeMoved(int shapeId)
+    {
+        return new ShapeChangedEventArgs()
+        {
+            ChangeType = ShapeChangeType.Move,
+            CustomId = shapeId
+        };
+    }
+    
+    public static ShapeChangedEventArgs ShapeEdited(int shapeId)
+    {
+        return new ShapeChangedEventArgs()
+        {
+            ChangeType = ShapeChangeType.Edit,
+            CustomId = shapeId
+        };
+    }
+    
+    public static ShapeChangedEventArgs ShapeAdded(int shapeId)
+    {
+        return new ShapeChangedEventArgs()
+        {
+            ChangeType = ShapeChangeType.Add,
+            CustomId = shapeId
+        };
+    }
+    
+    public static ShapeChangedEventArgs ShapeDeleted(int shapeId)
+    {
+        return new ShapeChangedEventArgs()
+        {
+            ChangeType = ShapeChangeType.Delete,
+            CustomId = shapeId
+        };
+    }
+}
+public enum ShapeChangeType
+{
+    Move,
+    Edit,
+    Add,
+    Delete,
+    Other
 }

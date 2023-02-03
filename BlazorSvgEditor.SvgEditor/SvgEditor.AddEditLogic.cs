@@ -26,7 +26,7 @@ public partial class SvgEditor
         SelectedShape = null;
     }
 
-    public void AddToolPointerDown(PointerEventArgs e)
+    private async Task AddToolPointerDown(PointerEventArgs e)
     {
         Shape? newShape = null;
         switch (ShapeType)
@@ -63,10 +63,14 @@ public partial class SvgEditor
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        if (newShape == null) return;
-        
+
+        var newShapeId = -1;
+        if (Shapes.Count > 0) newShapeId = Math.Min(Shapes.Min(x => x.CustomId) - 1, newShapeId);
+
+        newShape.CustomId = newShapeId;
         Shapes.Add(newShape);
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(newShape.CustomId));
+
         SelectedShape = newShape;
         SelectedShape.SelectShape();
                 
