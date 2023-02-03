@@ -11,7 +11,7 @@ public class Circle : Shape
     {
     }
     
-    public override Type Presenter => typeof(CircleEditor);
+    internal override Type Presenter => typeof(CircleEditor);
 
     
     //Own Properties
@@ -19,7 +19,7 @@ public class Circle : Shape
     public double Cy { get; set; }
     public double R { get; set; }
 
-    public override ContainerBox Bounds
+    internal override ContainerBox Bounds
     {
         get
         {
@@ -33,14 +33,14 @@ public class Circle : Shape
         }
     }
 
-    public override void SnapToInteger()
+    internal override void SnapToInteger()
     {
         Cx = Cx.ToInt();
         Cy = Cy.ToInt();
         R = R.ToInt();
     }
 
-    public override void HandlePointerMove(PointerEventArgs eventArgs)
+    internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
         double rOld;
@@ -91,17 +91,17 @@ public class Circle : Shape
         }
     }
 
-    public override void HandlePointerUp(PointerEventArgs eventArgs)
+    internal override void HandlePointerUp(PointerEventArgs eventArgs)
     {
         SvgEditor.EditMode = EditMode.None;
     }
 
-    public override void HandlePointerOut(PointerEventArgs eventArgs)
+    internal override void HandlePointerOut(PointerEventArgs eventArgs)
     {
         throw new NotImplementedException();
     }
 
-    public override void Complete()
+    internal override void Complete()
     {
         throw new NotImplementedException();
     }

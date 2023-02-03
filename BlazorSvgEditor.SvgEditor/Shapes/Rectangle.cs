@@ -8,7 +8,7 @@ public class Rectangle : Shape
 {
     public Rectangle(SvgEditor svgEditor) : base(svgEditor){}
 
-    public override Type Presenter => typeof(RectangleEditor);
+    internal override Type Presenter => typeof(RectangleEditor);
     
     
     public double X { get; set; }
@@ -18,7 +18,7 @@ public class Rectangle : Shape
 
     private Coord<double> AddPosition = new(-1, -1);
 
-    public override ContainerBox Bounds =>
+    internal override ContainerBox Bounds =>
         new ContainerBox()
         {
             Top = (int)Y,
@@ -27,7 +27,7 @@ public class Rectangle : Shape
             Bottom = (int)(Y + Height)
         };
 
-    public override void SnapToInteger()
+    internal override void SnapToInteger()
     {
         X = X.ToInt();
         Y = Y.ToInt();
@@ -35,7 +35,7 @@ public class Rectangle : Shape
         Height = Height.ToInt();
     }
     
-    public override void HandlePointerMove(PointerEventArgs eventArgs)
+    internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
         
@@ -76,8 +76,8 @@ public class Rectangle : Shape
             
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
-                var avaiableMovingCoords = ContainerBox.GetAvaiableMoovingCoords(Bounds, SvgEditor.ImageBoundingBox);
-                var result = ContainerBox.GetAvaiableMovingCoordinates(avaiableMovingCoords, diff);
+
+                var result = BoundingBox.GetAvailableMovingCoord(imageBB, _oob, diff);
 
                 X += result.X;
                 Y += result.Y;
@@ -116,17 +116,22 @@ public class Rectangle : Shape
         }
     }
 
-    public override void HandlePointerUp(PointerEventArgs eventArgs)
+    private BoundingBox _oob
+    {
+        get => new BoundingBox(X, Y, X + Width, Y + Height);
+    }
+
+    internal override void HandlePointerUp(PointerEventArgs eventArgs)
     {
         SvgEditor.EditMode = EditMode.None;
     }
 
-    public override void HandlePointerOut(PointerEventArgs eventArgs)
+    internal override void HandlePointerOut(PointerEventArgs eventArgs)
     {
         throw new NotImplementedException();
     }
 
-    public override void Complete()
+    internal override void Complete()
     {
         throw new NotImplementedException();
     }

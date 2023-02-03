@@ -9,25 +9,26 @@ public abstract class Shape
         SvgEditor = svgEditor;
     }
     public SvgEditor SvgEditor { get; set; }
-    public abstract Type Presenter { get; }
+    internal abstract Type Presenter { get; }
     
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    internal string HtmlId { get; set; } = Guid.NewGuid().ToString();
+    public string CustomInformation { get; set; } = string.Empty;
 
-    public string Fill { get; set; } = "transparent";
-    public double FillOpacity { get; set; } = 1;
-    public string Stroke { get; set; } = "#ff8c00"; //Orange
-    public string StrokeWidth { get; set; } = "2px"; 
+    internal string Fill { get; set; } = "transparent";
+    internal double FillOpacity { get; set; } = 1;
+    internal string Stroke { get; set; } = "#ff8c00"; //Orange
+    internal string StrokeWidth { get; set; } = "2px"; 
     
-    public string StrokeLinejoin { get; set; } = "round";
-    public string StrokeLinecap { get; set; } = "round";
-    public string StrokeDasharray { get; set; } = string.Empty;
-    public double StrokeDashoffset { get; set; }
+    internal string StrokeLinejoin { get; set; } = "round";
+    internal string StrokeLinecap { get; set; } = "round";
+    internal string StrokeDasharray { get; set; } = string.Empty;
+    internal double StrokeDashoffset { get; set; }
 
-    public ShapeState State { get; set; } = ShapeState.None;
+    internal ShapeState State { get; set; } = ShapeState.None;
 
 
     //Logic for visual styles - for changing selectedState use method from SvgEditor
-    public void SelectShape()
+    internal void SelectShape()
     {
         State = ShapeState.Selected;
 
@@ -39,7 +40,7 @@ public abstract class Shape
         FillOpacity = 0.4;
     }
     
-    public void UnSelectShape()
+    internal void UnSelectShape()
     {
         State = ShapeState.None;
         
@@ -50,7 +51,7 @@ public abstract class Shape
         FillOpacity = 1;
     }
     
-    public void HoverShape()
+    internal void HoverShape()
     {
         if (State == ShapeState.Selected) return;
 
@@ -61,7 +62,7 @@ public abstract class Shape
         FillOpacity = 0.2;
     }
     
-    public void UnHoverShape()
+    internal void UnHoverShape()
     {
         if (State != ShapeState.Hovered) return;
         
@@ -72,13 +73,13 @@ public abstract class Shape
         FillOpacity = 1;
     }
     
-    public abstract ContainerBox Bounds { get; }
+    internal abstract ContainerBox Bounds { get; }
 
-    public abstract void SnapToInteger();
-    public abstract void HandlePointerMove(PointerEventArgs eventArgs);
-    public abstract void HandlePointerUp(PointerEventArgs eventArgs);
-    public abstract void HandlePointerOut(PointerEventArgs eventArgs);
-    public abstract void Complete();
+    internal abstract void SnapToInteger();
+    internal abstract void HandlePointerMove(PointerEventArgs eventArgs);
+    internal abstract void HandlePointerUp(PointerEventArgs eventArgs);
+    internal abstract void HandlePointerOut(PointerEventArgs eventArgs);
+    internal abstract void Complete();
 
 
     public override string ToString()
@@ -87,7 +88,7 @@ public abstract class Shape
     }
 }
 
-public enum ShapeState
+internal enum ShapeState
 {
     None, 
     Selected,

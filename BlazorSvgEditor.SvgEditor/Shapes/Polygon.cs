@@ -8,19 +8,19 @@ public class Polygon : Shape
 {
     public Polygon(SvgEditor svgEditor) : base(svgEditor) {}
 
-    public override Type Presenter => typeof(PolygonEditor);
+    internal override Type Presenter => typeof(PolygonEditor);
     
     //Own Properties
 
     public List<Coord<double>> Points { get; set; } = new();
-    public string PointsString => Points.Aggregate("", (current, point) => current + $"{point.X.ToInvariantString()},{point.Y.ToInvariantString()} ");
+    internal string PointsString => Points.Aggregate("", (current, point) => current + $"{point.X.ToInvariantString()},{point.Y.ToInvariantString()} ");
     
     private bool _firstAdd = true;
     
     //Create Polygon Anchor Settings
     private double _polygonCompleteThreshold => 10;
 
-    public override void HandlePointerMove(PointerEventArgs eventArgs)
+    internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
         
@@ -75,7 +75,7 @@ public class Polygon : Shape
     }
 
     //Delete Point
-    public void OnAnchorDoubleClicked(int anchorIndex)
+    internal void OnAnchorDoubleClicked(int anchorIndex)
     {
         if (SvgEditor.EditMode == EditMode.Add) return;
         if (Points.Count <= 3) return;  //Mindestens 3 Punkte für ein Polygon
@@ -86,7 +86,7 @@ public class Polygon : Shape
     }
     
 
-    public override void HandlePointerUp(PointerEventArgs eventArgs)
+    internal override void HandlePointerUp(PointerEventArgs eventArgs)
     {
         if (SvgEditor.EditMode == EditMode.Add)
         {
@@ -106,7 +106,7 @@ public class Polygon : Shape
     }
 
     
-    public override ContainerBox Bounds => new()
+    internal override ContainerBox Bounds => new()
     {
         Left = Points.OrderBy(x => x.X).FirstOrDefault().X.ToInt(),
         Right = Points.OrderByDescending(x => x.X).FirstOrDefault().X.ToInt(),
@@ -114,7 +114,7 @@ public class Polygon : Shape
         Bottom = Points.OrderByDescending(x => x.Y).FirstOrDefault().Y.ToInt(),
     };
     
-    public override void SnapToInteger()
+    internal override void SnapToInteger()
     {
         Points.ForEach(x => { 
             x.X = x.X.ToInt();
@@ -124,12 +124,12 @@ public class Polygon : Shape
 
     
     
-    public override void HandlePointerOut(PointerEventArgs eventArgs)
+    internal override void HandlePointerOut(PointerEventArgs eventArgs)
     {
         throw new NotImplementedException();
     }
 
-    public override void Complete()
+    internal override void Complete()
     {
         SvgEditor.EditMode = EditMode.None;
     }
