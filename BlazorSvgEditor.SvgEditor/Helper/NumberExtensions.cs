@@ -10,4 +10,10 @@ public static class NumberExtensions
     }
 
     public static int ToInt(this double d) => Convert.ToInt32(d);
+    
+    //Double Comparison
+    public static bool IsEqual(this double a, double b, double epsilon = 0.0001)
+    {
+        return Math.Abs(a - b) < epsilon;
+    }
 }
