@@ -27,22 +27,24 @@
 
 @if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add)
 {
-    for (int i = 0; i < SvgElement.Points.Count; i++)
+    @if (SvgElement.Points.Count < 20 || SvgElement.SvgEditor.EditMode != EditMode.Move)
     {
-        int j = i;
-        <Anchor OnPointerDown="() => OnAnchorSelected(j)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)" 
-                 OnDoubleClick="() => SvgElement.OnAnchorDoubleClicked(j)"/>
-        
-        var firstPointIndex = i;
-        var secondPointIndex = i + 1;
-        
-        if (secondPointIndex >= SvgElement.Points.Count) secondPointIndex = 0;
-        
-        @if (SvgElement.SvgEditor.EditMode != EditMode.Move)
+        for (int i = 0; i < SvgElement.Points.Count; i++)
         {
-            <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" ScaleFactor="0.5"
-                    Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X)/2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y)/2)" />
+            int j = i;
+            <Anchor OnPointerDown="() => OnAnchorSelected(j)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)" 
+                     OnDoubleClick="() => SvgElement.OnAnchorDoubleClicked(j)"/>
+            
+            var firstPointIndex = i;
+            var secondPointIndex = i + 1;
+            
+            if (secondPointIndex >= SvgElement.Points.Count) secondPointIndex = 0;
 
+            if (SvgElement.SvgEditor.EditMode != EditMode.Move)
+            {
+                <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" ScaleFactor="0.5"
+                        Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X)/2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y)/2)" />
+            }
         }
     }
 }

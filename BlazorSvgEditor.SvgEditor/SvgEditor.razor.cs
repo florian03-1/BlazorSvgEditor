@@ -58,10 +58,18 @@ public partial class SvgEditor
         Random rnd = new();
         for (int i = 0; i < 100; i++)
         {
-            poligonPoints.Add(new (rnd.Next(100, 600), rnd.Next(50, 350)));
+            poligonPoints.Add(new (rnd.Next(100, 400), rnd.Next(50, 350)));
         }
         
         Shapes.Add(new Polygon(this){Points = poligonPoints});
+        
+        var poligonPoints2 = new List<Coord<double>>();
+        for (int i = 0; i < 15; i++)
+        {
+            poligonPoints2.Add(new (rnd.Next(500, 650), rnd.Next(50, 350)));
+        }
+        
+        Shapes.Add(new Polygon(this){Points = poligonPoints2});
         
         
         
