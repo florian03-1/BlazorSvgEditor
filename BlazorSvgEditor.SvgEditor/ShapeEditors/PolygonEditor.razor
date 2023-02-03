@@ -38,8 +38,12 @@
         
         if (secondPointIndex >= SvgElement.Points.Count) secondPointIndex = 0;
         
-        <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" ScaleFactor="0.5"
-                Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X)/2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y)/2)" />
+        @if (SvgElement.SvgEditor.EditMode != EditMode.Move)
+        {
+            <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" ScaleFactor="0.5"
+                    Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X)/2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y)/2)" />
+
+        }
     }
 }
 

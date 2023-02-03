@@ -116,10 +116,12 @@ public class Polygon : Shape
     
     internal override void SnapToInteger()
     {
-        Points.ForEach(x => { 
-            x.X = x.X.ToInt();
-            x.Y = x.Y.ToInt();
-        });
+        List<Coord<double>> newPoints = new List<Coord<double>>();
+        foreach (var p in Points)
+        {
+            newPoints.Add(new Coord<double>(p.X.ToInt(), p.Y.ToInt()));
+        }
+        Points = newPoints;
     }
 
     

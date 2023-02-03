@@ -50,10 +50,21 @@ public partial class SvgEditor
         if (MaxScale < 1) MaxScale = 1;
         else if (MaxScale > 10) MaxScale = 10;
 
-        Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40 });
+        //Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40 });
         //Shapes.Add(new Rectangle(this) { Y = 50, X = 400, Height = 40, Width = 60});
-        Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}});
+       // Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}});
 
+        var poligonPoints = new List<Coord<double>>();
+        Random rnd = new();
+        for (int i = 0; i < 100; i++)
+        {
+            poligonPoints.Add(new (rnd.Next(100, 600), rnd.Next(50, 350)));
+        }
+        
+        Shapes.Add(new Polygon(this){Points = poligonPoints});
+        
+        
+        
         //Initialize the task for JsInvokeAsync
         moduleTask = new(async () =>
             await JsRuntime.InvokeAsync<IJSObjectReference>("import",
