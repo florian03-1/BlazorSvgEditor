@@ -173,5 +173,20 @@ public struct BoundingBox
     {
         return GetAvailableMovingCoord(GetAvailableMovingValues(outerBox, coords), movingCoord);
     }
-    
+
+
+    public static Coord<double> GetAvailableResultCoord(BoundingBox outerBox, Coord<double> coord)
+    {
+        var result = new Coord<double>();
+
+        if (coord.X < outerBox.Left) result.X = outerBox.Left;
+        else if (coord.X >= outerBox.Left && coord.X <= outerBox.Right) result.X = coord.X;
+        else if (coord.X > outerBox.Right) result.X = outerBox.Right;
+        
+        if (coord.Y < outerBox.Top) result.Y = outerBox.Top;
+        else if (coord.Y >= outerBox.Top && coord.Y <= outerBox.Bottom) result.Y = coord.Y;
+        else if (coord.Y > outerBox.Bottom) result.Y = outerBox.Bottom;
+        
+        return result;
+    }
 }
