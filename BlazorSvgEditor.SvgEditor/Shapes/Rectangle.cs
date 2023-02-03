@@ -18,14 +18,7 @@ public class Rectangle : Shape
 
     private Coord<double> AddPosition = new(-1, -1);
 
-    internal override ContainerBox Bounds =>
-        new ContainerBox()
-        {
-            Top = (int)Y,
-            Left = (int)X,
-            Right = (int)(X + Width),
-            Bottom = (int)(Y + Height)
-        };
+    protected override BoundingBox Bounds => new BoundingBox(X, Y, X + Width, Y + Height);
 
     internal override void SnapToInteger()
     {
@@ -38,87 +31,74 @@ public class Rectangle : Shape
     internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
+        Coord<double> resultCoord = BoundingBox.GetAvailableResultCoord(SvgEditor.ImageBoundingBox, point);
         
-        BoundingBox imageBB = new BoundingBox(SvgEditor.ImageSize.Width, SvgEditor.ImageSize.Height);
-
-        (double width, double height, double x, double y) oldData;
-        Coord<double> moovingCoord;
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
                 
                 if (AddPosition.X.IsEqual(-1)) AddPosition = new Coord<double>(X, Y);
-
-                moovingCoord = BoundingBox.GetAvailableResultCoord(imageBB, point);
                 
-                if (moovingCoord.X < AddPosition.X)
+                if (resultCoord.X < AddPosition.X)
                 {
-                    X = moovingCoord.X;
-                    Width = AddPosition.X - moovingCoord.X;
+                    X = resultCoord.X;
+                    Width = AddPosition.X - resultCoord.X;
                 }
                 else
                 {
                     X = AddPosition.X;
-                    Width = moovingCoord.X - AddPosition.X;
+                    Width = resultCoord.X - AddPosition.X;
                 }
-                if (moovingCoord.Y < AddPosition.Y)
+                if (resultCoord.Y < AddPosition.Y)
                 {
-                    Y = moovingCoord.Y;
-                    Height = AddPosition.Y - moovingCoord.Y;
+                    Y = resultCoord.Y;
+                    Height = AddPosition.Y - resultCoord.Y;
                 }
                 else
                 {
                     Y = AddPosition.Y;
-                    Height = moovingCoord.Y - AddPosition.Y;
+                    Height = resultCoord.Y - AddPosition.Y;
                 }
                 
                 break;
             
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
-
-                var result = BoundingBox.GetAvailableMovingCoord(imageBB, _oob, diff);
+                var result = BoundingBox.GetAvailableMovingCoord(SvgEditor.ImageBoundingBox, Bounds, diff);
 
                 X += result.X;
                 Y += result.Y;
                 break;
             
             case EditMode.MoveAnchor:
-                moovingCoord = BoundingBox.GetAvailableResultCoord(imageBB, point);
-                
                 SvgEditor.SelectedAnchorIndex ??= 0;
                 
                 switch (SvgEditor.SelectedAnchorIndex)
                 {
                     case 0:
-                        Width -= moovingCoord.X - X;
-                        Height -= moovingCoord.Y - Y;
-                        X = moovingCoord.X;
-                        Y = moovingCoord.Y;
+                        Width -= resultCoord.X - X;
+                        Height -= resultCoord.Y - Y;
+                        X = resultCoord.X;
+                        Y = resultCoord.Y;
                         break;
                     case 1:
-                        Width = moovingCoord.X - X;
-                        Height -= moovingCoord.Y - Y;
-                        Y = moovingCoord.Y;
+                        Width = resultCoord.X - X;
+                        Height -= resultCoord.Y - Y;
+                        Y = resultCoord.Y;
                         break;
                     case 2:
-                        Width = moovingCoord.X - X;
-                        Height = moovingCoord.Y - Y;
+                        Width = resultCoord.X - X;
+                        Height = resultCoord.Y - Y;
                         break;
                     case 3:
-                        Width -= moovingCoord.X - X;
-                        Height = moovingCoord.Y - Y;
-                        X = moovingCoord.X;
+                        Width -= resultCoord.X - X;
+                        Height = resultCoord.Y - Y;
+                        X = resultCoord.X;
                         break;
                 }
 
                 break;
         }
-    }
-
-    private BoundingBox _oob
-    {
-        get => new BoundingBox(X, Y, X + Width, Y + Height);
     }
 
     internal override void HandlePointerUp(PointerEventArgs eventArgs)

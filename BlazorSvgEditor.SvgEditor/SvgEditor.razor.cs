@@ -8,7 +8,7 @@ namespace BlazorSvgEditor.SvgEditor;
 public partial class SvgEditor
 {
     [Parameter] public (int Width, int Height) ImageSize { get; set; }
-    public ContainerBox ImageBoundingBox = new();
+    public BoundingBox ImageBoundingBox = new();
     [Parameter] public string ImageSource { get; set; } = string.Empty;
 
     [Parameter] public bool SnapToInteger { get; set; } = true;
@@ -40,7 +40,7 @@ public partial class SvgEditor
         ImageSize = (700, 394);
         ImageSource =
             "https://www.bentleymotors.com/content/dam/bentley/Master/World%20of%20Bentley/Mulliner/redesign/coachbuilt/Mulliner%20Batur%201920x1080.jpg/_jcr_content/renditions/original.image_file.700.394.file/Mulliner%20Batur%201920x1080.jpg"; //700 x 394
-        ImageBoundingBox =new ContainerBox(0,0,ImageSize.Width, ImageSize.Height);
+        ImageBoundingBox =new BoundingBox(ImageSize.Width, ImageSize.Height);
         
         //Check if MinScale is between 0.05 and 0.8
         if (MinScale < 0.05) MinScale = 0.05;

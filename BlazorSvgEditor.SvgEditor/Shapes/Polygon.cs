@@ -23,7 +23,8 @@ public class Polygon : Shape
     internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
-        
+        Coord<double> resultCoord = BoundingBox.GetAvailableResultCoord(SvgEditor.ImageBoundingBox, point);
+
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
@@ -33,14 +34,13 @@ public class Polygon : Shape
                     Points.Add(point);
                 }
                 
-                Points[^1] = point;
+                Points[^1] = resultCoord;
 
                 break;
 
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
-                var avaiableMovingCoords = ContainerBox.GetAvaiableMoovingCoords(Bounds, SvgEditor.ImageBoundingBox);
-                var result = ContainerBox.GetAvaiableMovingCoordinates(avaiableMovingCoords, diff);
+                var result = BoundingBox.GetAvailableMovingCoord(SvgEditor.ImageBoundingBox, Bounds, diff);
 
                 List<Coord<double>> newPoints = new List<Coord<double>>();
                 foreach (var p in Points)
@@ -52,15 +52,11 @@ public class Polygon : Shape
                 break;
             case EditMode.MoveAnchor:
                 
-                Console.WriteLine("Anchor Index: " + SvgEditor.SelectedAnchorIndex);
-                
-                //Lieber einen Test auf den Maximalen Wert der Erhöhung machen und wenn der Kreis zu groß wird, diesen Maximalen wert setzen!
-                
                 SvgEditor.SelectedAnchorIndex ??= 0;
 
                 if (SvgEditor.SelectedAnchorIndex < Points.Count) //wenn ja, dann ist es ein "echter" Anchor
                 {
-                    Points[SvgEditor.SelectedAnchorIndex.Value] = point;
+                    Points[SvgEditor.SelectedAnchorIndex.Value] = resultCoord;
                 }
                 else
                 {
@@ -69,7 +65,6 @@ public class Polygon : Shape
                     Points.Insert(index, coord);
                     SvgEditor.SelectedAnchorIndex = index;
                 }
-                
                 break;
         }    
     }
@@ -106,12 +101,12 @@ public class Polygon : Shape
     }
 
     
-    internal override ContainerBox Bounds => new()
+    protected override BoundingBox Bounds => new()
     {
-        Left = Points.OrderBy(x => x.X).FirstOrDefault().X.ToInt(),
-        Right = Points.OrderByDescending(x => x.X).FirstOrDefault().X.ToInt(),
-        Top = Points.OrderBy(x => x.Y).FirstOrDefault().Y.ToInt(),
-        Bottom = Points.OrderByDescending(x => x.Y).FirstOrDefault().Y.ToInt(),
+        Left = Points.OrderBy(x => x.X).FirstOrDefault().X,
+        Right = Points.OrderByDescending(x => x.X).FirstOrDefault().X,
+        Top = Points.OrderBy(x => x.Y).FirstOrDefault().Y,
+        Bottom = Points.OrderByDescending(x => x.Y).FirstOrDefault().Y,
     };
     
     internal override void SnapToInteger()

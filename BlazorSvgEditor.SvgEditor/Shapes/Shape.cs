@@ -73,7 +73,7 @@ public abstract class Shape
         FillOpacity = 1;
     }
     
-    internal abstract ContainerBox Bounds { get; }
+    protected abstract BoundingBox Bounds { get; }
 
     internal abstract void SnapToInteger();
     internal abstract void HandlePointerMove(PointerEventArgs eventArgs);

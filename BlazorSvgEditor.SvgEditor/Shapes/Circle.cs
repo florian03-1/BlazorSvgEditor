@@ -19,19 +19,7 @@ public class Circle : Shape
     public double Cy { get; set; }
     public double R { get; set; }
 
-    internal override ContainerBox Bounds
-    {
-        get
-        {
-            return new ContainerBox()
-            {
-                Left = (int) (Cx - R),
-                Top = (int) (Cy - R),
-                Right = (int) (Cx + R),
-                Bottom = (int) (Cy + R)
-            };
-        }
-    }
+    protected override BoundingBox Bounds => new BoundingBox(Cx -R, Cy - R, Cx + R, Cy + R);
 
     internal override void SnapToInteger()
     {
@@ -43,30 +31,24 @@ public class Circle : Shape
     internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
-        double rOld;
+
         switch (SvgEditor.EditMode)
         {
             case EditMode.Add:
-                rOld = R;
-                R = Math.Sqrt(Math.Pow(Cx - point.X, 2) + Math.Pow(Cy - point.Y, 2));
-                if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false) R = rOld;
+                var askedRadius = Math.Max(Math.Abs(point.X - Cx), Math.Abs(point.Y - Cy));
+                R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), askedRadius);
                 break;
+            
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
-                
-                var avaiableMovingCoords = ContainerBox.GetAvaiableMoovingCoords(Bounds, SvgEditor.ImageBoundingBox);
-                var result = ContainerBox.GetAvaiableMovingCoordinates(avaiableMovingCoords, diff);
-                
+                var result = BoundingBox.GetAvailableMovingCoord(SvgEditor.ImageBoundingBox, Bounds, diff);
+
                 Cx += result.X;
                 Cy += result.Y;
                 
                 break;
             case EditMode.MoveAnchor:
                 
-                //Lieber einen Test auf den Maximalen Wert der Erhöhung machen und wenn der Kreis zu groß wird, diesen Maximalen wert setzen!
-                
-                rOld = R;
-
                 if (SvgEditor.SelectedAnchorIndex == null)
                 {
                     SvgEditor.SelectedAnchorIndex = 0;
@@ -75,16 +57,14 @@ public class Circle : Shape
                 { 
                     case 0:
                     case 1:
-                        R = Math.Abs(point.X - Cx);
+                        R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.X - Cx);
                         break;
                     case 2:
                     case 3:
-                        R = Math.Abs(point.Y - Cy);
+                        R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.Y - Cy);
                         break;
                 }
                 
-                if(ContainerBox.IsContainerFitInto(Bounds, SvgEditor.ImageBoundingBox) == false) R = rOld;
-
                 if (R < 1) R = 1; //Mindestgröße des Kreises
                 
                 break;
@@ -105,4 +85,15 @@ public class Circle : Shape
     {
         throw new NotImplementedException();
     }
+    
+    
+    
+    //Own BoundingBox Methods because Radius makes it more complicated
+    private double GetMaxRadius(BoundingBox outerBox, Coord<double> centerCoord, double askedRadius)
+    {
+        var availableMovingValues = BoundingBox.GetAvailableMovingValues(outerBox, centerCoord);
+        var maxRadius = Math.Min(Math.Min(availableMovingValues.Top, availableMovingValues.Left), Math.Min(availableMovingValues.Bottom, availableMovingValues.Right));
+        return Math.Min(maxRadius, askedRadius);
+    }
+    
 }

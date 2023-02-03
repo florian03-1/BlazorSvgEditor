@@ -14,65 +14,6 @@ public struct JsBoundingBox
     
 }
 
-public struct ContainerBox
-{
-    public int Left { get; set; }
-    public int Top { get; set; }
-    public int Right { get; set; }
-    public int Bottom { get; set; }
-    
-    public ContainerBox(int left, int top, int right, int bottom)
-    {
-        Left = left;
-        Top = top;
-        Right = right;
-        Bottom = bottom;
-    }
-    
-    public override string ToString()
-    {
-        return $"Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}";
-    }
-    
-    //Static Methods
-    public static ContainerBox GetAvaiableMoovingCoords(ContainerBox innerBox, ContainerBox outerBox)
-    {
-        return new ContainerBox(
-            innerBox.Left - outerBox.Left,
-            innerBox.Top - outerBox.Top,
-            outerBox.Right - innerBox.Right,
-            outerBox.Bottom - innerBox.Bottom
-        );
-    }
-    
-    public static bool IsContainerFitInto(ContainerBox innerBox, ContainerBox outerBox)
-    {
-        return innerBox.Left >= outerBox.Left && innerBox.Top >= outerBox.Top && innerBox.Right <= outerBox.Right - 1 && innerBox.Bottom <= outerBox.Bottom - 1;
-    }
-    
-    public static Coord<double> GetAvaiableMovingCoordinates(ContainerBox avaiableMovingValues, Coord<double> calculatedCoords)
-    {
-        Coord<double> res = new();
-        
-        if ((calculatedCoords.X >= 0 && calculatedCoords.X < avaiableMovingValues.Right) 
-            || (calculatedCoords.X <= 0 && Math.Abs(calculatedCoords.X) < avaiableMovingValues.Left)) res.X = calculatedCoords.X;
-        else res.X = calculatedCoords.X > 0 ? avaiableMovingValues.Right : avaiableMovingValues.Left;
-        
-        if ((calculatedCoords.Y >= 0 && calculatedCoords.Y < avaiableMovingValues.Bottom)
-            || (calculatedCoords.Y <= 0 && Math.Abs(calculatedCoords.Y) < avaiableMovingValues.Top)) res.Y = calculatedCoords.Y;
-        else res.Y = calculatedCoords.Y > 0 ? avaiableMovingValues.Bottom : avaiableMovingValues.Top;
-
-        return res;
-    }
-    
-    public static Coord<int> GetAvaiableMovingCoordinates(ContainerBox avaiableMovingValues, Coord<int> calculatedCoords)
-    {
-        return GetAvaiableMovingCoordinates(avaiableMovingValues, (Coord<double>) calculatedCoords);
-    }
-
-
-}
-
 public struct BoundingBox
 {
     public double Left { get; set; }
