@@ -111,49 +111,12 @@ public partial class SvgEditor
         if (MaxScale < 1) MaxScale = 1;
         else if (MaxScale > 10) MaxScale = 10;
         
-        //Seed Test data
-        await AddTestShapes();
-
         //Initialize the task for JsInvokeAsync
         moduleTask = new(async () =>
             await JsRuntime.InvokeAsync<IJSObjectReference>("import",
                 "./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
 
         await base.OnInitializedAsync();
-    }
-
-    private async Task AddTestShapes()
-    {
-        Random rnd = new();
-
-        Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40, CustomId = 1});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
-        
-        Shapes.Add(new Rectangle(this) { Y = 50, X = 400, Height = 40, Width = 60, CustomId = 3});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
-        
-        Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}, CustomId = 5});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
-
-        
-        /*var poligonPoints = new List<Coord<double>>();
-        for (int i = 0; i < 100; i++)
-        {
-            poligonPoints.Add(new (rnd.Next(100, 400), rnd.Next(50, 350)));
-        }
-        
-        Shapes.Add(new Polygon(this){Points = poligonPoints, CustomId = 3});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));*/
-        
-        /*var poligonPoints2 = new List<Coord<double>>();
-        for (int i = 0; i < 15; i++)
-        {
-            poligonPoints2.Add(new (rnd.Next(500, 650), rnd.Next(50, 350)));
-        }
-
-        Shapes.Add(new Polygon(this){Points = poligonPoints2,CustomId =5});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));*/
-
     }
     
     
@@ -187,9 +150,10 @@ public partial class SvgEditor
         }
     }
     
-    public void ClearShapes()
+    public async Task ClearShapes()
     {
         Shapes.Clear();
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapesCleared());
     }
     
     public async Task ResetTransform()
@@ -205,9 +169,9 @@ public partial class SvgEditor
 public class ShapeChangedEventArgs : EventArgs
 {
     public ShapeChangeType ChangeType { get; set; }
-    public Shape Shape { get; private set; } = null!;
+    public Shape? Shape { get; private set; } = null!;
     
-    private int _shapeId;
+    private int _shapeId = 0;
     public int ShapeId => Shape?.CustomId ?? _shapeId;
     
     public static ShapeChangedEventArgs ShapeMoved(Shape shape)
@@ -246,6 +210,15 @@ public class ShapeChangedEventArgs : EventArgs
             _shapeId = deletedShapeId
         };
     }
+    
+    public static ShapeChangedEventArgs ShapesCleared()
+    {
+        return new ShapeChangedEventArgs()
+        {
+            ChangeType = ShapeChangeType.ClearAll,
+            Shape = null!
+        };
+    }
 }
 public enum ShapeChangeType
 {
@@ -253,5 +226,6 @@ public enum ShapeChangeType
     Edit,
     Add,
     Delete,
+    ClearAll,
     Other
 }

@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using BlazorSvgEditor.SvgEditor
+@using BlazorSvgEditor.SvgEditor.Helper
 
 <div class="siteContainer">
     <div class="editor">
@@ -11,10 +12,11 @@
         <h4 style="margin-bottom: 10px;">Events</h4>
         
         <div style="display: flex; flex-direction: row; gap: 10px">
-            <button class="btn btn-danger" @onclick="() => svgEditor.ResetTransform()">Reset Transform</button>
+            <button class="btn btn-warning" @onclick="() => svgEditor.ResetTransform()">Reset Transform</button>
             <button class="btn btn-primary" @onclick="() => svgEditor.AddNewShape(ShapeType.Circle)">Add Circle</button>
             <button class="btn btn-primary" @onclick="() => svgEditor.AddNewShape(ShapeType.Rectangle)">Add Rectangle</button>
             <button class="btn btn-primary" @onclick="() => svgEditor.AddNewShape(ShapeType.Polygon)">Add Polygon</button>
+            <button class="btn btn-danger" @onclick="() => svgEditor.ClearShapes()">Clear</button>
         </div>
 
         
@@ -61,7 +63,7 @@
 @code
 {
     
-    SvgEditor svgEditor;
+    SvgEditor? svgEditor;
     
     private int _selectedItemId = 0;
     public List<string> Changes { get; set; } = new List<string>();
@@ -80,11 +82,18 @@
 
     private void AddNewShape(ShapeType shapeType)
     {
-        svgEditor.AddNewShape(shapeType);
+        svgEditor?.AddNewShape(shapeType);
     }
     
     protected async Task OnChange(ShapeChangedEventArgs args)
     {
+        if (args.ChangeType == ShapeChangeType.ClearAll)
+        {
+            _shapes.Clear();
+            await AddSeedingShapes();
+            return;
+        }
+        
         if (args.ChangeType == ShapeChangeType.Add && args.Shape?.CustomId <= 0)
         {
             //Get new id
@@ -101,4 +110,43 @@
 
         Changes.Add(args.ChangeType.ToString() + ": " + args.Shape?.ShapeType.ToString() + " " + args.Shape?.CustomId);
     }
+
+
+    private async Task AddSeedingShapes()
+    {
+        if (svgEditor == null) return;
+        
+        await svgEditor.AddExistingShape(new Circle(svgEditor) { Cy = 300, Cx = 300, R = 40, CustomId = 1 });
+        await svgEditor.AddExistingShape(new Rectangle(svgEditor) { X = 100, Y = 100, Width = 100, Height = 100, CustomId = 2 });
+        await svgEditor.AddExistingShape(new Polygon(svgEditor) { Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}, CustomId = 3 });
+        
+    /*var poligonPoints = new List<Coord<double>>();
+        for (int i = 0; i < 100; i++)
+        {
+            poligonPoints.Add(new (rnd.Next(100, 400), rnd.Next(50, 350)));
+        }
+        
+        Shapes.Add(new Polygon(this){Points = poligonPoints, CustomId = 3});
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));*/
+        
+    /*var poligonPoints2 = new List<Coord<double>>();
+        for (int i = 0; i < 15; i++)
+        {
+            poligonPoints2.Add(new (rnd.Next(500, 650), rnd.Next(50, 350)));
+        }
+
+        Shapes.Add(new Polygon(this){Points = poligonPoints2,CustomId =5});
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));*/
+    }
+    
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await AddSeedingShapes();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
 }
