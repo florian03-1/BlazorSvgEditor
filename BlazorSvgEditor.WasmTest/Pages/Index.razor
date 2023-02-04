@@ -1,30 +1,88 @@
 ﻿@page "/"
 @using BlazorSvgEditor.SvgEditor
 
-<div style="max-height: 90vh; display: flex; flex-direction: column; overflow: hidden">
-    
-    <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
-    
-
-    <SvgEditor OnShapeChanged="OnChange" MinScale="0.8"></SvgEditor>
-    
-    <div style="overflow: scroll; margin-top:5px;">
-         @foreach (var shape in Changes)
-            {
-                <p style="margin:0px;">@shape</p>
-                <hr/>
-            }
+<div class="siteContainer">
+    <div class="editor">
+        <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
+        <SvgEditor OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"></SvgEditor>
     </div>
-   
-
+    
+    <div class="information">
+        <h4 style="margin-bottom: 10px;">Events</h4>
+        
+        <div style="border: 3px solid salmon; margin: 5px; padding: 5px;">
+            <b>Selected Item Id: @_selectedItemId</b>
+        </div>
+        
+             <div style="display: inline-flex; border: 1px solid blue; margin: 5px; padding: 5px;">
+                 <b>Select Shape: </b>
+                 <input type="number" @bind="input"/>
+                 <button class="btn btn-secondary" @onclick="SelectItem">Select</button>
+              </div>
+        
+        @foreach (var shape in Changes)
+        {
+            <p style="margin:0px;">@shape</p>
+            <hr/>
+        }
+    </div>
 </div>
+
+<style>
+    .siteContainer {  display: grid;
+      grid-template-columns: 1fr 500px;
+      grid-template-rows: 1fr;
+      grid-auto-columns: 1fr;
+      gap: 10px 10px;
+      grid-auto-flow: row;
+      grid-template-areas:
+        "editor information";
+      height: 80vh;
+    }
+    
+    .editor { grid-area: editor; }
+    
+    .information { 
+    grid-area: information;
+    overflow: scroll;
+     }
+
+</style>
+
 
 @code
 {
+    private int _selectedItemId = 0;
     public List<string> Changes { get; set; } = new List<string>();
+
+    private List<Shape> _shapes = new();
+    
+    private string input = "";
+
+    private void SelectItem()
+    {
+        if (int.TryParse(input, out var id))
+        {
+            if (id != 0) _selectedItemId = id;
+        }
+    }
 
     protected async Task OnChange(ShapeChangedEventArgs args)
     {
+        if (args.ChangeType == ShapeChangeType.Add && args.Shape?.CustomId <= 0)
+        {
+            //Get new id
+            var newId = _shapes.Any() ? _shapes.Max(x => x.CustomId) + 1 : 1;
+            args.Shape.CustomId = newId;
+        }
+        
+        if (_shapes.Any(x => x.CustomId == args.Shape?.CustomId))
+        {
+            //Remove old shape
+            _shapes.Remove(_shapes.First(x => x.CustomId == args.Shape?.CustomId));
+        }
+        _shapes.Add(args.Shape);
+
         Changes.Add(args.ChangeType.ToString() + ": " + args.Shape?.ShapeType.ToString() + " " + args.Shape?.CustomId);
     }
 }

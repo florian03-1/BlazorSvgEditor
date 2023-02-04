@@ -29,9 +29,49 @@ public partial class SvgEditor
 
     [Parameter]
     public EventCallback<ShapeChangedEventArgs> OnShapeChanged { get; set; }
+    
+    private Shape? _selectedShape;
 
-    public Shape? SelectedShape { get; set; }
+    public Shape? SelectedShape
+    {
+        get => _selectedShape;
+        set
+        {
+            if (_selectedShape != value)
+            {
+                _selectedShape = value;
+                SelectedShapeIdChanged.InvokeAsync(SelectedShapeId);
+            }
+        }
+    }
 
+    
+
+    [Parameter]
+    public int SelectedShapeId
+    {
+        get => SelectedShape?.CustomId ?? 0;
+        set
+        {
+            if (value == 0)
+            {
+                SelectedShape?.UnSelectShape();
+                SelectedShape = null;
+                SelectedAnchorIndex = null;
+            }
+            else
+            {
+                SelectedShape?.UnSelectShape();
+                SelectedShape = Shapes.FirstOrDefault(s => s.CustomId == value);
+                SelectedShape?.SelectShape();
+            }
+        }
+    }
+    [Parameter]
+    public EventCallback<int> SelectedShapeIdChanged { get; set; }
+    
+    
+    
     public EditMode EditMode { get; set; } = EditMode.None;
     public ShapeType ShapeType { get; set; } = ShapeType.None;
     public int? SelectedAnchorIndex { get; set; }

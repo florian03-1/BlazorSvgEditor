@@ -4,7 +4,7 @@
 @using BlazorSvgEditor.SvgEditor.Helper
 
 
-<div style="border: 3px solid black; height: 75vh; width: 100%;" @ref="ContainerElementReference"
+<div style="border: 3px solid black; height: 100%; width: 100%;" @ref="ContainerElementReference"
      @onwheel="OnContainerWheel"
      
      oncontextmenu="return false"
@@ -61,6 +61,5 @@
     <button class="btn btn-primary" @onclick="TestButton">Test Button</button>
     <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Circle)">Add Circle</button>
     <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Rectangle)">Add Rectangle</button>
-        <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Polygon)">Add Polygon</button>
-
+    <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Polygon)">Add Polygon</button>
 </div>
