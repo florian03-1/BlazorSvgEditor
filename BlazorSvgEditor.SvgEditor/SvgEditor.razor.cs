@@ -82,7 +82,7 @@ public partial class SvgEditor
         }
         
         Shapes.Add(new Polygon(this){Points = poligonPoints, CustomId = 3});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(3));
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
         
         var poligonPoints2 = new List<Coord<double>>();
         for (int i = 0; i < 15; i++)
@@ -91,7 +91,7 @@ public partial class SvgEditor
         }
 
         Shapes.Add(new Polygon(this){Points = poligonPoints2,CustomId =5});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(5));
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
 
     }
     
@@ -102,41 +102,32 @@ public partial class SvgEditor
 public class ShapeChangedEventArgs : EventArgs
 {
     public ShapeChangeType ChangeType { get; set; }
-    public int CustomId { get; set; } = -1; //-1 is new Shape
+    public Shape? Shape { get; set; }
     
-    public static ShapeChangedEventArgs ShapeMoved(int shapeId)
+    public static ShapeChangedEventArgs ShapeMoved(Shape shape)
     {
         return new ShapeChangedEventArgs()
         {
             ChangeType = ShapeChangeType.Move,
-            CustomId = shapeId
+            Shape = shape
         };
     }
     
-    public static ShapeChangedEventArgs ShapeEdited(int shapeId)
+    public static ShapeChangedEventArgs ShapeEdited(Shape shape)
     {
         return new ShapeChangedEventArgs()
         {
             ChangeType = ShapeChangeType.Edit,
-            CustomId = shapeId
+            Shape = shape
         };
     }
     
-    public static ShapeChangedEventArgs ShapeAdded(int shapeId)
+    public static ShapeChangedEventArgs ShapeAdded(Shape shape)
     {
         return new ShapeChangedEventArgs()
         {
             ChangeType = ShapeChangeType.Add,
-            CustomId = shapeId
-        };
-    }
-    
-    public static ShapeChangedEventArgs ShapeDeleted(int shapeId)
-    {
-        return new ShapeChangedEventArgs()
-        {
-            ChangeType = ShapeChangeType.Delete,
-            CustomId = shapeId
+            Shape = shape
         };
     }
 }

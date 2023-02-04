@@ -25,6 +25,6 @@
 
     protected async Task OnChange(ShapeChangedEventArgs args)
     {
-        Changes.Add(args.ChangeType.ToString() + ": " + args.CustomId);
+        Changes.Add(args.ChangeType.ToString() + ": " + args.Shape?.ShapeType.ToString() + " " + args.Shape?.CustomId);
     }
 }

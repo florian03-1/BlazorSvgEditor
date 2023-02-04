@@ -13,6 +13,8 @@ public abstract class Shape
     
     internal string HtmlId { get; set; } = Guid.NewGuid().ToString();
     public int CustomId { get; set; } = 0;
+    
+    public abstract ShapeType ShapeType { get; }
 
     internal string Fill { get; set; } = "transparent";
     internal double FillOpacity { get; set; } = 1;
@@ -82,8 +84,8 @@ public abstract class Shape
     internal abstract void Complete();
 
     
-    protected async Task FireOnShapeChangedMove() => await SvgEditor.OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeMoved(CustomId));
-    protected async Task FireOnShapeChangedEdit() => await SvgEditor.OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeEdited(CustomId));
+    protected async Task FireOnShapeChangedMove() => await SvgEditor.OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeMoved(this));
+    protected async Task FireOnShapeChangedEdit() => await SvgEditor.OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeEdited(this));
 
     public override string ToString()
     {

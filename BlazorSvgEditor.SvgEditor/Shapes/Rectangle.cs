@@ -6,11 +6,11 @@ namespace BlazorSvgEditor.SvgEditor;
 
 public class Rectangle : Shape
 {
-    public Rectangle(SvgEditor svgEditor) : base(svgEditor){}
+    public Rectangle(SvgEditor svgEditor) : base(svgEditor){ }
 
     internal override Type Presenter => typeof(RectangleEditor);
-    
-    
+    public override ShapeType ShapeType => ShapeType.Rectangle;
+
     public double X { get; set; }
     public double Y { get; set; }
     public double Width { get; set; }

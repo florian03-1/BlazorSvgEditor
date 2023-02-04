@@ -7,13 +7,11 @@ namespace BlazorSvgEditor.SvgEditor;
 public class Circle : Shape
 {
 
-    public Circle(SvgEditor svgEditor) : base(svgEditor)
-    {
-    }
+    public Circle(SvgEditor svgEditor) : base(svgEditor) { }
     
     internal override Type Presenter => typeof(CircleEditor);
+    public override ShapeType ShapeType => ShapeType.Circle;
 
-    
     //Own Properties
     public double Cx { get; set; }
     public double Cy { get; set; }

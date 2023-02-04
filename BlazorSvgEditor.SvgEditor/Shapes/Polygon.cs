@@ -6,10 +6,11 @@ namespace BlazorSvgEditor.SvgEditor;
 
 public class Polygon : Shape
 {
-    public Polygon(SvgEditor svgEditor) : base(svgEditor) {}
+    public Polygon(SvgEditor svgEditor) : base(svgEditor){}
 
     internal override Type Presenter => typeof(PolygonEditor);
-    
+    public override ShapeType ShapeType => ShapeType.Polygon;
+
     //Own Properties
 
     public List<Coord<double>> Points { get; set; } = new();

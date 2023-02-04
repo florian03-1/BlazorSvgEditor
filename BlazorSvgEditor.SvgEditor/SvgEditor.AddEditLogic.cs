@@ -69,7 +69,7 @@ public partial class SvgEditor
 
         newShape.CustomId = newShapeId;
         Shapes.Add(newShape);
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(newShape.CustomId));
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(newShape));
 
         SelectedShape = newShape;
         SelectedShape.SelectShape();
