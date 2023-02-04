@@ -13,8 +13,8 @@ public partial class SvgEditor : IAsyncDisposable
     
     
     
-    public JsBoundingBox ContainerBoundingBox = new();
-    public JsBoundingBox SvgBoundingBox = new();
+    private JsBoundingBox ContainerBoundingBox = new();
+    private JsBoundingBox SvgBoundingBox = new();
     
     private async Task<JsBoundingBox> GetBoundingBox(ElementReference elementReference)
     {
@@ -23,7 +23,7 @@ public partial class SvgEditor : IAsyncDisposable
         return await module.InvokeAsync<JsBoundingBox>("getBoundingBox", elementReference);
     }
     
-    public async Task SetContainerAndSvgBoundingBox()
+    private async Task SetContainerAndSvgBoundingBox()
     {
         if (ContainerElementReference.Id == null || SvgGElementReference.Id == null) throw new Exception("ContainerElementReference or SvgElementReference is null");
         

@@ -10,7 +10,7 @@ public partial class SvgEditor
     private Coord<int> _pointerPosition;
 
     //Container events (pointer events, wheel events)
-    public async Task OnContainerPointerDown(PointerEventArgs e)
+    private async Task OnContainerPointerDown(PointerEventArgs e)
     {
         if (e.Button == MOVE_BUTTON_INDEX)
         {
@@ -41,7 +41,7 @@ public partial class SvgEditor
         SelectedShape?.SnapToInteger();
     }
     
-    public void OnContainerPointerMove(PointerEventArgs e)
+    private void OnContainerPointerMove(PointerEventArgs e)
     {
         _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
         if (IsTranslating) Pan(e.MovementX, e.MovementY);
@@ -53,7 +53,7 @@ public partial class SvgEditor
         }
     }
     
-    public void OnContainerWheel(WheelEventArgs e)
+    private void OnContainerWheel(WheelEventArgs e)
     {
         //Zoom
         Zoom(e.DeltaY, e.OffsetX, e.OffsetY);
@@ -76,7 +76,7 @@ public partial class SvgEditor
         }
     }
 
-    public async void TestButton()
+    private async void TestButton()
     {
         await SetContainerAndSvgBoundingBox();
         

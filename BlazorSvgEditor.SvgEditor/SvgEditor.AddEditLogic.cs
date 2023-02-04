@@ -5,6 +5,8 @@ namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor
 {
+    private ShapeType ShapeType { get; set; } = ShapeType.None; 
+
     public void SelectShape(Shape shape, PointerEventArgs eventArgs)
     {
         SelectedShape?.UnSelectShape();

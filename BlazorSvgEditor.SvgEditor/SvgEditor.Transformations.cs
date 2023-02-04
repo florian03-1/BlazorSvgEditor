@@ -7,15 +7,15 @@ public partial class SvgEditor
 {
     //TRANSFORMATION Logic
 
-    public double Scale = 1;
-    public Coord<double> Translate;
+    private double Scale = 1;
+    private Coord<double> Translate;
     
     private bool IsTranslating = false;
     
-    public Coord<double> MoveStartDPoint;
+    internal Coord<double> MoveStartDPoint;
 
     //Delta is the amount of change in the mouse wheel (+ -> zoom in, - -> zoom out)
-    public void Zoom(double delta, double x, double y)
+    private void Zoom(double delta, double x, double y)
     {
         var previousScale = Scale;
         var newScale = Scale * (1 - delta / 1000.0);
@@ -29,14 +29,14 @@ public partial class SvgEditor
     }
     
     //x and y are the amount of change the current translation 
-    public void Pan(double x, double y)
+    private void Pan(double x, double y)
     {
         Translate.X += x;
         Translate.Y += y;
     }
 
 
-    public void ResetTransformation()
+    private void ResetTransformation()
     {
         var containerRatio = (double)ContainerBoundingBox.Width / ContainerBoundingBox.Height;
         var imageRatio = (double)ImageSize.Width / ImageSize.Height;
@@ -67,18 +67,18 @@ public partial class SvgEditor
     //Transformation Logic
     
     //Rechnet die Koordinaten des Mauszeigers in die Koordinaten des SVG-Elements um
-    public Coord<double> DetransformPoint(Coord<double> point)
+    internal Coord<double> DetransformPoint(Coord<double> point)
     {
         Coord<double> result = new();
         result.X = (point.X - Translate.X) / Scale;
         result.Y = (point.Y - Translate.Y) / Scale;
         return result;
     }
-    public Coord<double> DetransformPoint(double x, double y)
+    internal Coord<double> DetransformPoint(double x, double y)
     {
         return DetransformPoint(new Coord<double>(x, y));
     }
-    public Coord<double> DetransformOffset(PointerEventArgs pointerEventArgs)
+    internal Coord<double> DetransformOffset(PointerEventArgs pointerEventArgs)
     {
         return DetransformPoint(new Coord<double>(pointerEventArgs.OffsetX, pointerEventArgs.OffsetY));
     }

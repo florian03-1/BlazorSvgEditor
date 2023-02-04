@@ -26,12 +26,13 @@ public partial class SvgEditor
     
     [Parameter]
     public List<Shape> Shapes { get; set; } = new();
-
     [Parameter]
     public EventCallback<ShapeChangedEventArgs> OnShapeChanged { get; set; }
     
+    
+    
+    //Selected Shape (intern property) and SelectedShapeId (public property)
     private Shape? _selectedShape;
-
     public Shape? SelectedShape
     {
         get => _selectedShape;
@@ -44,7 +45,6 @@ public partial class SvgEditor
             }
         }
     }
-
     
 
     [Parameter]
@@ -72,15 +72,10 @@ public partial class SvgEditor
     
     
     
-    public EditMode EditMode { get; set; } = EditMode.None;
-    public ShapeType ShapeType { get; set; } = ShapeType.None;
-    public int? SelectedAnchorIndex { get; set; }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        //await GetBoundingBox(SvgElementReference);
-        await base.OnAfterRenderAsync(firstRender);
-    }
+    public EditMode EditMode { get; set; } = EditMode.None;  //Current edit mode
+    public int? SelectedAnchorIndex { get; set; } = null; //Selected Anchor Index
+    
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -110,29 +105,50 @@ public partial class SvgEditor
 
     private async Task AddTestShapes()
     {
-        //Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40 });
-        //Shapes.Add(new Rectangle(this) { Y = 50, X = 400, Height = 40, Width = 60});
-        // Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}});
-
-        var poligonPoints = new List<Coord<double>>();
         Random rnd = new();
+
+        Shapes.Add(new Circle(this) { Cy = 300, Cx = 300, R = 40, CustomId = 1});
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
+        
+        Shapes.Add(new Rectangle(this) { Y = 50, X = 400, Height = 40, Width = 60, CustomId = 3});
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
+        
+        Shapes.Add(new Polygon(this){Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}, CustomId = 5});
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
+
+        
+        /*var poligonPoints = new List<Coord<double>>();
         for (int i = 0; i < 100; i++)
         {
             poligonPoints.Add(new (rnd.Next(100, 400), rnd.Next(50, 350)));
         }
         
         Shapes.Add(new Polygon(this){Points = poligonPoints, CustomId = 3});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));*/
         
-        var poligonPoints2 = new List<Coord<double>>();
+        /*var poligonPoints2 = new List<Coord<double>>();
         for (int i = 0; i < 15; i++)
         {
             poligonPoints2.Add(new (rnd.Next(500, 650), rnd.Next(50, 350)));
         }
 
         Shapes.Add(new Polygon(this){Points = poligonPoints2,CustomId =5});
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(Shapes.Last()));*/
 
+    }
+    
+    
+    
+    //Methods for component communication
+    public async Task AddShape(Shape shape)
+    {
+        Shapes.Add(shape);
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(shape));
+    }
+    
+    public void ClearShapes()
+    {
+        Shapes.Clear();
     }
     
 }
