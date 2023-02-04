@@ -76,6 +76,25 @@ public partial class SvgEditor
     public int? SelectedAnchorIndex { get; set; } = null; //Selected Anchor Index
     
     
+    private string _containerCssClass {
+        get
+        {
+            if (EditMode == EditMode.AddTool)
+            {
+                switch (ShapeType)
+                {
+                    case ShapeType.Polygon:
+                        return "cursor-add-polygon";
+                    case ShapeType.Rectangle:
+                        return "cursor-add-rectangle";
+                    case ShapeType.Circle:
+                        return "cursor-add-circle";
+                }
+            }
+
+            return "";
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -140,16 +159,44 @@ public partial class SvgEditor
     
     
     //Methods for component communication
-    public async Task AddShape(Shape shape)
+    public async Task AddExistingShape(Shape shape)
     {
         Shapes.Add(shape);
         await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(shape));
+    }
+    
+    public void AddNewShape(ShapeType shapeType)
+    {
+        EditMode = EditMode.AddTool;
+        ShapeType = shapeType;
+        
+        SelectedShape?.UnSelectShape();
+        SelectedShape = null;
+    }
+    
+    public async Task RemoveSelectedShape()
+    {
+        if (SelectedShape != null)
+        {
+            int deletedShapeId = SelectedShape.CustomId;
+            Shapes.Remove(SelectedShape);
+            SelectedShape = null;
+            SelectedAnchorIndex = null;
+            
+            await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeDeleted(deletedShapeId));
+        }
     }
     
     public void ClearShapes()
     {
         Shapes.Clear();
     }
+    
+    public async Task ResetTransform()
+    {
+        await SetContainerAndSvgBoundingBox();
+        ResetTransformation();
+    } 
     
 }
 
@@ -158,7 +205,10 @@ public partial class SvgEditor
 public class ShapeChangedEventArgs : EventArgs
 {
     public ShapeChangeType ChangeType { get; set; }
-    public Shape? Shape { get; set; }
+    public Shape Shape { get; private set; } = null!;
+    
+    private int _shapeId;
+    public int ShapeId => Shape?.CustomId ?? _shapeId;
     
     public static ShapeChangedEventArgs ShapeMoved(Shape shape)
     {
@@ -184,6 +234,16 @@ public class ShapeChangedEventArgs : EventArgs
         {
             ChangeType = ShapeChangeType.Add,
             Shape = shape
+        };
+    }
+    
+    public static ShapeChangedEventArgs ShapeDeleted(int deletedShapeId)
+    {
+        return new ShapeChangedEventArgs()
+        {
+            ChangeType = ShapeChangeType.Delete,
+            Shape = null!,
+            _shapeId = deletedShapeId
         };
     }
 }

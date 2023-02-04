@@ -75,13 +75,4 @@ public partial class SvgEditor
             //Führt aktuell selten zu Fehlern
         }
     }
-
-    private async void TestButton()
-    {
-        await SetContainerAndSvgBoundingBox();
-        
-        Console.WriteLine("TestButton");
-        
-        ResetTransformation();
-    }
 }

@@ -4,11 +4,19 @@
 <div class="siteContainer">
     <div class="editor">
         <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
-        <SvgEditor OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"></SvgEditor>
+        <SvgEditor @ref="svgEditor" OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"></SvgEditor>
     </div>
     
     <div class="information">
         <h4 style="margin-bottom: 10px;">Events</h4>
+        
+        <div style="display: flex; flex-direction: row; gap: 10px">
+            <button class="btn btn-danger" @onclick="() => svgEditor.ResetTransform()">Reset Transform</button>
+            <button class="btn btn-primary" @onclick="() => svgEditor.AddNewShape(ShapeType.Circle)">Add Circle</button>
+            <button class="btn btn-primary" @onclick="() => svgEditor.AddNewShape(ShapeType.Rectangle)">Add Rectangle</button>
+            <button class="btn btn-primary" @onclick="() => svgEditor.AddNewShape(ShapeType.Polygon)">Add Polygon</button>
+        </div>
+
         
         <div style="border: 3px solid salmon; margin: 5px; padding: 5px;">
             <b>Selected Item Id: @_selectedItemId</b>
@@ -52,6 +60,9 @@
 
 @code
 {
+    
+    SvgEditor svgEditor;
+    
     private int _selectedItemId = 0;
     public List<string> Changes { get; set; } = new List<string>();
 
@@ -67,6 +78,11 @@
         }
     }
 
+    private void AddNewShape(ShapeType shapeType)
+    {
+        svgEditor.AddNewShape(shapeType);
+    }
+    
     protected async Task OnChange(ShapeChangedEventArgs args)
     {
         if (args.ChangeType == ShapeChangeType.Add && args.Shape?.CustomId <= 0)

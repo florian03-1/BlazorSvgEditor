@@ -4,7 +4,7 @@
 @using BlazorSvgEditor.SvgEditor.Helper
 
 
-<div style="border: 3px solid black; height: 100%; width: 100%;" @ref="ContainerElementReference"
+<div class="@_containerCssClass" style="border: 3px solid black; height: 100%; width: 100%;" @ref="ContainerElementReference"
      @onwheel="OnContainerWheel"
      
      oncontextmenu="return false"
@@ -57,9 +57,14 @@
 
 </div>
 
-<div style="display: flex; flex-direction: row; gap: 10px">
-    <button class="btn btn-primary" @onclick="TestButton">Test Button</button>
-    <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Circle)">Add Circle</button>
-    <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Rectangle)">Add Rectangle</button>
-    <button class="btn btn-primary" @onclick="() => AddElement(ShapeType.Polygon)">Add Polygon</button>
-</div>
+<style>
+    .cursor-add-circle{
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20"><circle fill="none" stroke="orange" stroke-width="3" cx="10" cy="10" r="9"/></svg>') 15 15, auto;
+    }
+    .cursor-add-rectangle{
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20"><rect fill="none" stroke="orange" stroke-width="3" x="1" y="1" width="18" height="15"/></svg>') 15 15, auto;
+    }
+    .cursor-add-polygon{
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20"><polygon fill="none" stroke="orange" stroke-width="3" points="10,1 1,18 19,18"/></svg>') 15 15, auto;
+    }
+</style>
