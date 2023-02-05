@@ -20,19 +20,19 @@ public partial class SvgEditor
         var previousScale = Scale;
         var newScale = Scale * (1 - delta / 1000.0);
         
-        if (newScale > MinScale && newScale < MaxScale) Scale = newScale;
+        if (newScale > MinScale && newScale < MaxScale) Scale = newScale.Round(3);
         else if (newScale < MinScale) Scale = MinScale;
         else if (newScale > MaxScale) Scale = MaxScale;
         
         Translate = new (Translate.X + (x - Translate.X) * (1 - Scale / previousScale), Translate.Y + (y - Translate.Y) * (1 - Scale / previousScale));
-
+        Translate = new (Translate.X.Round(3), Translate.Y.Round(3));
     }
     
     //x and y are the amount of change the current translation 
     private void Pan(double x, double y)
     {
-        Translate.X += x;
-        Translate.Y += y;
+        Translate.X = (Translate.X + x).Round(3);
+        Translate.Y = (Translate.Y + y).Round(3);
     }
 
 
@@ -69,9 +69,11 @@ public partial class SvgEditor
     //Rechnet die Koordinaten des Mauszeigers in die Koordinaten des SVG-Elements um
     internal Coord<double> DetransformPoint(Coord<double> point)
     {
-        Coord<double> result = new();
-        result.X = (point.X - Translate.X) / Scale;
-        result.Y = (point.Y - Translate.Y) / Scale;
+        Coord<double> result = new()
+        {
+            X = (point.X - Translate.X) / Scale,
+            Y = (point.Y - Translate.Y) / Scale
+        };
         return result;
     }
     internal Coord<double> DetransformPoint(double x, double y)
