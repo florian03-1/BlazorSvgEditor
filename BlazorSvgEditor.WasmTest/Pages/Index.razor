@@ -5,7 +5,8 @@
 <div class="siteContainer">
     <div class="editor">
         <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
-        <SvgEditor @ref="svgEditor" OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"></SvgEditor>
+        <SvgEditor @ref="svgEditor" CssClass="testclass" CssStyle="border: 3px solid red;" OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"
+                   ImageSize="(700,394)" ImageSource="@imageSource"></SvgEditor>
     </div>
     
     <div class="information">
@@ -63,6 +64,7 @@
 @code
 {
     
+    string imageSource = "https://www.bentleymotors.com/content/dam/bentley/Master/World%20of%20Bentley/Mulliner/redesign/coachbuilt/Mulliner%20Batur%201920x1080.jpg/_jcr_content/renditions/original.image_file.700.394.file/Mulliner%20Batur%201920x1080.jpg"; //700 x 394
     SvgEditor? svgEditor;
     
     private int _selectedItemId = 0;

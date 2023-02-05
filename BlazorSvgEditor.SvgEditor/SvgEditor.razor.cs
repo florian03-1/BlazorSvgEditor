@@ -8,26 +8,34 @@ namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor
 {
+    //Css Class and Style Properties (for the Container)
+    [Parameter] public string CssClass { get; set; } = string.Empty;
+    [Parameter] public string CssStyle { get; set; } = string.Empty;
+    
+    
+    [Parameter] public bool ShowDiagnosticInformation { get; set; } = false; //Show Diagnostic Information (for debugging)
+
     [Parameter] public (int Width, int Height) ImageSize { get; set; }
+    [Parameter] public string ImageSource { get; set; } = string.Empty;  //Can be an link or also a base64 string
+
+    public bool SnapToInteger { get; set; } = true; //Snap to integer coordinates (for performance reasons, it has to be true actually)
+
+    
     public BoundingBox ImageBoundingBox = new();
-    [Parameter] public string ImageSource { get; set; } = string.Empty;
 
-    [Parameter] public bool SnapToInteger { get; set; } = true;
-
+    
+    
     //Must be between 0.05 and 0.5
     [Parameter] public double MinScale { get; set; } = 0.4;
 
     //Must be between 1 and 10
     [Parameter] public double MaxScale { get; set; } = 5;
-
-    private ElementReference ContainerElementReference;
-    private ElementReference SvgGElementReference;
     
     
-    [Parameter]
-    public List<Shape> Shapes { get; set; } = new();
-    [Parameter]
-    public EventCallback<ShapeChangedEventArgs> OnShapeChanged { get; set; }
+    public List<Shape> Shapes { get; set; } = new();  //List of all shapes, is no parameter
+    
+    
+    [Parameter] public EventCallback<ShapeChangedEventArgs> OnShapeChanged { get; set; } //Event for shape changes
     
     
     
@@ -46,7 +54,7 @@ public partial class SvgEditor
         }
     }
     
-
+    //SelectedShapeId is the CustomId of the selected shape (public and bindable)
     [Parameter]
     public int SelectedShapeId
     {
@@ -67,42 +75,23 @@ public partial class SvgEditor
             }
         }
     }
-    [Parameter]
-    public EventCallback<int> SelectedShapeIdChanged { get; set; }
+    [Parameter] public EventCallback<int> SelectedShapeIdChanged { get; set; }
     
     
     
     public EditMode EditMode { get; set; } = EditMode.None;  //Current edit mode
     public int? SelectedAnchorIndex { get; set; } = null; //Selected Anchor Index
-    
-    
-    private string _containerCssClass {
-        get
-        {
-            if (EditMode == EditMode.AddTool)
-            {
-                switch (ShapeType)
-                {
-                    case ShapeType.Polygon:
-                        return "cursor-add-polygon";
-                    case ShapeType.Rectangle:
-                        return "cursor-add-rectangle";
-                    case ShapeType.Circle:
-                        return "cursor-add-circle";
-                }
-            }
 
-            return "";
-        }
+
+    protected override Task OnParametersSetAsync()
+    {
+        ImageBoundingBox = new BoundingBox(ImageSize.Width, ImageSize.Height);  //Set the ImageBoundingBox to the new ImageSize
+        
+        return base.OnParametersSetAsync();
     }
 
     protected override async Task OnInitializedAsync()
-    {
-        ImageSize = (700, 394);
-        ImageSource =
-            "https://www.bentleymotors.com/content/dam/bentley/Master/World%20of%20Bentley/Mulliner/redesign/coachbuilt/Mulliner%20Batur%201920x1080.jpg/_jcr_content/renditions/original.image_file.700.394.file/Mulliner%20Batur%201920x1080.jpg"; //700 x 394
-        ImageBoundingBox =new BoundingBox(ImageSize.Width, ImageSize.Height);
-        
+    { 
         //Check if MinScale is between 0.05 and 0.8
         if (MinScale < 0.05) MinScale = 0.05;
         else if (MinScale > 0.8) MinScale = 0.8;
@@ -112,12 +101,32 @@ public partial class SvgEditor
         else if (MaxScale > 10) MaxScale = 10;
         
         //Initialize the task for JsInvokeAsync
-        moduleTask = new(async () =>
-            await JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                "./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
+        moduleTask = new(async () => await JsRuntime.InvokeAsync<IJSObjectReference>("import","./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
 
         await base.OnInitializedAsync();
     }
+    
+    
+    //Css Class and Style for the Container
+    private string _containerCssStyle => CssStyle;
+
+    private string _containerCssClass {
+        get
+        {
+            string result = CssClass + " ";
+            
+            if (EditMode != EditMode.AddTool) return result.Trim();
+            
+            return ShapeType switch
+            {
+                ShapeType.Polygon => result + "cursor-add-polygon",
+                ShapeType.Rectangle => result + "cursor-add-rectangle",
+                ShapeType.Circle => result + "cursor-add-circle",
+                _ => result.Trim()
+            };
+        }
+    }
+    
     
     
     
@@ -158,7 +167,7 @@ public partial class SvgEditor
     
     public async Task ResetTransform()
     {
-        await SetContainerAndSvgBoundingBox();
+        await SetContainerBoundingBox();
         ResetTransformation();
     } 
     

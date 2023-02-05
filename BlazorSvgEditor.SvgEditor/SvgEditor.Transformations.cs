@@ -38,7 +38,7 @@ public partial class SvgEditor
 
     private void ResetTransformation()
     {
-        var containerRatio = (double)ContainerBoundingBox.Width / ContainerBoundingBox.Height;
+        var containerRatio = (double)_containerBoundingBox.Width / _containerBoundingBox.Height;
         var imageRatio = (double)ImageSize.Width / ImageSize.Height;
 
         Translate = Coord<double>.Zero;
@@ -46,17 +46,17 @@ public partial class SvgEditor
         if (containerRatio > imageRatio)
         {
             //Das Bild passt von der Breite her in den Container, aber nicht von der Höhe her
-            Scale = (double)ContainerBoundingBox.Height / ImageSize.Height;
+            Scale = (double)_containerBoundingBox.Height / ImageSize.Height;
             
             var newImageWidth = Scale * ImageSize.Width;
-            Translate = new (Translate.X + (ContainerBoundingBox.Width - newImageWidth) / 2, Translate.Y);
+            Translate = new (Translate.X + (_containerBoundingBox.Width - newImageWidth) / 2, Translate.Y);
         }
         else
         {
-            Scale = (double)ContainerBoundingBox.Width / ImageSize.Width;
+            Scale = (double)_containerBoundingBox.Width / ImageSize.Width;
             
             var newImageHeight = Scale * ImageSize.Height;
-            Translate = new (Translate.X, Translate.Y + (ContainerBoundingBox.Height - newImageHeight) / 2);
+            Translate = new (Translate.X, Translate.Y + (_containerBoundingBox.Height - newImageHeight) / 2);
         }
         
         StateHasChanged();

@@ -43,7 +43,8 @@ public partial class SvgEditor
     
     private void OnContainerPointerMove(PointerEventArgs e)
     {
-        _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
+        if(ShowDiagnosticInformation) _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
+        
         if (IsTranslating) Pan(e.MovementX, e.MovementY);
 
         if (SelectedShape != null)
@@ -71,7 +72,6 @@ public partial class SvgEditor
         if (EditMode == EditMode.Add && SelectedShape != null)
         {
             //SelectedShape.Complete();
-            
             //Führt aktuell selten zu Fehlern
         }
     }
