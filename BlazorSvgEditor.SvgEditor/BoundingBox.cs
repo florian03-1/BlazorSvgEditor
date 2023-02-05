@@ -47,7 +47,7 @@ public struct BoundingBox
     
     public override string ToString()
     {
-        return $"L: {Left.ToInvariantString()}, T: {Top.ToInvariantString()}, R: {Right.ToInvariantString()}, B: {Bottom.ToInvariantString()}";
+        return $"L: {Left.ToInvString()}, T: {Top.ToInvString()}, R: {Right.ToInvString()}, B: {Bottom.ToInvString()}";
     }
     
     public static BoundingBox GetAvailableMovingValues(BoundingBox outerBox, Coord<double> coords)

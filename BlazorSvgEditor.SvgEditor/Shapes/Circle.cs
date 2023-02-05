@@ -1,14 +1,13 @@
-using BlazorSvgEditor.SvgEditor.Editor;
 using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.ShapeEditors;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Shapes;
 
 public class Circle : Shape
 {
 
-    public Circle(Editor.SvgEditor svgEditor) : base(svgEditor) { }
+    public Circle(SvgEditor svgEditor) : base(svgEditor) { }
     
     internal override Type Presenter => typeof(CircleEditor);
     public override ShapeType ShapeType => ShapeType.Circle;

@@ -4,5 +4,5 @@ namespace BlazorSvgEditor.SvgEditor.Helper;
 
 public static class ToStringExtension
 {
-    public static string ToInvariantString(this double value) => value.ToString(CultureInfo.InvariantCulture);
+    public static string ToInvString(this double value) => value.ToString(CultureInfo.InvariantCulture);
 }

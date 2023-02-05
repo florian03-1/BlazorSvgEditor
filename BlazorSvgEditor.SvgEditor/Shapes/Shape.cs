@@ -1,18 +1,26 @@
-using BlazorSvgEditor.SvgEditor.Editor;
+using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Shapes;
 
 public abstract class Shape
 {
-    public Shape(Editor.SvgEditor svgEditor)
+    protected Shape(SvgEditor svgEditor)
     {
         SvgEditor = svgEditor;
     }
-    public Editor.SvgEditor SvgEditor { get; set; }
+    
+    public SvgEditor SvgEditor { get; set; }
+    
+    //Helper properties and methods for easier access
+    protected double GetScaleValue(double value, int decimals = 1)
+    {
+        return !SvgEditor.ScaleShapes ? value : SvgEditor.GetScaledValue(value, decimals);
+    }
+    
+    
     internal abstract Type Presenter { get; }
     
-    internal string HtmlId { get; set; } = Guid.NewGuid().ToString();
     public int CustomId { get; set; } = 0;
     
     public abstract ShapeType ShapeType { get; }
@@ -20,7 +28,9 @@ public abstract class Shape
     internal string Fill { get; set; } = "transparent";
     internal double FillOpacity { get; set; } = 1;
     internal string Stroke { get; set; } = "#ff8c00"; //Orange
-    internal string StrokeWidth { get; set; } = "2px"; 
+    
+    internal int RawStrokeWidth { get; set; }
+    internal string StrokeWidth  => GetScaleValue(RawStrokeWidth).ToInvString() + "px"; 
     
     internal string StrokeLinejoin { get; set; } = "round";
     internal string StrokeLinecap { get; set; } = "round";
@@ -36,7 +46,7 @@ public abstract class Shape
         State = ShapeState.Selected;
 
         //Visual select logic
-        StrokeWidth = "3px";
+        RawStrokeWidth = 3;
         StrokeDasharray = "5";
         StrokeDashoffset = 0;
         Fill = "#ff8c00";
@@ -48,7 +58,7 @@ public abstract class Shape
         State = ShapeState.None;
         
         //Visual unselect logic
-        StrokeWidth = "2px";
+        RawStrokeWidth = 2;
         StrokeDasharray = string.Empty;
         Fill = "transparent";
         FillOpacity = 1;

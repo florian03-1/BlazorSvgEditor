@@ -1,5 +1,5 @@
 @using BlazorSvgEditor.SvgEditor.Helper
-@using BlazorSvgEditor.SvgEditor.Editor
+@using BlazorSvgEditor.SvgEditor.Shapes
 @inherits ShapeEditor<Circle>
 
 <circle @ref=ElementReference
@@ -9,19 +9,19 @@
         @onpointerenter="Enter"
         @onpointerleave="Leave"
 
-        cx=@SvgElement.Cx.ToInvariantString()
-        cy=@SvgElement.Cy.ToInvariantString()
-        r=@SvgElement.R.ToInvariantString()
+        cx=@SvgElement.Cx.ToInvString()
+        cy=@SvgElement.Cy.ToInvString()
+        r=@SvgElement.R.ToInvString()
 
         stroke="@SvgElement.Stroke"
         stroke-width="@SvgElement.StrokeWidth"
         stroke-linecap="@SvgElement.StrokeLinecap"
         stroke-linejoin="@SvgElement.StrokeLinejoin"
         stroke-dasharray="@SvgElement.StrokeDasharray"
-        stroke-dashoffset="@SvgElement.StrokeDashoffset.ToInvariantString()"
+        stroke-dashoffset="@SvgElement.StrokeDashoffset.ToInvString()"
 
         fill="@SvgElement.Fill"
-        fill-opacity="@SvgElement.FillOpacity.ToInvariantString()"
+        fill-opacity="@SvgElement.FillOpacity.ToInvString()"
 
         style="cursor: @(SvgElement.State == ShapeState.Selected ? "move" : "pointer")">
 </circle>

@@ -1,4 +1,4 @@
-using BlazorSvgEditor.SvgEditor.Editor;
+using BlazorSvgEditor.SvgEditor.Shapes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 

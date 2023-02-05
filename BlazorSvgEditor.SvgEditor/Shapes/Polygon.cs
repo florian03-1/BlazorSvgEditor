@@ -1,13 +1,12 @@
-using BlazorSvgEditor.SvgEditor.Editor;
 using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.ShapeEditors;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Shapes;
 
 public class Polygon : Shape
 {
-    public Polygon(Editor.SvgEditor svgEditor) : base(svgEditor){}
+    public Polygon(SvgEditor svgEditor) : base(svgEditor){}
 
     internal override Type Presenter => typeof(PolygonEditor);
     public override ShapeType ShapeType => ShapeType.Polygon;
@@ -15,7 +14,7 @@ public class Polygon : Shape
     //Own Properties
 
     public List<Coord<double>> Points { get; set; } = new();
-    internal string PointsString => Points.Aggregate("", (current, point) => current + $"{point.X.ToInvariantString()},{point.Y.ToInvariantString()} ");
+    internal string PointsString => Points.Aggregate("", (current, point) => current + $"{point.X.ToInvString()},{point.Y.ToInvString()} ");
     
     private bool _addNewPointOnCreate = true;
     

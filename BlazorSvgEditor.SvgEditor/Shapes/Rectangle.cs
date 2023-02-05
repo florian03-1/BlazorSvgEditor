@@ -1,13 +1,12 @@
-using BlazorSvgEditor.SvgEditor.Editor;
 using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.ShapeEditors;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Shapes;
 
 public class Rectangle : Shape
 {
-    public Rectangle(Editor.SvgEditor svgEditor) : base(svgEditor){ }
+    public Rectangle(SvgEditor svgEditor) : base(svgEditor){ }
 
     internal override Type Presenter => typeof(RectangleEditor);
     public override ShapeType ShapeType => ShapeType.Rectangle;

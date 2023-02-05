@@ -1,4 +1,4 @@
-namespace BlazorSvgEditor.SvgEditor.Editor;
+namespace BlazorSvgEditor.SvgEditor;
 
 public enum EditMode
 {

@@ -17,7 +17,7 @@
 
     <svg style="height: 100%; width: 100%;">
 
-        <g style="transform: translate(@(Translate.X.ToInvariantString())px, @(Translate.Y.ToInvariantString())px) scale(@Scale.ToInvariantString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height">
+        <g style="transform: translate(@(Translate.X.ToInvString())px, @(Translate.Y.ToInvString())px) scale(@Scale.ToInvString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height">
             <image href="@ImageSource"/>
             
             <rect height="@(ImageSize.Height)px" fill="transparent" width="@(ImageSize.Width)px" @onpointerdown="OnUnselectPanelPointerDown"></rect>

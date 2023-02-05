@@ -1,7 +1,8 @@
+using BlazorSvgEditor.SvgEditor.Shapes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorSvgEditor.SvgEditor.Editor;
+namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor
 {
@@ -21,7 +22,8 @@ public partial class SvgEditor
     public BoundingBox ImageBoundingBox = new();
 
     
-    
+    [Parameter] public bool ScaleShapes { get; set; } = true; //Scale shapes with the container
+
     //Must be between 0.05 and 0.5
     [Parameter] public double MinScale { get; set; } = 0.4;
 

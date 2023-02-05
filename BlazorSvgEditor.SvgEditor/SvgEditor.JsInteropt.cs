@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorSvgEditor.SvgEditor.Editor;
+namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor : IAsyncDisposable
 {

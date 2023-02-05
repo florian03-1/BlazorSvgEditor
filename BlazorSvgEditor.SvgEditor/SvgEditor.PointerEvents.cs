@@ -1,7 +1,7 @@
 using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorSvgEditor.SvgEditor.Editor;
+namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor
 {

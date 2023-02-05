@@ -1,7 +1,7 @@
 @using BlazorSvgEditor.SvgEditor.Helper
 
-<circle cx=@X cy=@Y r="@((7 * ScaleFactor).ToInvariantString())" stroke-width="@((2 * ScaleFactor).ToInvariantString())" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown @ondblclick="OnDoubleClick" style="cursor: @CssCursor" />
-<circle cx=@X cy=@Y r="@((4 * ScaleFactor).ToInvariantString())" stroke-width="@((2.5 * ScaleFactor).ToInvariantString())" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
+<circle cx=@X cy=@Y r="@((7 * ScaleFactor).ToInvString())" stroke-width="@((2 * ScaleFactor).ToInvString())" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown @ondblclick="OnDoubleClick" style="cursor: @CssCursor" />
+<circle cx=@X cy=@Y r="@((4 * ScaleFactor).ToInvString())" stroke-width="@((2.5 * ScaleFactor).ToInvString())" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
 
 @code {
 
@@ -26,9 +26,9 @@
     [Parameter]
     public string CssCursor { get; set; } = "pointer";
     
-    private string X => Position.X.ToInvariantString();
+    private string X => Position.X.ToInvString();
 
-    private string Y => Position.Y.ToInvariantString();
+    private string Y => Position.Y.ToInvString();
 
     private string _State { get; set; } = string.Empty;
 

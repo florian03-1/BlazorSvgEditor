@@ -1,7 +1,7 @@
 using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorSvgEditor.SvgEditor.Editor;
+namespace BlazorSvgEditor.SvgEditor;
 
 public partial class SvgEditor
 {
@@ -62,6 +62,8 @@ public partial class SvgEditor
         StateHasChanged();
     }
     
+    
+    internal double GetScaledValue(double value, int decimals = 1) => (value * Scale).Round(decimals);
     
     
     //Transformation Logic
