@@ -28,8 +28,8 @@
 
 @if (SvgElement.State == ShapeState.Selected && SvgElement.SvgEditor.EditMode != EditMode.Add && SvgElement.SvgEditor.EditMode != EditMode.Move)
 {
-        <Anchor OnPointerDown="() => OnAnchorSelected(0)" CssCursor="ew-resize" Position="new Coord<double>(SvgElement.Cx + SvgElement.R, SvgElement.Cy)" />
-        <Anchor OnPointerDown="() => OnAnchorSelected(1)" CssCursor="ew-resize" Position="new Coord<double>(SvgElement.Cx - SvgElement.R, SvgElement.Cy)" />
-        <Anchor OnPointerDown="() => OnAnchorSelected(2)" CssCursor="ns-resize" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy + SvgElement.R)" />
-        <Anchor OnPointerDown="() => OnAnchorSelected(3)" CssCursor="ns-resize" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy - SvgElement.R)" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(0)" CssCursor="ew-resize" Position="new Coord<double>(SvgElement.Cx + SvgElement.R, SvgElement.Cy)" SvgEditor="SvgElement.SvgEditor"/>
+        <Anchor OnPointerDown="() => OnAnchorSelected(1)" CssCursor="ew-resize" Position="new Coord<double>(SvgElement.Cx - SvgElement.R, SvgElement.Cy)" SvgEditor="SvgElement.SvgEditor" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(2)" CssCursor="ns-resize" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy + SvgElement.R)" SvgEditor="SvgElement.SvgEditor" />
+        <Anchor OnPointerDown="() => OnAnchorSelected(3)" CssCursor="ns-resize" Position="new Coord<double>(SvgElement.Cx, SvgElement.Cy - SvgElement.R)" SvgEditor="SvgElement.SvgEditor" />
 }

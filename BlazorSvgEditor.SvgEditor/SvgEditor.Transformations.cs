@@ -7,7 +7,7 @@ public partial class SvgEditor
 {
     //TRANSFORMATION Logic
 
-    private double Scale = 1;
+    public double Scale = 1;
     private Coord<double> Translate;
     
     private bool IsTranslating = false;
@@ -19,7 +19,7 @@ public partial class SvgEditor
     {
         var previousScale = Scale;
         var newScale = Scale * (1 - delta / 1000.0);
-        
+
         if (newScale > MinScale && newScale < MaxScale) Scale = newScale.Round(3);
         else if (newScale < MinScale) Scale = MinScale;
         else if (newScale > MaxScale) Scale = MaxScale;
@@ -63,7 +63,7 @@ public partial class SvgEditor
     }
     
     
-    internal double GetScaledValue(double value, int decimals = 1) => (value * Scale).Round(decimals);
+    internal double GetScaledValue(double value, int decimals = 1) => (value *(1/ Scale )).Round(decimals);
     
     
     //Transformation Logic

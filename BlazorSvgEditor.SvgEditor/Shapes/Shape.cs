@@ -13,7 +13,7 @@ public abstract class Shape
     public SvgEditor SvgEditor { get; set; }
     
     //Helper properties and methods for easier access
-    protected double GetScaleValue(double value, int decimals = 1)
+    private double GetScaleValue(double value, int decimals = 1)
     {
         return !SvgEditor.ScaleShapes ? value : SvgEditor.GetScaledValue(value, decimals);
     }
@@ -29,12 +29,15 @@ public abstract class Shape
     internal double FillOpacity { get; set; } = 1;
     internal string Stroke { get; set; } = "#ff8c00"; //Orange
     
-    internal int RawStrokeWidth { get; set; }
+    private int _normalRawStrokeWidth = 3;
+    private double RawStrokeWidth { get; set; } = 3;
     internal string StrokeWidth  => GetScaleValue(RawStrokeWidth).ToInvString() + "px"; 
     
     internal string StrokeLinejoin { get; set; } = "round";
     internal string StrokeLinecap { get; set; } = "round";
-    internal string StrokeDasharray { get; set; } = string.Empty;
+    
+    private int RawStrokeDasharray { get; set; } = 0;
+    internal string StrokeDasharray => GetScaleValue(RawStrokeDasharray).ToInvString();
     internal double StrokeDashoffset { get; set; }
 
     internal ShapeState State { get; set; } = ShapeState.None;
@@ -46,8 +49,8 @@ public abstract class Shape
         State = ShapeState.Selected;
 
         //Visual select logic
-        RawStrokeWidth = 3;
-        StrokeDasharray = "5";
+        RawStrokeWidth = _normalRawStrokeWidth * 1.5;
+        RawStrokeDasharray = 10;
         StrokeDashoffset = 0;
         Fill = "#ff8c00";
         FillOpacity = 0.4;
@@ -58,8 +61,8 @@ public abstract class Shape
         State = ShapeState.None;
         
         //Visual unselect logic
-        RawStrokeWidth = 2;
-        StrokeDasharray = string.Empty;
+        RawStrokeWidth = _normalRawStrokeWidth;
+        RawStrokeDasharray = 0;
         Fill = "transparent";
         FillOpacity = 1;
     }

@@ -32,7 +32,7 @@
     {
         int j = i;
         <Anchor OnPointerDown="() => OnAnchorSelected(j)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
-                OnDoubleClick="() => SvgElement.OnAnchorDoubleClicked(j)"/>
+                OnDoubleClick="() => SvgElement.OnAnchorDoubleClicked(j)" SvgEditor="SvgElement.SvgEditor"/>
 
         var firstPointIndex = i;
         var secondPointIndex = i + 1;
@@ -41,7 +41,7 @@
 
 
         <Anchor RingColor="grey" OnPointerDown="() => OnAnchorSelected(j + SvgElement.Points.Count)" CssCursor="nwse-resize" ScaleFactor="0.5"
-                Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X) / 2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y) / 2)"/>
+                Position="new Coord<double>((SvgElement.Points[firstPointIndex].X + SvgElement.Points[secondPointIndex].X) / 2, (SvgElement.Points[firstPointIndex].Y + SvgElement.Points[secondPointIndex].Y) / 2)" SvgEditor="SvgElement.SvgEditor"/>
     }
 }
 
@@ -52,18 +52,18 @@
         if (i == 0)
         {
             <Anchor CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
-                    RingColor="red"/>
+                    RingColor="red" SvgEditor="SvgElement.SvgEditor"/>
         }
         else if (i == SvgElement.Points.Count - 1)
         {
             <Anchor CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
-                    RingColor="green"/>
+                    RingColor="green" SvgEditor="SvgElement.SvgEditor"/>
         }
 
         else
         {
             <Anchor CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
-                    RingColor="grey"/>
+                    RingColor="grey" SvgEditor="SvgElement.SvgEditor"/>
         }
     }
 }

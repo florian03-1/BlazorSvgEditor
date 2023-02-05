@@ -1,10 +1,13 @@
 @using BlazorSvgEditor.SvgEditor.Helper
 
-<circle cx=@X cy=@Y r="@((7 * ScaleFactor).ToInvString())" stroke-width="@((2 * ScaleFactor).ToInvString())" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown @ondblclick="OnDoubleClick" style="cursor: @CssCursor" />
-<circle cx=@X cy=@Y r="@((4 * ScaleFactor).ToInvString())" stroke-width="@((2.5 * ScaleFactor).ToInvString())" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
+<circle cx=@X cy=@Y r="@((7 * ScaleFactor * (1 / ExternalScaleFactor)).ToInvString())" stroke-width="@((2 * ScaleFactor * (1 / ExternalScaleFactor)).ToInvString())" stroke="white" fill="@MiddleColor" @onpointerdown=OnPointerDown @ondblclick="OnDoubleClick" style="cursor: @CssCursor" />
+<circle cx=@X cy=@Y r="@((4 * ScaleFactor * (1 / ExternalScaleFactor)).ToInvString())" stroke-width="@((2.5 * ScaleFactor * (1 / ExternalScaleFactor)).ToInvString())" stroke="@RingColor" fill="transparent" style="pointer-events:none;" />
 
 @code {
 
+    [Parameter]
+    public SvgEditor? SvgEditor { get; set; }
+    
     [Parameter]
     public EventCallback<PointerEventArgs> OnPointerDown { get; set; }
     
@@ -22,6 +25,8 @@
 
     [Parameter]
     public double ScaleFactor { get; set; } = 1;
+    
+    private double ExternalScaleFactor => SvgEditor?.Scale ?? 1;
 
     [Parameter]
     public string CssCursor { get; set; } = "pointer";
@@ -32,7 +37,7 @@
 
     private string _State { get; set; } = string.Empty;
 
-    private string State => $"{Position.X}{Position.Y}{RingColor}{MiddleColor}";
+    private string State => $"{Position.X}{Position.Y}{RingColor}{MiddleColor}{ExternalScaleFactor}";
 
     protected override bool ShouldRender()
     {

@@ -135,6 +135,7 @@ public partial class SvgEditor
     public async Task AddExistingShape(Shape shape)
     {
         Shapes.Add(shape);
+        StateHasChanged();
         await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(shape));
     }
     
