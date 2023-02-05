@@ -1,10 +1,7 @@
-using System.Collections.ObjectModel;
-using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Editor;
 
 public partial class SvgEditor
 {
@@ -56,7 +53,9 @@ public partial class SvgEditor
     
     //SelectedShapeId is the CustomId of the selected shape (public and bindable)
     [Parameter]
+#pragma warning disable BL0007
     public int SelectedShapeId
+#pragma warning restore BL0007
     {
         get => SelectedShape?.CustomId ?? 0;
         set

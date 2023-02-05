@@ -1,3 +1,4 @@
+using BlazorSvgEditor.SvgEditor.Editor;
 using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.ShapeEditors;
 using Microsoft.AspNetCore.Components.Web;
@@ -7,7 +8,7 @@ namespace BlazorSvgEditor.SvgEditor;
 public class Circle : Shape
 {
 
-    public Circle(SvgEditor svgEditor) : base(svgEditor) { }
+    public Circle(Editor.SvgEditor svgEditor) : base(svgEditor) { }
     
     internal override Type Presenter => typeof(CircleEditor);
     public override ShapeType ShapeType => ShapeType.Circle;
@@ -25,7 +26,8 @@ public class Circle : Shape
         Cy = Cy.ToInt();
         R = R.ToInt();
     }
-
+    
+    
     internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
@@ -34,16 +36,17 @@ public class Circle : Shape
         {
             case EditMode.Add:
                 var askedRadius = Math.Max(Math.Abs(point.X - Cx), Math.Abs(point.Y - Cy));
-                R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), askedRadius);
+                R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), askedRadius).Round();
+                
                 break;
             
             case EditMode.Move:
                 var diff = (point - SvgEditor.MoveStartDPoint);
                 var result = BoundingBox.GetAvailableMovingCoord(SvgEditor.ImageBoundingBox, Bounds, diff);
 
-                Cx += result.X;
-                Cy += result.Y;
-                
+                Cx = (Cx + result.X).Round();
+                Cy = (Cy + result.Y).Round();
+
                 break;
             case EditMode.MoveAnchor:
                 
@@ -56,11 +59,11 @@ public class Circle : Shape
                     case 0:
                     case 1:
                         Console.WriteLine("point.X - Cx: " + (point.X - Cx));
-                        R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.X - Cx);
+                        R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.X - Cx).Round();
                         break;
                     case 2:
                     case 3:
-                        R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.Y - Cy);
+                        R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.Y - Cy).Round();
                         break;
                 }
                 

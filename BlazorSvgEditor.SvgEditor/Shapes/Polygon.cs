@@ -1,3 +1,4 @@
+using BlazorSvgEditor.SvgEditor.Editor;
 using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.ShapeEditors;
 using Microsoft.AspNetCore.Components.Web;
@@ -6,7 +7,7 @@ namespace BlazorSvgEditor.SvgEditor;
 
 public class Polygon : Shape
 {
-    public Polygon(SvgEditor svgEditor) : base(svgEditor){}
+    public Polygon(Editor.SvgEditor svgEditor) : base(svgEditor){}
 
     internal override Type Presenter => typeof(PolygonEditor);
     public override ShapeType ShapeType => ShapeType.Polygon;
@@ -46,7 +47,8 @@ public class Polygon : Shape
                 List<Coord<double>> newPoints = new List<Coord<double>>();
                 foreach (var p in Points)
                 {
-                    newPoints.Add(p + result);
+                    var newPoint = (p + result);
+                    newPoints.Add(newPoint);
                 }
                 Points = newPoints;
                 

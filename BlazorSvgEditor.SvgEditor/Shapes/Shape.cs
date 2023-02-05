@@ -1,14 +1,15 @@
+using BlazorSvgEditor.SvgEditor.Editor;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorSvgEditor.SvgEditor;
 
 public abstract class Shape
 {
-    public Shape(SvgEditor svgEditor)
+    public Shape(Editor.SvgEditor svgEditor)
     {
         SvgEditor = svgEditor;
     }
-    public SvgEditor SvgEditor { get; set; }
+    public Editor.SvgEditor SvgEditor { get; set; }
     internal abstract Type Presenter { get; }
     
     internal string HtmlId { get; set; } = Guid.NewGuid().ToString();

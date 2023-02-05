@@ -16,4 +16,6 @@ public static class NumberExtensions
     {
         return Math.Abs(a - b) < epsilon;
     }
+    
+    public static double Round(this double d, int decimals = 2) => Math.Round(d, decimals);
 }

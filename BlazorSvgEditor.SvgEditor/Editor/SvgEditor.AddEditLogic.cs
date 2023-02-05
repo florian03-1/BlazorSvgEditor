@@ -1,7 +1,7 @@
 using BlazorSvgEditor.SvgEditor.Helper;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Editor;
 
 public partial class SvgEditor
 {
@@ -67,7 +67,7 @@ public partial class SvgEditor
         }
 
         var newShapeId = -1;
-        if (Shapes.Count > 0) newShapeId = Math.Min(Shapes.Min(x => x.CustomId) - 1, newShapeId);
+        if (Shapes.Count > 0) newShapeId = Math.Min(Enumerable.Min<Shape>(Shapes, x => x.CustomId) - 1, newShapeId);
 
         newShape.CustomId = newShapeId;
         Shapes.Add(newShape);
