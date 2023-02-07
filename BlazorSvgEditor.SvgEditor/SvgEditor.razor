@@ -15,7 +15,14 @@
      @onpointermove="OnContainerPointerMove"
      @onpointerup="OnContainerPointerUp">
 
-    <svg style="height: 100%; width: 100%;">
+
+    @if (_showLoadingSpinner)
+    {
+        @LoadingSpinner
+    }
+    else
+    {
+            <svg style="height: 100%; width: 100%;">
 
         <g style="transform: translate(@(Translate.X.ToInvString())px, @(Translate.Y.ToInvString())px) scale(@Scale.ToInvString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height">
             <image href="@ImageSource"/>
@@ -52,11 +59,11 @@
                 }
             </foreignObject>
         }
-        
-        
+            
+        </svg>
 
-    </svg>
-
+    }
+    
 </div>
 
 <style>

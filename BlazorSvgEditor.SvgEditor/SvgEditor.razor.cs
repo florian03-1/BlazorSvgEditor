@@ -80,6 +80,15 @@ public partial class SvgEditor
     
     
     
+    //Func for ImageSource Loading Task
+    [Parameter] public Func<Task<string>>? ImageSourceLoadingFunc { get; set; }
+    [Parameter] public Func<Task<(int Width, int Height)>>? ImageSizeLoadingFunc { get; set; }
+    private bool _imageSourceLoading = false;
+    private bool _showLoadingSpinner => ImageSourceLoadingFunc != null && _imageSourceLoading;
+    [Parameter] public RenderFragment? LoadingSpinner { get; set; }
+    
+    
+    
     public EditMode EditMode { get; set; } = EditMode.None;  //Current edit mode
     public int? SelectedAnchorIndex { get; set; } = null; //Selected Anchor Index
 
@@ -172,6 +181,16 @@ public partial class SvgEditor
         await SetContainerBoundingBox();
         ResetTransformation();
     } 
+    
+    
+    public async Task RefreshImage()
+    {
+        _imageSourceLoading = true;
+        if (ImageSourceLoadingFunc != null) ImageSource = await ImageSourceLoadingFunc();
+        if (ImageSizeLoadingFunc != null) ImageSize = await ImageSizeLoadingFunc();
+        _imageSourceLoading = false;
+        StateHasChanged();
+    }
     
 }
 

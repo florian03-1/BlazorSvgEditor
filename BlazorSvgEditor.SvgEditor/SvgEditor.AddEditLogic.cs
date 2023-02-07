@@ -22,6 +22,8 @@ public partial class SvgEditor
     
     private void AddElement(ShapeType shapeType)
     {
+        if(_imageSourceLoading) return;
+        
         EditMode = EditMode.AddTool;
         ShapeType = shapeType;
         

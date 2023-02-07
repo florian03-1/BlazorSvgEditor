@@ -8,7 +8,11 @@
     <div class="editor">
         <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
         <SvgEditor @ref="svgEditor" CssClass="testclass" CssStyle="border: 3px solid red;" OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"
-                   ImageSize="(700,394)" ImageSource="@imageSource"></SvgEditor>
+                   ImageSize="(700,394)" ImageSourceLoadingFunc="GetImageSource">
+            <LoadingSpinner>
+                <p>LOADING...</p>
+            </LoadingSpinner>
+        </SvgEditor>
     </div>
     
     <div class="information">
@@ -144,11 +148,20 @@
     }
     
     
+    public async Task<string> GetImageSource()
+    {
+        await Task.Delay(5000);
+        return await Task.FromResult(imageSource);
+    }   
+    
+    
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             await AddSeedingShapes();
+            await svgEditor?.RefreshImage();
         }
         await base.OnAfterRenderAsync(firstRender);
     }
