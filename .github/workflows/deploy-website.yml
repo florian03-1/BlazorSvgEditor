@@ -1,0 +1,31 @@
+  on: workflow_dispatch
+   
+  deploy-website:
+      name: Deploy BlazorSvgEditor demo website
+      runs-on: ubuntu-latest
+    
+      steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup dotnet version
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x.x
+      
+     # Generate the website
+     
+      - name: Publish
+        run: dotnet publish BlazorSvgEditor.WasmTest/BlazorSvgEditor.WasmTest.csproj --configuration Release --output build
+
+        # Publish the website
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.9.2
+        with:
+          deploy_key: ${{ secrets.DEPLOY_PRIVATE_SSH }}
+          publish_branch: gh-pages
+          publish_dir: build/wwwroot
+          allow_empty_commit: false
+          keep_files: false
+          force_orphan: true
