@@ -88,6 +88,8 @@ public partial class SvgEditor
     [Parameter] public RenderFragment? LoadingSpinner { get; set; }
     
     
+    [Parameter] public bool EnableImageManipulations { get; set; } = true; //Use Image Manipulations (Brightness, Contrast, Saturation, Hue)
+    [Parameter] public ImageManipulations ImageManipulations { get; set; } = new(); //Image Manipulations (Brightness, Contrast, Saturation, Hue)
     
     public EditMode EditMode { get; set; } = EditMode.None;  //Current edit mode
     public int? SelectedAnchorIndex { get; set; } = null; //Selected Anchor Index
@@ -186,8 +188,11 @@ public partial class SvgEditor
     public async Task RefreshImage()
     {
         _imageSourceLoading = true;
+        StateHasChanged();
+        
         if (ImageSourceLoadingFunc != null) ImageSource = await ImageSourceLoadingFunc();
         if (ImageSizeLoadingFunc != null) ImageSize = await ImageSizeLoadingFunc();
+        
         _imageSourceLoading = false;
         StateHasChanged();
     }

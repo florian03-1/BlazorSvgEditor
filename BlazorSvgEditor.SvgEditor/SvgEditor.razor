@@ -22,49 +22,60 @@
     }
     else
     {
-            <svg style="height: 100%; width: 100%;">
+        <svg style="height: 100%; width: 100%;">
 
-        <g style="transform: translate(@(Translate.X.ToInvString())px, @(Translate.Y.ToInvString())px) scale(@Scale.ToInvString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height">
-            <image href="@ImageSource"/>
-            
-            <rect height="@(ImageSize.Height)px" fill="transparent" width="@(ImageSize.Width)px" @onpointerdown="OnUnselectPanelPointerDown"></rect>
-            
-            @foreach (var shape in Shapes)
-            {
-                <DynamicComponent Type="shape.Presenter" Parameters="@(new Dictionary<string, object>() { { "SvgElement", shape } })"/>
-            }
-        </g>
-        
-        @if (ShowDiagnosticInformation)
-        {
-            <foreignObject height="94px" width="240px" class="unselectable" x="0" y="0" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
-                <b>Scale</b> 1:@(Math.Round(Scale, 3).ToString())
-                <br/>
-                <b>Translate:</b> X: @(Math.Round(Translate.X, 1))px Y: @(Math.Round(Translate.Y, 1))px
-                <br/>
-                <b>Pointer Offset:</b> X: @(_pointerPosition.X)px Y: @(_pointerPosition.Y)px
-                <br/>
-                <b>Detramsform:</b> X: @(Math.Round((_pointerPosition.X - Translate.X) / Scale, 1))px Y: @(Math.Round(_pointerPosition.Y / Scale - Translate.Y / Scale, 1))px
-            </foreignObject>
 
-            <foreignObject height="46px" width="250px" class="unselectable" x="0px" y="100" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
-                <b>ContainerBox:</b> X: @(Math.Round(_containerBoundingBox.Width, 1))px Y: @(Math.Round(_containerBoundingBox.Height, 1))px
-            </foreignObject>
-        
-            <foreignObject visibility="hidden" height="120px" width="300px" class="unselectable" x="0px" y="150" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
-                @foreach(var shape in Shapes)
+            <g style="transform: translate(@(Translate.X.ToInvString())px, @(Translate.Y.ToInvString())px) scale(@Scale.ToInvString())" viewbox="0 0 @ImageSize.Width @ImageSize.Height">
+
+                <image class="@(EnableImageManipulations ? "svg-img-filter" : "")" href="@ImageSource"/>
+
+                <rect height="@(ImageSize.Height)px" fill="transparent" width="@(ImageSize.Width)px" @onpointerdown="OnUnselectPanelPointerDown"></rect>
+
+                @foreach (var shape in Shapes)
                 {
-                    @shape.ToString()
-                    <br/>
+                    <DynamicComponent Type="shape.Presenter" Parameters="@(new Dictionary<string, object>() { { "SvgElement", shape } })"/>
                 }
-            </foreignObject>
-        }
+            </g>
+        
+            @if (ShowDiagnosticInformation)
+            {
+                <foreignObject height="94px" width="240px" class="unselectable" x="0" y="0" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+                    <b>Scale</b> 1:@(Math.Round(Scale, 3).ToString())
+                    <br/>
+                    <b>Translate:</b> X: @(Math.Round(Translate.X, 1))px Y: @(Math.Round(Translate.Y, 1))px
+                    <br/>
+                    <b>Pointer Offset:</b> X: @(_pointerPosition.X)px Y: @(_pointerPosition.Y)px
+                    <br/>
+                    <b>Detramsform:</b> X: @(Math.Round((_pointerPosition.X - Translate.X) / Scale, 1))px Y: @(Math.Round(_pointerPosition.Y / Scale - Translate.Y / Scale, 1))px
+                </foreignObject>
+
+                <foreignObject height="46px" width="250px" class="unselectable" x="0px" y="100" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+                    <b>ContainerBox:</b> X: @(Math.Round(_containerBoundingBox.Width, 1))px Y: @(Math.Round(_containerBoundingBox.Height, 1))px
+                </foreignObject>
+        
+                <foreignObject visibility="hidden" height="120px" width="300px" class="unselectable" x="0px" y="150" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+                    @foreach(var shape in Shapes)
+                    {
+                        @shape.ToString()
+                        <br/>
+                    }
+                </foreignObject>
+            }
             
         </svg>
 
     }
     
 </div>
+
+@if (EnableImageManipulations)
+{
+    <style>
+        .svg-img-filter{
+        filter: brightness(@(ImageManipulations.Brightness)%) contrast(@(ImageManipulations.Contrast)%) saturate(@(ImageManipulations.Saturation)%) hue-rotate(@(ImageManipulations.Hue)deg)
+        }
+    </style>
+}
 
 <style>
     .cursor-add-circle{

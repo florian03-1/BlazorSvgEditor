@@ -8,7 +8,7 @@
     <div class="editor">
         <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
         <SvgEditor @ref="svgEditor" CssClass="testclass" CssStyle="border: 3px solid red;" OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"
-                   ImageSize="(700,394)" ImageSourceLoadingFunc="GetImageSource">
+                   ImageSize="(700,394)" ImageSourceLoadingFunc="GetImageSource" ImageManipulations="ImageManipulations">
             <LoadingSpinner>
                 <p>LOADING...</p>
             </LoadingSpinner>
@@ -31,11 +31,21 @@
             <b>Selected Item Id: @_selectedItemId</b>
         </div>
         
-             <div style="display: inline-flex; border: 1px solid blue; margin: 5px; padding: 5px;">
-                 <b>Select Shape: </b>
-                 <input type="number" @bind="input"/>
-                 <button class="btn btn-secondary" @onclick="SelectItem">Select</button>
-              </div>
+        <div style="display: inline-flex; border: 1px solid blue; margin: 5px; padding: 5px;">
+            <b>Select Shape: </b>
+            <input type="number" @bind="input"/>
+            <button class="btn btn-secondary" @onclick="SelectItem">Select</button>
+        </div>
+        
+        <div style="display: inline-flex; border: 1px solid blue; margin: 5px; padding: 5px;">
+                         <b>Select Shape: </b>
+            <input width="50px" type="number" @bind="brighnessinput"/>
+                                     <input width="50px" type="number" @bind="contrastinput"/>
+                         <input width="50px" type="number" @bind="hueinput"/>
+
+
+                         <button class="btn btn-secondary" @onclick="SetImageManipulations">Set brightness</button>
+                      </div>
         
         @foreach (var shape in Changes)
         {
@@ -73,12 +83,19 @@
     string imageSource = "https://www.bentleymotors.com/content/dam/bentley/Master/World%20of%20Bentley/Mulliner/redesign/coachbuilt/Mulliner%20Batur%201920x1080.jpg/_jcr_content/renditions/original.image_file.700.394.file/Mulliner%20Batur%201920x1080.jpg"; //700 x 394
     SvgEditor? svgEditor;
     
+    public ImageManipulations ImageManipulations { get; set; } = new();
+
     private int _selectedItemId = 0;
     public List<string> Changes { get; set; } = new List<string>();
 
     private List<Shape> _shapes = new();
     
     private string input = "";
+    
+    private string brighnessinput = "";
+    private string contrastinput = "";
+    private string hueinput = "";
+
 
     private void SelectItem()
     {
@@ -120,6 +137,13 @@
     }
 
 
+    private void SetImageManipulations()
+    {
+        ImageManipulations.Brightness = int.Parse(brighnessinput);
+        ImageManipulations.Contrast = int.Parse(contrastinput);
+        ImageManipulations.Hue = int.Parse(hueinput);
+    }
+
     private async Task AddSeedingShapes()
     {
         if (svgEditor == null) return;
@@ -150,7 +174,7 @@
     
     public async Task<string> GetImageSource()
     {
-        await Task.Delay(5000);
+        await Task.Delay(1000);
         return await Task.FromResult(imageSource);
     }   
     
