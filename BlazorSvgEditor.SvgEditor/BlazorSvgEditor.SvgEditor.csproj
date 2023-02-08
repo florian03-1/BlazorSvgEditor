@@ -4,15 +4,34 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>BlazorSvgEditor</AssemblyName>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageIcon>nuget_logo.png</PackageIcon>
+        <Company>@florian03-1</Company>
+        <Authors>Florian (florian03)</Authors>
+        <Copyright>(c) 2023 by Florian</Copyright>
+        <PackageTags>Blazor, Components, Blazor Components, Blazor Library, SVG, SVG Editor, Image</PackageTags>
+        <Description>BlazorSvgEditor is an simple Image SVG Editor for Blazor (WASM). It is designed to annotate images with SVG elements. There are many different ways to load images - there are also extensible Shape classes for custom annotation types.</Description>
+        <PackageProjectUrl>https://florian03.de/BlazorSvgEditor</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/florian03-1/BlazorSvgEditor</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+        <None Include="..\nuget_logo.png" Pack="true" Visible="false" PackagePath="" />
+    </ItemGroup>
+    
     <ItemGroup>
         <SupportedPlatform Include="browser" />
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.2" />
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
     </ItemGroup>
 
 </Project>
