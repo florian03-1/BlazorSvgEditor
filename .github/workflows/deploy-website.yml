@@ -20,6 +20,9 @@ jobs:
       - name: Publish
         run: dotnet publish BlazorSvgEditor.WasmTest/BlazorSvgEditor.WasmTest.csproj --configuration Release --output build
 
+      - name: Change base-tag in index.html from / to BlazorGitHubPagesDemo
+        run: sed -i 's/<base href="\/" \/>/<base href="\/BlazorSvgEditor.WasmTest\/" \/>/g' release/wwwroot/index.html
+
         # Publish the website
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.9.2
