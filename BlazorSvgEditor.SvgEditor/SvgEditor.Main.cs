@@ -117,7 +117,7 @@ public partial class SvgEditor
         else if (MaxScale > 10) MaxScale = 10;
         
         //Initialize the task for JsInvokeAsync
-        moduleTask = new(async () => await JsRuntime.InvokeAsync<IJSObjectReference>("import","./_content/BlazorSvgEditor.SvgEditor/svgEditor.js"));
+        moduleTask = new(async () => await JsRuntime.InvokeAsync<IJSObjectReference>("import","./_content/BlazorSvgEditor/svgEditor.js"));
 
         await base.OnInitializedAsync();
     }
