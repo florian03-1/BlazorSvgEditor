@@ -1,5 +1,6 @@
-  on: workflow_dispatch
-   
+on: workflow_dispatch
+
+jobs:
   deploy-website:
       name: Deploy BlazorSvgEditor demo website
       runs-on: ubuntu-latest
