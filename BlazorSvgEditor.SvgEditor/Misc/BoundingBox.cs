@@ -1,7 +1,6 @@
-using System.Diagnostics;
 using BlazorSvgEditor.SvgEditor.Helper;
 
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Misc;
 
 public struct JsBoundingBox
 {

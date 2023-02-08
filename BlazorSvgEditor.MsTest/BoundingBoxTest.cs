@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using BlazorSvgEditor.SvgEditor;
 using BlazorSvgEditor.SvgEditor.Helper;
+using BlazorSvgEditor.SvgEditor.Misc;
 
 namespace BlazorSvgEditor.MsTest;
 

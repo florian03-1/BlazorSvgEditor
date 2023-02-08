@@ -1,4 +1,4 @@
-namespace BlazorSvgEditor.SvgEditor;
+namespace BlazorSvgEditor.SvgEditor.Misc;
 
 public class ImageManipulations
 {

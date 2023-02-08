@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using BlazorSvgEditor.SvgEditor
 @using BlazorSvgEditor.SvgEditor.Helper
+@using BlazorSvgEditor.SvgEditor.Misc
 @using BlazorSvgEditor.SvgEditor.Shapes
 @using SvgEditor = BlazorSvgEditor.SvgEditor.SvgEditor
 
@@ -185,7 +186,7 @@
         if (firstRender)
         {
             await AddSeedingShapes();
-            await svgEditor?.RefreshImage();
+            await svgEditor?.ReloadImage();
         }
         await base.OnAfterRenderAsync(firstRender);
     }
