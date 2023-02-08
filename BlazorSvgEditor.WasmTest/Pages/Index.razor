@@ -6,8 +6,8 @@
 @using SvgEditor = BlazorSvgEditor.SvgEditor.SvgEditor
 
 <div class="siteContainer">
+
     <div class="editor">
-        <h4 style="margin-bottom: 10px;">SvgEditor Test</h4>
         <SvgEditor @ref="svgEditor" CssClass="testclass" CssStyle="border: 3px solid red;" OnShapeChanged="OnChange" @bind-SelectedShapeId="_selectedItemId" MinScale="0.8"
                    ImageSize="(700,394)" ImageSourceLoadingFunc="GetImageSource" ImageManipulations="ImageManipulations">
             <LoadingSpinner>
@@ -15,10 +15,10 @@
             </LoadingSpinner>
         </SvgEditor>
     </div>
-    
+
     <div class="information">
         <h4 style="margin-bottom: 10px;">Events</h4>
-        
+
         <div style="display: flex; flex-direction: row; gap: 10px">
             <button class="btn btn-warning" @onclick="() => svgEditor.ResetTransform()">Reset Transform</button>
             <button class="btn btn-primary" @onclick="() => svgEditor.AddNewShape(ShapeType.Circle)">Add Circle</button>
@@ -27,32 +27,37 @@
             <button class="btn btn-danger" @onclick="() => svgEditor.ClearShapes()">Clear</button>
         </div>
 
-        
+
         <div style="border: 3px solid salmon; margin: 5px; padding: 5px;">
             <b>Selected Item Id: @_selectedItemId</b>
         </div>
-        
+
         <div style="display: inline-flex; border: 1px solid blue; margin: 5px; padding: 5px;">
             <b>Select Shape: </b>
             <input type="number" @bind="input"/>
             <button class="btn btn-secondary" @onclick="SelectItem">Select</button>
         </div>
-        
+
         <div style="display: inline-flex; border: 1px solid blue; margin: 5px; padding: 5px;">
-                         <b>Select Shape: </b>
+            <b>Select Shape: </b>
             <input width="50px" type="number" @bind="brighnessinput"/>
-                                     <input width="50px" type="number" @bind="contrastinput"/>
-                         <input width="50px" type="number" @bind="hueinput"/>
+            <input width="50px" type="number" @bind="contrastinput"/>
+            <input width="50px" type="number" @bind="hueinput"/>
 
 
-                         <button class="btn btn-secondary" @onclick="SetImageManipulations">Set brightness</button>
-                      </div>
-        
+            <button class="btn btn-secondary" @onclick="SetImageManipulations">Set brightness</button>
+        </div>
+
         @foreach (var shape in Changes)
         {
             <p style="margin:0px;">@shape</p>
             <hr/>
         }
+    </div>
+    
+    
+    <div>
+        ICH BIN EIN FOOTER
     </div>
 </div>
 
@@ -65,7 +70,7 @@
       grid-auto-flow: row;
       grid-template-areas:
         "editor information";
-      height: 80vh;
+      height: 100%;
     }
     
     .editor { grid-area: editor; }
