@@ -56,13 +56,12 @@ public partial class SvgEditor
     
     //SelectedShapeId is the CustomId of the selected shape (public and bindable)
     [Parameter]
-#pragma warning disable BL0007
     public int SelectedShapeId
-#pragma warning restore BL0007
     {
         get => SelectedShape?.CustomId ?? 0;
         set
         {
+            if(value == SelectedShapeId) return;
             if (value == 0)
             {
                 SelectedShape?.UnSelectShape();
@@ -84,13 +83,17 @@ public partial class SvgEditor
     //Func for ImageSource Loading Task
     [Parameter] public Func<Task<string>>? ImageSourceLoadingFunc { get; set; }
     [Parameter] public Func<Task<(int Width, int Height)>>? ImageSizeLoadingFunc { get; set; }
-    private bool _imageSourceLoading = false;
-    private bool _showLoadingSpinner => ImageSourceLoadingFunc != null && _imageSourceLoading;
     [Parameter] public RenderFragment? LoadingSpinner { get; set; }
+
+    private bool _imageSourceLoading = false;
+    private bool ShowLoadingSpinner => ImageSourceLoadingFunc != null && _imageSourceLoading;
     
     
+    
+    //Image Manipulations
     [Parameter] public bool EnableImageManipulations { get; set; } = true; //Use Image Manipulations (Brightness, Contrast, Saturation, Hue)
     [Parameter] public ImageManipulations ImageManipulations { get; set; } = new(); //Image Manipulations (Brightness, Contrast, Saturation, Hue)
+    
     
     public EditMode EditMode { get; set; } = EditMode.None;  //Current edit mode
     public int? SelectedAnchorIndex { get; set; } = null; //Selected Anchor Index

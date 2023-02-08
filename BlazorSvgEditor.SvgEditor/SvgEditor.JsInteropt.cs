@@ -34,7 +34,7 @@ public partial class SvgEditor : IAsyncDisposable
     {
         if (moduleTask.IsValueCreated)
         {
-            IJSObjectReference module = await moduleTask.Value;
+            var module = await moduleTask.Value;
             await module.DisposeAsync();
         }
         GC.SuppressFinalize(this);
