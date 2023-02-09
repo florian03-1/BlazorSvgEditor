@@ -1,10 +1,190 @@
-@page "/Preview"
+@page "/"
+@using BlazorSvgEditor.SvgEditor
+@using BlazorSvgEditor.SvgEditor.Misc
+@using Microsoft.AspNetCore.Components
 
 <PageTitle>BlazorSvgEditor Demo</PageTitle>
 
-<h3>Preview</h3>
+<div class="o-container">
+    <div class="o-header flex my-3">
+        <div class="mx-auto">
+            <h2 class="text-xl font-bold">Blazor Svg Editor Demo</h2>
+        </div>
+    </div>
 
+    <div class="o-editor">
+        <SvgEditor @ref="svgEditor" CssClass="border border-gray-200 rounded-lg shadow-md" MinScale="0.8" ImageSize="(1000,750)" ImageManipulations="ImageManipulations"
+                   OnShapeChanged="EditorShapeChanged" ImageSourceLoadingFunc="GetImageSource" @bind-SelectedShapeId="SelectedShapeId">
+            <LoadingSpinner>
+
+                <div class="flex items-center justify-center h-full">
+                    <div role="status">
+                        <svg aria-hidden="true" class="inline w-16 h-16 mr-2 text-gray-200 animate-spin fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                        </svg>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+            </LoadingSpinner>
+        </SvgEditor>
+    </div>
+
+    <div class="o-information">
+
+        <div class="flex gap-2 flex-col h-full">
+
+            <div class="border border-gray-200 rounded-lg shadow-md p-3 flex flex-col">
+
+                <b class="mb-2">Add item/Editor control</b>
+                <div class="inline-flex rounded-md shadow-sm text-gray-900" role="group">
+                    <button @onclick="() => AddShape(ShapeType.Circle)" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium border border-gray-600 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white">
+                        <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M24 45.25q-4.4 0-8.275-1.65T8.95 39.05q-2.9-2.9-4.55-6.775Q2.75 28.4 2.75 24q0-4.45 1.65-8.325 1.65-3.875 4.55-6.75t6.775-4.55Q19.6 2.7 24 2.7q4.45 0 8.325 1.675 3.875 1.675 6.75 4.55t4.55 6.75Q45.3 19.55 45.3 24q0 4.4-1.675 8.275t-4.55 6.775q-2.875 2.9-6.75 4.55T24 45.25Zm0-4.7q6.9 0 11.725-4.825Q40.55 30.9 40.55 24q0-6.9-4.825-11.725Q30.9 7.45 24 7.45q-6.9 0-11.725 4.825Q7.45 17.1 7.45 24q0 6.9 4.825 11.725Q17.1 40.55 24 40.55ZM24 24Z"/>
+                        </svg>
+                        Circle
+                    </button>
+                    <button @onclick="() => AddShape(ShapeType.Rectangle)" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium bg-transparent border-t border-b border-gray-600 hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white">
+                        <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.75 41.25V6.7H45.3v34.55Zm4.7-4.7h33.1v-25.1H7.45Zm0 0v-25.1 25.1Z"/>
+                        </svg>
+                        Rectangle
+                    </button>
+                    <button @onclick="() => AddShape(ShapeType.Polygon)" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium bg-transparent border border-gray-600 rounded-r-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white">
+                        <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30.45 45.15V39.6l-14.5-7.25H4.3v-13.3h11l5.15-5.75V2.25h13.3v13.3h-9.8l-6.4 7.25v5.8l12.9 6.35v-3.1h13.3v13.3Zm-5.9-33.7h5v-5h-5ZM8.45 28.2h5v-5h-5ZM34.55 41h5v-5h-5Zm-7.5-32.05ZM10.95 25.7Zm26.1 12.8Z"/>
+                        </svg>
+                        Polygon
+                    </button>
+                </div>
+
+                <div class="inline-flex mt-2" role="group">
+                    <button @onclick="ResetTransform" type="button" class="shadow-sm flex-grow focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2 mr-2">Reset Transformation</button>
+                    <button @onclick="ClearAll" type="button" class="shadow-sm flex-grow focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2">Clear</button>
+                </div>
+            </div>
+
+
+            <div class="border border-gray-200 rounded-lg shadow-md p-3 flex flex-col overflow-hidden">
+
+                <b class="mb-2">Image Path:</b>
+                <div class="inline-flex w-full items-center justify-center gap-3">
+
+                    @*
+                    <div class="relative">
+                        <input @bind="imageUrl" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+                        <label for="floating_outlined" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Url</label>
+                    </div>
+                    
+                    *@
+
+                    <div class="relative">
+                        <input @bind="imageUrl" type="text" id="disabled_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " disabled/>
+                        <label for="disabled_outlined" class="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Url</label>
+                    </div>
+
+                    <div class="relative" style="width: 80px;">
+                        <input @bind="delayString" type="text" id="floating_outlined2" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+                        <label for="floating_outlined2" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Delay</label>
+                    </div>
+
+                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none " @onclick="ReloadEditorImage">Reload</button>
+
+                </div>
+
+                <b class="mb-2 mt-3">Image Manipulation:</b>
+                <div class="inline-flex w-full items-center gap-3">
+                    <span>Brigt.:</span>
+                    <input id="default-range" type="range" max="300" @bind="ImageManipulations.Brightness" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <div class="inline-flex w-full items-center gap-3">
+                    <span>Contrast:</span>
+                    <input id="default-range2" type="range" max="300" @bind="ImageManipulations.Contrast" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <div class="inline-flex w-full items-center gap-3">
+                    <span>Satur.:</span>
+                    <input id="default-range3" type="range" max="300" @bind="ImageManipulations.Saturation" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <div class="inline-flex w-full items-center gap-3">
+                    <span>Hue.:</span>
+                    <input id="default-range4" type="range" max="360" @bind="ImageManipulations.Hue" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+            </div>
+
+
+            <div class="border border-gray-200 rounded-lg shadow-md p-3 flex flex-col overflow-hidden flex-grow">
+
+
+                <b class="mb-2">Items:</b>
+
+                @foreach (var shape in Shapes)
+                {
+                    <div @onclick="() => ShapeSelected(shape.CustomId)" class="cursor-pointer border border-gray-300 p-1.5 inline-flex rounded-lg mb-2 @(shape.CustomId == SelectedShapeId ? "border-red-900 bg-red-300" : "")">
+                        <b class="mr-2">@(shape.ShapeType.ToString()):</b>
+                        <p>(Id: @shape.CustomId)</p>
+                    </div>
+                }
+
+                @if (Shapes.Count == 0)
+                {
+                    <p class="text-gray-400">No items</p>
+                }
+                else
+                {
+                    <button @onclick="DeleteShape" type="button" style="flex-grow: 0" class=" shadow-sm flex-grow focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2">Delete Shape</button>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="o-footer flex items-center">
+        <div>
+            BlazorSvgEditor by <a class="underline" target="_blank" href="https://twitter.com/florian03_1">florian03</a>
+        </div>
+        
+        <div class="mx-auto text-gray-800 italic">
+            @status
+        </div>
+        
+        <div>
+            Avaiable on <a class="underline" href="https://github.com/florian03-1/BlazorSvgEditor" target="_blank">GitHub</a> and <a class="underline" target="_blank" href="https://www.nuget.org/packages/BlazorSvgEditor/">NuGet</a>
+        </div>
+    </div>
+</div>
+
+
+<style>
+  .o-container {  
+  overflow: hidden;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    grid-template-rows: auto 1fr auto;
+    gap: 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "header header"
+      "editor information"
+      "footer footer";
+  }
+  
+  .o-header { grid-area: header; }
+  
+  .o-footer { grid-area: footer; }
+  
+  .o-editor { grid-area: editor; }
+  
+  .o-information { grid-area: information; }
+
+</style>
 
 @code {
-    
+
 }
