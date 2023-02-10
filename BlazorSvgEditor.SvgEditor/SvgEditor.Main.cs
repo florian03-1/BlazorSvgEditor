@@ -81,8 +81,7 @@ public partial class SvgEditor
     
     
     //Func for ImageSource Loading Task
-    [Parameter] public Func<Task<string>>? ImageSourceLoadingFunc { get; set; }
-    [Parameter] public Func<Task<(int Width, int Height)>>? ImageSizeLoadingFunc { get; set; }
+    [Parameter] public Func<Task<(string imageSource, int width, int height)>>? ImageSourceLoadingFunc { get; set; }
     [Parameter] public RenderFragment? LoadingSpinner { get; set; }
 
     private bool _imageSourceLoading = false;
@@ -193,9 +192,14 @@ public partial class SvgEditor
     {
         _imageSourceLoading = true;
         StateHasChanged();
-        
-        if (ImageSourceLoadingFunc != null) ImageSource = await ImageSourceLoadingFunc();
-        if (ImageSizeLoadingFunc != null) ImageSize = await ImageSizeLoadingFunc();
+
+        (string imageSource, int width, int height) result;
+        if (ImageSourceLoadingFunc != null)
+        {
+            result = await ImageSourceLoadingFunc();
+            ImageSize = (result.width, result.height);
+            ImageSource = result.imageSource;
+        }
         
         _imageSourceLoading = false;
         StateHasChanged();

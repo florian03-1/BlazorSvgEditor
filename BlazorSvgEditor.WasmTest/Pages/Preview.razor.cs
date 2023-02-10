@@ -46,11 +46,11 @@ public partial class Preview
         await svgEditor.ReloadImage();
     }
 
-    private async Task<string> GetImageSource()
+    private async Task<(string imageSource, int width, int height)> GetImageSource()
     {
         ImageManipulations = new();
         await Task.Delay(int.Parse(delayString));
-        return imageUrl;
+        return (imageUrl, 1000, 750);
     }
 
     private void EditorShapeChanged(ShapeChangedEventArgs e)

@@ -189,10 +189,10 @@
     }
     
     
-    public async Task<string> GetImageSource()
+    public async Task<(string source, int width, int height)> GetImageSource()
     {
         await Task.Delay(1000);
-        return await Task.FromResult(imageSource);
+        return (imageSource, 700, 394);
     }   
     
     
