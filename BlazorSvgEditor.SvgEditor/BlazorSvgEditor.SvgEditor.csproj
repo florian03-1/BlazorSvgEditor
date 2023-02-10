@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>nuget_logo.png</PackageIcon>
         <Company>@florian03-1</Company>
@@ -23,7 +22,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
         <None Include="..\Readme-nuget.md" Pack="true" Visible="false" PackagePath="" />
         <None Include="..\nuget_logo.png" Pack="true" Visible="false" PackagePath="" />
     </ItemGroup>
