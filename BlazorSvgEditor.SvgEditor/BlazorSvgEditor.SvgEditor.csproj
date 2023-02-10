@@ -9,11 +9,13 @@
 
     <PropertyGroup>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>nuget_logo.png</PackageIcon>
         <Company>@florian03-1</Company>
         <Authors>Florian (florian03)</Authors>
         <Copyright>(c) 2023 by Florian</Copyright>
-        <PackageTags>Blazor, Components, Blazor Components, Blazor Library, SVG, SVG Editor, Image</PackageTags>
+        <PackageReadmeFile>Readme-nuget.md</PackageReadmeFile>
+        <PackageTags>Blazor, Components, Blazor-Components, Blazor Library, SVG, SVG Editor, Image</PackageTags>
         <Description>BlazorSvgEditor is an simple Image SVG Editor for Blazor (WASM). It is designed to annotate images with SVG elements. There are many different ways to load images - there are also extensible Shape classes for custom annotation types.</Description>
         <PackageProjectUrl>https://florian03.de/BlazorSvgEditor</PackageProjectUrl>
         <RepositoryUrl>https://github.com/florian03-1/BlazorSvgEditor</RepositoryUrl>
@@ -22,6 +24,7 @@
 
     <ItemGroup>
         <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+        <None Include="..\Readme-nuget.md" Pack="true" Visible="false" PackagePath="" />
         <None Include="..\nuget_logo.png" Pack="true" Visible="false" PackagePath="" />
     </ItemGroup>
     
