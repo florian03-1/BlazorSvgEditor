@@ -91,7 +91,7 @@ public partial class SvgEditor
     
     //Image Manipulations
     [Parameter] public bool EnableImageManipulations { get; set; } = true; //Use Image Manipulations (Brightness, Contrast, Saturation, Hue)
-    [Parameter] public ImageManipulations ImageManipulations { get; set; } = new(); //Image Manipulations (Brightness, Contrast, Saturation, Hue)
+    [Parameter] public ImageManipulations? ImageManipulations { get; set; } = new(); //Image Manipulations (Brightness, Contrast, Saturation, Hue)
     
     
     public EditMode EditMode { get; set; } = EditMode.None;  //Current edit mode
@@ -205,4 +205,5 @@ public partial class SvgEditor
         StateHasChanged();
     }
     
+    public void Refresh() => StateHasChanged();
 }

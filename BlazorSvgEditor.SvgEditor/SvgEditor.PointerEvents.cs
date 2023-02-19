@@ -31,8 +31,6 @@ public partial class SvgEditor
                 await AddToolPointerDown(e);
             }
         }
-
-        Console.WriteLine("OnContainerPointerDown");
     }
     
     private void OnContainerPointerUp(PointerEventArgs e)
