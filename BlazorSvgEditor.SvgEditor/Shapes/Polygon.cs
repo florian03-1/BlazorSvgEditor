@@ -22,6 +22,7 @@ public class Polygon : Shape
     //Create Polygon Anchor Settings
     private double _polygonCompleteThreshold => 10;
 
+    bool isMoved = false;
     internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
@@ -52,6 +53,7 @@ public class Polygon : Shape
                 }
                 Points = newPoints;
                 
+                isMoved = true;
                 break;
             case EditMode.MoveAnchor:
                 
@@ -101,7 +103,12 @@ public class Polygon : Shape
         }
         else
         {
-            if (SvgEditor.EditMode == EditMode.Move) await FireOnShapeChangedMove();
+            if (SvgEditor.EditMode == EditMode.Move && isMoved)
+            {
+                isMoved = false;
+                await FireOnShapeChangedMove();
+            }
+            
             else if (SvgEditor.EditMode == EditMode.MoveAnchor) await FireOnShapeChangedEdit();
 
             SvgEditor.EditMode = EditMode.None;
@@ -134,8 +141,9 @@ public class Polygon : Shape
         throw new NotImplementedException();
     }
 
-    internal override void Complete()
+    internal override async Task Complete()
     {
+        await base.Complete();
         SvgEditor.EditMode = EditMode.None;
     }
 }

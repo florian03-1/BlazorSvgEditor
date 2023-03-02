@@ -29,6 +29,7 @@ public class Rectangle : Shape
         Height = Height.ToInt();
     }
     
+    bool isMoved = false;
     internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
         var point = SvgEditor.DetransformPoint(eventArgs.OffsetX, eventArgs.OffsetY);
@@ -72,6 +73,8 @@ public class Rectangle : Shape
 
                 X += result.X;
                 Y += result.Y;
+                
+                isMoved = true;
                 break;
             
             case EditMode.MoveAnchor:
@@ -133,9 +136,14 @@ public class Rectangle : Shape
         {
             if (Width < 1) Width = 1;
             if (Height < 1) Height = 1;
+            await Complete();
         }
         
-        if (SvgEditor.EditMode == EditMode.Move) await FireOnShapeChangedMove();
+        if (SvgEditor.EditMode == EditMode.Move && isMoved)
+        {
+            isMoved = false;
+            await FireOnShapeChangedMove();
+        }
         else if (SvgEditor.EditMode == EditMode.MoveAnchor) await FireOnShapeChangedEdit();
 
         SvgEditor.EditMode = EditMode.None;
@@ -144,9 +152,5 @@ public class Rectangle : Shape
     internal override void HandlePointerOut(PointerEventArgs eventArgs)
     {
         throw new NotImplementedException();
-    }
-
-    internal override void Complete()
-    {
     }
 }

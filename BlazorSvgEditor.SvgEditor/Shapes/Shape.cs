@@ -96,7 +96,12 @@ public abstract class Shape
     internal abstract void HandlePointerMove(PointerEventArgs eventArgs);
     internal abstract Task HandlePointerUp(PointerEventArgs eventArgs);
     internal abstract void HandlePointerOut(PointerEventArgs eventArgs);
-    internal abstract void Complete();
+
+    internal virtual async Task Complete()
+    {
+        await SvgEditor.ShapeAddedCompleted(this);
+    }
+    
 
     
     protected async Task FireOnShapeChangedMove() => await SvgEditor.OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeMoved(this));

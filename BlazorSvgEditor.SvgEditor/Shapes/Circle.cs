@@ -27,6 +27,7 @@ public class Circle : Shape
         R = R.ToInt();
     }
     
+    bool isMoved = false;
     
     internal override void HandlePointerMove(PointerEventArgs eventArgs)
     {
@@ -47,6 +48,7 @@ public class Circle : Shape
                 Cx = (Cx + result.X).Round();
                 Cy = (Cy + result.Y).Round();
 
+                isMoved = true;
                 break;
             case EditMode.MoveAnchor:
                 
@@ -78,9 +80,14 @@ public class Circle : Shape
         if (SvgEditor.EditMode == EditMode.Add)
         {
             if (R == 0) R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), 15); //Wenn Radius 0 ist, wurde der Kreis nur durch ein Klicken erzeugt, also wird er auf 15 gesetzt
+            await Complete();
         }
-        
-        if (SvgEditor.EditMode == EditMode.Move) await FireOnShapeChangedMove();
+
+        if (SvgEditor.EditMode == EditMode.Move && isMoved)
+        {
+            isMoved = false;
+            await FireOnShapeChangedMove();
+        }
         else if (SvgEditor.EditMode == EditMode.MoveAnchor) await FireOnShapeChangedEdit();
         
         SvgEditor.EditMode = EditMode.None;
@@ -91,11 +98,7 @@ public class Circle : Shape
     {
         throw new NotImplementedException();
     }
-
-    internal override void Complete()
-    {
-        throw new NotImplementedException();
-    }
+    
     
     
     
