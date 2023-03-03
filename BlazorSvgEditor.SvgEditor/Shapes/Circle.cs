@@ -54,13 +54,10 @@ public class Circle : Shape
                 
                 SvgEditor.SelectedAnchorIndex ??= 0;
                 
-                Console.WriteLine("SelectedAnchorIndex: " + SvgEditor.SelectedAnchorIndex);
-                
                 switch (SvgEditor.SelectedAnchorIndex)
                 { 
                     case 0:
                     case 1:
-                        Console.WriteLine("point.X - Cx: " + (point.X - Cx));
                         R = GetMaxRadius(SvgEditor.ImageBoundingBox, new Coord<double>(Cx, Cy), point.X - Cx).Round();
                         break;
                     case 2:

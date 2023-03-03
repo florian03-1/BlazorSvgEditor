@@ -84,9 +84,9 @@ public partial class SvgEditor
     
     public async Task ShapeAddedCompleted(Shape shape)
     {
-        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(shape));
         SelectedShape = shape;
         SelectedShape.SelectShape();
+        await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(shape));
     }
 
 }

@@ -48,7 +48,7 @@ public partial class SvgEditor
         {
             if (_selectedShape != value)
             {
-                Console.WriteLine("SelectedShape changed from " + _selectedShape?.CustomId + " to " + value?.CustomId);
+                if(ShowDiagnosticInformation) Console.WriteLine("SelectedShape changed from " + _selectedShape?.CustomId + " to " + value?.CustomId);
                 _selectedShape = value;
                 SelectedShapeIdChanged.InvokeAsync(SelectedShapeId);
             }
@@ -161,7 +161,6 @@ public partial class SvgEditor
         
         SelectedShape?.UnSelectShape();
         SelectedShape = null;
-        Console.WriteLine("AddNewShape");
     }
     
     public async Task RemoveSelectedShape()
