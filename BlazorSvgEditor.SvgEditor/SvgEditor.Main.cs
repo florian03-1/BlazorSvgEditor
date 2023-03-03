@@ -174,6 +174,24 @@ public partial class SvgEditor
             
             await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeDeleted(deletedShapeId));
         }
+        else
+        {
+            if (ShowDiagnosticInformation) Console.WriteLine("No shape selected - so nothing to delete");
+        }
+    }
+    
+    public async Task RemoveShape(int shapeId)
+    {
+        Shape? shape = Shapes.FirstOrDefault(s => s.CustomId == shapeId);
+        if (shape != null)
+        {
+            Shapes.Remove(shape);
+            await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeDeleted(shapeId));
+        }
+        else
+        {
+            if(ShowDiagnosticInformation) Console.WriteLine("Shape with id " + shapeId + " not found - so nothing to delete");
+        }
     }
     
     public async Task ClearShapes()
