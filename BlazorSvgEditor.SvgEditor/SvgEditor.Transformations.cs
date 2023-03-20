@@ -35,6 +35,7 @@ public partial class SvgEditor
         Translate.Y = (Translate.Y + y).Round(3);
     }
 
+    
 
     private void ResetTransformation()
     {

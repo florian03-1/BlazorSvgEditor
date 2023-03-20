@@ -4,7 +4,7 @@
 @using BlazorSvgEditor.SvgEditor.Helper
 
 
-<div class="@_containerCssClass" style="@_containerCssStyle height: 100%; width: 100%; touch-action: pinch-zoom" @ref="_containerElementReference"
+<div class="@_containerCssClass" style="@_containerCssStyle height: 100%; width: 100%; touch-action: none" @ref="_containerElementReference"
      @onwheel="OnContainerWheel"
      
      oncontextmenu="return false"
@@ -15,6 +15,7 @@
      @onpointermove="OnContainerPointerMove"
      @onpointerup="OnContainerPointerUp"
 
+     @ontouchstart="OnTouchStart"
      @ontouchmove="OnTouchMove"
      @ontouchend="OnTouchEnd"
 >
