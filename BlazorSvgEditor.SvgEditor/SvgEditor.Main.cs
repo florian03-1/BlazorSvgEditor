@@ -25,11 +25,17 @@ public partial class SvgEditor
     
     [Parameter] public bool ScaleShapes { get; set; } = true; //Scale shapes with the container
 
-    //Must be between 0.05 and 0.5
     [Parameter] public double MinScale { get; set; } = 0.4;
 
-    //Must be between 1 and 10
     [Parameter] public double MaxScale { get; set; } = 5;
+    
+    //Touch Settings
+    
+    /// <summary>
+    /// Divides the touch input by 1/TouchSensitivity (higher touch sensitivity means less sensitivity)
+    /// </summary>
+    [Parameter] public double TouchSensitivity { get; set; } = 40;
+    private int touchSensitivity => (int) (10000 / TouchSensitivity);
     
     
     public List<Shape> Shapes { get; set; } = new();  //List of all shapes, is no parameter
@@ -107,15 +113,7 @@ public partial class SvgEditor
     }
 
     protected override async Task OnInitializedAsync()
-    { 
-        //Check if MinScale is between 0.05 and 0.8
-        if (MinScale < 0.05) MinScale = 0.05;
-        else if (MinScale > 0.8) MinScale = 0.8;
-
-        //Check if MaxScale is between 1 and 10
-        if (MaxScale < 1) MaxScale = 1;
-        else if (MaxScale > 10) MaxScale = 10;
-        
+    {
         //Initialize the task for JsInvokeAsync
         moduleTask = new(async () => await JsRuntime.InvokeAsync<IJSObjectReference>("import","./_content/BlazorSvgEditor/svgEditor.js"));
 

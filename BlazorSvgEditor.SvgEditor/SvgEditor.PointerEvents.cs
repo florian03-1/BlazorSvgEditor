@@ -13,6 +13,8 @@ public partial class SvgEditor
     //Container events (pointer events, wheel events)
     private async Task OnContainerPointerDown(PointerEventArgs e)
     {
+        if(e.PointerType == "touch") return; //Touch events are handled seperately
+        
         if (e.Button == MOVE_BUTTON_INDEX)
         {
             IsTranslating = true;
@@ -42,6 +44,8 @@ public partial class SvgEditor
     
     private void OnContainerPointerMove(PointerEventArgs e)
     {
+        if(e.PointerType == "touch") return; //Touch events are handled seperately
+
         if(ShowDiagnosticInformation) _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
         
         if (IsTranslating) Pan(e.MovementX, e.MovementY);
@@ -62,6 +66,8 @@ public partial class SvgEditor
     
     private void OnUnselectPanelPointerDown(PointerEventArgs e)
     {
+        if(e.PointerType == "touch") return; //Touch events are handled seperately
+        
         SelectedShape?.UnSelectShape();
         SelectedShape = null;
     }

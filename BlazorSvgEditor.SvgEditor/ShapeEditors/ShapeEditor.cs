@@ -13,19 +13,25 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
     protected ElementReference ElementReference { get; set; }
 
 
-    protected void Enter()
+    protected void Enter(PointerEventArgs e)
     {
+        if(e.PointerType == "touch") return; //Touch events are handled seperately
+        
         if(SvgElement.SvgEditor.EditMode != EditMode.None) return;
         SvgElement.HoverShape();
     }
     
-    protected void Leave()
+    protected void Leave(PointerEventArgs e)
     {
+        if(e.PointerType == "touch") return; //Touch events are handled seperately
+        
         SvgElement.UnHoverShape();
     }
 
     protected void Select(PointerEventArgs eventArgs)
     {
+        if(eventArgs.PointerType == "touch") return; //Touch events are handled seperately
+
         if (SvgElement.SvgEditor.EditMode == EditMode.Add) return;
         
         SvgElement.SelectShape();

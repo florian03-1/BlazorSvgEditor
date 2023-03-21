@@ -27,7 +27,25 @@ public partial class SvgEditor
         Translate = new (Translate.X + (x - Translate.X) * (1 - Scale / previousScale), Translate.Y + (y - Translate.Y) * (1 - Scale / previousScale));
         Translate = new (Translate.X.Round(3), Translate.Y.Round(3));
     }
-    
+
+    private void TouchZoom(double distanceDelta, Coord<double> containerCenter, Coord<double> delta)
+    {
+        //DistanceDelta is the amount of change in the distance between the two fingers (+ -> zoom in, - -> zoom out)
+        var distanceDeltaFactor = Scale; //Damit das Skalieren zu jeder Zeit gleichmäßig ist, wird die Distanz mit dem aktuellen Scale multipliziert
+        
+        if (Scale < MinScale && distanceDelta < 0) distanceDeltaFactor = 0; //Wenn Scale kleiner als MinScale ist, darf nicht herausgezoomt werden
+        else if (Scale > MaxScale && distanceDelta > 0) distanceDeltaFactor = 0; //Wenn Scale größer als MaxScale ist, darf nicht hereingezoomt werden
+        
+        var newScale = Scale + (distanceDelta * distanceDeltaFactor) / touchSensitivity;
+        
+        var previousScale = Scale;
+        Scale = newScale;
+        
+        //Set the translation, that the center of the container stays in the center of the image and pan it by the delta
+        Translate = new (Translate.X + (containerCenter.X - Translate.X) * (1 - Scale / previousScale) + delta.X, Translate.Y + (containerCenter.Y - Translate.Y) * (1 - Scale / previousScale) + delta.Y);
+        Translate = new (Translate.X.Round(3), Translate.Y.Round(3));
+    }
+
     //x and y are the amount of change the current translation 
     private void Pan(double x, double y)
     {

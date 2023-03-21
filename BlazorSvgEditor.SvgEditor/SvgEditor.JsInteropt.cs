@@ -12,7 +12,6 @@ public partial class SvgEditor : IAsyncDisposable
     private Lazy<Task<IJSObjectReference>> moduleTask = null!; //wird gesetzt in OnInitialized
     
     
-    
     private JsBoundingBox _containerBoundingBox = new();
     private ElementReference _containerElementReference;
 
