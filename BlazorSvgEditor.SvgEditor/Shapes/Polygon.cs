@@ -90,11 +90,19 @@ public class Polygon : Shape
     {
         if (SvgEditor.EditMode == EditMode.Add)
         {
+            if (eventArgs.Button == 2 && Points.Count > 3) //Right button clicked -> End of Polygon (if possible)
+            {
+                //Ende des Polygonss
+                Points.RemoveAt(Points.Count - 1);
+                await Complete();
+                return;
+            }
+            
             if (Coord<double>.Distance(Points[^1], Points[0]) < _polygonCompleteThreshold && Points.Count > 3) //Es müssen mehr als 3 Punkte sein da gleich ja einer entfernt wird
             {
                 //Ende des Polygonss
                 Points.RemoveAt(Points.Count - 1);
-                Complete();
+                await Complete();
             }
             if (!(Coord<double>.Distance(Points[^1], Points[0]) < _polygonCompleteThreshold)) //Die Punkte sind zu nah beieinander - keinen neuen Punkt im Polygon erstellen
             {
