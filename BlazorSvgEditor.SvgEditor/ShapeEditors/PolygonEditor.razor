@@ -32,7 +32,7 @@
     for (int i = 0; i < SvgElement.Points.Count; i++)
     {
         int j = i;
-        <Anchor OnPointerDown="() => OnAnchorSelected(j)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
+        <Anchor RingColor="@SvgElement.Color" OnPointerDown="() => OnAnchorSelected(j)" CssCursor="nwse-resize" Position="new Coord<double>(SvgElement.Points[i].X, SvgElement.Points[i].Y)"
                 OnDoubleClick="() => SvgElement.OnAnchorDoubleClicked(j)" SvgEditor="SvgElement.SvgEditor"/>
 
         var firstPointIndex = i;

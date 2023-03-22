@@ -23,12 +23,12 @@ public abstract class Shape
     internal abstract Type Presenter { get; }
     
     public int CustomId { get; set; } = 0;
-    
     public abstract ShapeType ShapeType { get; }
+    public string Color { get; set; } = "#ff8c00";
 
     internal string Fill { get; set; } = "transparent";
     internal double FillOpacity { get; set; } = 1;
-    internal string Stroke { get; set; } = "#ff8c00"; //Orange
+    internal string Stroke => Color; //Orange
     
     private int _normalRawStrokeWidth = 3;
     private double RawStrokeWidth { get; set; } = 3;
@@ -53,7 +53,7 @@ public abstract class Shape
         RawStrokeWidth = _normalRawStrokeWidth * 1.5;
         RawStrokeDasharray = 10;
         StrokeDashoffset = 0;
-        Fill = "#ff8c00";
+        Fill = Color;
         FillOpacity = 0.4;
     }
     
@@ -75,7 +75,7 @@ public abstract class Shape
         State = ShapeState.Hovered;
         
         //Visual hover logic
-        Fill = "#ff8c00";
+        Fill = Color;
         FillOpacity = 0.2;
     }
     

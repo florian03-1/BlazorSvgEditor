@@ -34,7 +34,7 @@ public partial class Preview
     }
     
 
-    private void AddShape(ShapeType shapeType) => svgEditor?.AddNewShape(shapeType);
+    private void AddShape(ShapeType shapeType, string? color = null) => svgEditor?.AddNewShape(shapeType, color);
     private void ShapeSelected(int shapeId) => SelectedShapeId = shapeId;
     private void ResetTransform() => svgEditor?.ResetTransform();
     private void ClearAll() => svgEditor?.ClearShapes();

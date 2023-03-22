@@ -32,6 +32,7 @@ public partial class SvgEditor
         SelectedShape = null;
     }
 
+    private string? _newShapeColor = null;
     private async Task AddToolPointerDown(PointerEventArgs e)
     {
         Shape? newShape = null;
@@ -74,6 +75,9 @@ public partial class SvgEditor
         if (Shapes.Count > 0) newShapeId = Math.Min(Enumerable.Min<Shape>(Shapes, x => x.CustomId) - 1, newShapeId);
 
         newShape.CustomId = newShapeId;
+
+        if (_newShapeColor != null) newShape.Color = _newShapeColor;
+        
         Shapes.Add(newShape);
 
         SelectedShape = newShape;

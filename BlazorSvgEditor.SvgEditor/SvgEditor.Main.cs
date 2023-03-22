@@ -152,10 +152,12 @@ public partial class SvgEditor
         await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(shape));
     }
     
-    public void AddNewShape(ShapeType shapeType)
+    public void AddNewShape(ShapeType shapeType, string? color = null)
     {
         EditMode = EditMode.AddTool;
         ShapeType = shapeType;
+        
+        _newShapeColor = color;
         
         SelectedShape?.UnSelectShape();
         SelectedShape = null;
