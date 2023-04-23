@@ -63,13 +63,13 @@ public partial class SvgEditor
     
     //SelectedShapeId is the CustomId of the selected shape (public and bindable)
     [Parameter]
-    public int SelectedShapeId
+    public Guid SelectedShapeId
     {
-        get => SelectedShape?.CustomId ?? 0;
+        get => SelectedShape?.CustomId ?? Guid.Empty;
         set
         {
             if(value == SelectedShapeId) return;
-            if (value == 0)
+            if (value == default)
             {
                 SelectedShape?.UnSelectShape();
                 SelectedShape = null;
@@ -83,7 +83,7 @@ public partial class SvgEditor
             }
         }
     }
-    [Parameter] public EventCallback<int> SelectedShapeIdChanged { get; set; }
+    [Parameter] public EventCallback<Guid> SelectedShapeIdChanged { get; set; }
     
     
     

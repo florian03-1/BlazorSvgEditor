@@ -71,10 +71,7 @@ public partial class SvgEditor
                 throw new ArgumentOutOfRangeException();
         }
 
-        var newShapeId = -1;
-        if (Shapes.Count > 0) newShapeId = Math.Min(Enumerable.Min<Shape>(Shapes, x => x.CustomId) - 1, newShapeId);
-
-        newShape.CustomId = newShapeId;
+        newShape.CustomId = Guid.NewGuid();
 
         if (_newShapeColor != null) newShape.Color = _newShapeColor;
         

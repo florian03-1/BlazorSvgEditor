@@ -8,7 +8,8 @@ public abstract class Shape
 {
     protected Shape(SvgEditor svgEditor)
     {
-        SvgEditor = svgEditor;
+        SvgEditor = svgEditor ?? throw new ArgumentNullException(nameof(svgEditor));
+
     }
     
     public SvgEditor SvgEditor { get; set; }
@@ -22,7 +23,7 @@ public abstract class Shape
     
     internal abstract Type Presenter { get; }
     
-    public int CustomId { get; set; } = 0;
+    public Guid CustomId { get; set; } = Guid.NewGuid();
     public abstract ShapeType ShapeType { get; }
     public string Color { get; set; } = "#ff8c00";
 

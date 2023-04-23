@@ -8,7 +8,7 @@ using BlazorSvgEditor.SvgEditor;
 public partial class Preview
 {
     private SvgEditor? svgEditor;
-    private int SelectedShapeId { get; set; }
+    private Guid SelectedShapeId { get; set; }
 
 
     //
@@ -27,15 +27,15 @@ public partial class Preview
         {
             if (svgEditor == null) return;
             await svgEditor.ReloadImage();
-            await svgEditor.AddExistingShape(new Circle(svgEditor){CustomId = 1, Cx = 400, Cy = 300 , R = 100});
-            await svgEditor.AddExistingShape(new Rectangle(svgEditor){CustomId = 2, X = 700, Y = 400 , Width = 100, Height = 50});
+            await svgEditor.AddExistingShape(new Circle(svgEditor){Cx = 400, Cy = 300 , R = 100});
+            await svgEditor.AddExistingShape(new Rectangle(svgEditor){ CustomId = Guid.Parse("de84658-1af7-416e-87db-860b39590e14"), X = 700, Y = 400 , Width = 100, Height = 50});
         }
         await base.OnAfterRenderAsync(firstRender);
     }
     
 
     private void AddShape(ShapeType shapeType, string? color = null) => svgEditor?.AddNewShape(shapeType, color);
-    private void ShapeSelected(int shapeId) => SelectedShapeId = shapeId;
+    private void ShapeSelected(Guid shapeId) => SelectedShapeId = shapeId;
     private void ResetTransform() => svgEditor?.ResetTransform();
     private void ClearAll() => svgEditor?.ClearShapes();
     
@@ -55,12 +55,13 @@ public partial class Preview
 
     private void EditorShapeChanged(ShapeChangedEventArgs e)
     {
-        if (e.ChangeType == ShapeChangeType.Add && e.Shape?.CustomId <= 0) //Wenn das Shape neu ist und es noch keine ID hat...
-        {
-            //Get new id
-            var newId = Shapes.Any() ? Shapes.Max(x => x.CustomId) + 1 : 1;
-            e.Shape.CustomId = newId;
-        }
+        // If the shape is new and it does not have an ID yet...
+        //if (e.ChangeType == ShapeChangeType.Add && e.Shape?.CustomId <= 0)
+        //{
+        //    //Get new id
+        //    var newId = Shapes.Any() ? Shapes.Max(x => x.CustomId) + 1 : 1;
+        //    e.Shape.CustomId = newId;
+        //}
 
 
         switch (e.ChangeType)

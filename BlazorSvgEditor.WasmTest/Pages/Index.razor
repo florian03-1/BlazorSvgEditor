@@ -102,7 +102,7 @@
     
     public ImageManipulations ImageManipulations { get; set; } = new();
 
-    private int _selectedItemId = 0;
+    private Guid _selectedItemId;
     public List<string> Changes { get; set; } = new List<string>();
 
     private List<Shape> _shapes = new();
@@ -116,9 +116,9 @@
 
     private void SelectItem()
     {
-        if (int.TryParse(input, out var id))
+        if (Guid.TryParse(input, out var id))
         {
-            if (id != 0) _selectedItemId = id;
+            if (id != default) _selectedItemId = id;
         }
     }
 
@@ -136,11 +136,10 @@
             return;
         }
         
-        if (args.ChangeType == ShapeChangeType.Add && args.Shape?.CustomId <= 0)
+        if (args.ChangeType == ShapeChangeType.Add && args.Shape?.CustomId == default)
         {
             //Get new id
-            var newId = _shapes.Any() ? _shapes.Max(x => x.CustomId) + 1 : 1;
-            args.Shape.CustomId = newId;
+            args.Shape.CustomId = Guid.NewGuid();
         }
         
         if (_shapes.Any(x => x.CustomId == args.Shape?.CustomId))
@@ -165,9 +164,9 @@
     {
         if (svgEditor == null) return;
         
-        await svgEditor.AddExistingShape(new Circle(svgEditor) { Cy = 300, Cx = 300, R = 40, CustomId = 1 });
-        await svgEditor.AddExistingShape(new Rectangle(svgEditor) { X = 100, Y = 100, Width = 100, Height = 100, CustomId = 2 });
-        await svgEditor.AddExistingShape(new Polygon(svgEditor) { Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)}, CustomId = 3 });
+        await svgEditor.AddExistingShape(new Circle(svgEditor) { Cy = 300, Cx = 300, R = 40});
+        await svgEditor.AddExistingShape(new Rectangle(svgEditor) { X = 100, Y = 100, Width = 100, Height = 100 });
+        await svgEditor.AddExistingShape(new Polygon(svgEditor) { Points = new List<Coord<double>>(){new (500,50), new (600,50), new(600,100)} });
         
     /*var poligonPoints = new List<Coord<double>>();
         for (int i = 0; i < 100; i++)

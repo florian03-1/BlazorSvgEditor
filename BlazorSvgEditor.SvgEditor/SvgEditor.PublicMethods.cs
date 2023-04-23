@@ -28,7 +28,7 @@ public partial class SvgEditor
     {
         if (SelectedShape != null)
         {
-            int deletedShapeId = SelectedShape.CustomId;
+            var deletedShapeId = SelectedShape.CustomId;
             Shapes.Remove(SelectedShape);
             SelectedShape = null;
             SelectedAnchorIndex = null;
@@ -41,7 +41,7 @@ public partial class SvgEditor
         }
     }
     
-    public async Task RemoveShape(int shapeId)
+    public async Task RemoveShape(Guid shapeId)
     {
         Shape? shape = Shapes.FirstOrDefault(s => s.CustomId == shapeId);
         if (shape != null)

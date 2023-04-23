@@ -7,8 +7,8 @@ public class ShapeChangedEventArgs : EventArgs
     public ShapeChangeType ChangeType { get; set; }
     public Shape? Shape { get; private set; } = null!;
     
-    private int _shapeId = 0;
-    public int ShapeId => Shape?.CustomId ?? _shapeId;
+    private Guid _shapeId;
+    public Guid ShapeId => Shape?.CustomId ?? _shapeId;
     
     public static ShapeChangedEventArgs ShapeMoved(Shape shape)
     {
@@ -37,7 +37,7 @@ public class ShapeChangedEventArgs : EventArgs
         };
     }
     
-    public static ShapeChangedEventArgs ShapeDeleted(int deletedShapeId)
+    public static ShapeChangedEventArgs ShapeDeleted(Guid deletedShapeId)
     {
         return new ShapeChangedEventArgs()
         {
