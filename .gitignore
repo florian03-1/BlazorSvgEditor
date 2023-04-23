@@ -1,6 +1,28 @@
-bin/
-obj/
-/packages/
+# Visual Studio
+.vscode
+.vs/
+
+# ReSharper is a .NET coding add-in
+_ReSharper*
+_dotCover*
+.idea
 riderModule.iml
-/_ReSharper.Caches/
-.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Pp]ackages/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
