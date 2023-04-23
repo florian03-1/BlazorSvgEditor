@@ -83,6 +83,28 @@ public partial class SvgEditor
         _imageSourceLoading = false;
         StateHasChanged();
     }
-    
+
+    public async Task DuplicateSelectedShape()
+    {
+        if (SelectedShape != null)
+        {
+            int deletedShapeId = SelectedShape.CustomId;
+            Shape? shape = Shapes.FirstOrDefault(s => s.CustomId == deletedShapeId);
+
+            if (shape != null)
+            {
+                var newShape = shape.Clone();
+                if (Shapes.Count > 0) newShape.CustomId = Math.Min(Enumerable.Min<Shape>(Shapes, x => x.CustomId) - 1, newShape.CustomId);
+
+                Shapes.Add(newShape);
+                await OnShapeChanged.InvokeAsync(ShapeChangedEventArgs.ShapeAdded(newShape));
+            }
+        }
+        else
+        {
+            if (ShowDiagnosticInformation) Console.WriteLine("No shape selected - so nothing to duplicate");
+        }
+    }
+
     public void Refresh() => StateHasChanged();
 }

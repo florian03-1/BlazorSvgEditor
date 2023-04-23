@@ -112,4 +112,9 @@ public partial class Preview
     {
         svgEditor?.RemoveSelectedShape();
     }
+
+    private void DuplicateShape()
+    {
+        svgEditor?.DuplicateSelectedShape();
+    }
 }

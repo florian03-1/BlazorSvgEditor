@@ -111,6 +111,9 @@ public abstract class Shape
     {
         return $"{GetType().Name}: {Bounds}";
     }
+
+    public Shape Clone()
+        => (Shape)MemberwiseClone();
 }
 
 internal enum ShapeState
