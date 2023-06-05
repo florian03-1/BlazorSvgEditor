@@ -44,6 +44,9 @@ public partial class SvgEditor
     [Parameter] public EventCallback<ShapeChangedEventArgs> OnShapeChanged { get; set; } //Event for shape changes
     
     
+    //ReadOnly
+    [Parameter] public bool ReadOnly { get; set; } = false; //Is the editor read only?
+    
     
     //Selected Shape (intern property) and SelectedShapeId (public property)
     private Shape? _selectedShape;

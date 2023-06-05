@@ -33,6 +33,7 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
         if(eventArgs.PointerType == "touch") return; //Touch events are handled seperately
 
         if (SvgElement.SvgEditor.EditMode == EditMode.Add) return;
+        if (SvgElement.SvgEditor.ReadOnly) return; //Beim ReadOnly Modus kann man keine Shapes auswählen
         
         SvgElement.SelectShape();
         SvgElement.SvgEditor.SelectShape(SvgElement, eventArgs);

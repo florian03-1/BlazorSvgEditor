@@ -50,7 +50,7 @@ public partial class SvgEditor
         
         if (IsTranslating) Pan(e.MovementX, e.MovementY);
 
-        if (SelectedShape != null)
+        if (SelectedShape != null && ReadOnly == false)
         {
             SelectedShape.HandlePointerMove(e);
             MoveStartDPoint = DetransformOffset(e);

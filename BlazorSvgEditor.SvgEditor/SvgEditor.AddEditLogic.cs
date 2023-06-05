@@ -84,6 +84,8 @@ public partial class SvgEditor
         SelectedShape.SelectShape();
                 
         EditMode = EditMode.Add;
+
+        await Task.Yield();
     }
     
     public async Task ShapeAddedCompleted(Shape shape)
