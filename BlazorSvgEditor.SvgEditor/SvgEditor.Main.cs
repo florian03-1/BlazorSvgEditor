@@ -87,7 +87,7 @@ public partial class SvgEditor
         }
     }
     [Parameter] public EventCallback<int> SelectedShapeIdChanged { get; set; }
-    [Parameter] public EventCallback<int> ClickShape { get; set; }
+    [Parameter] public EventCallback<int> OnShapeClicked { get; set; }
 
 
 

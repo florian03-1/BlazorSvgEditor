@@ -41,7 +41,7 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
     
     protected void ClickShape()
     {
-        SvgElement.SvgEditor.ClickShape.InvokeAsync(SvgElement.CustomId);
+        SvgElement.SvgEditor.OnShapeClicked.InvokeAsync(SvgElement.CustomId);
     }
 
     protected void OnAnchorSelected(int anchorIndex)

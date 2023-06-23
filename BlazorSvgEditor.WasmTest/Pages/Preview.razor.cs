@@ -114,7 +114,7 @@ public partial class Preview
         svgEditor?.RemoveSelectedShape();
     }
 
-    void ClickShape(int CustomId)
+    void EditorShapeClicked(int CustomId)
     {
         ClickedShapeId = CustomId;
     }

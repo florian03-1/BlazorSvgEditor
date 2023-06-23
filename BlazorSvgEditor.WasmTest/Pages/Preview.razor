@@ -15,7 +15,7 @@
     <div class="o-editor">
         <SvgEditor @ref="svgEditor" CssClass="border border-gray-200 rounded-lg shadow-md" MinScale="0.8" ImageSize="(1000,750)" ImageManipulations="ImageManipulations"
                    OnShapeChanged="EditorShapeChanged" ImageSourceLoadingFunc="GetImageSource"
-                   ClickShape="ClickShape"
+                   OnShapeClicked="EditorShapeClicked"
                    @bind-SelectedShapeId="SelectedShapeId" ReadOnly="ReadOnly">
             <LoadingSpinner>
 
