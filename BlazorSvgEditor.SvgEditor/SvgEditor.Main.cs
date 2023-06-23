@@ -87,9 +87,10 @@ public partial class SvgEditor
         }
     }
     [Parameter] public EventCallback<int> SelectedShapeIdChanged { get; set; }
-    
-    
-    
+    [Parameter] public EventCallback<int> ClickShape { get; set; }
+
+
+
     //Func for ImageSource Loading Task
     [Parameter] public Func<Task<(string imageSource, int width, int height)>>? ImageSourceLoadingFunc { get; set; }
     [Parameter] public RenderFragment? LoadingSpinner { get; set; }

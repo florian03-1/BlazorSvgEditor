@@ -14,7 +14,9 @@
 
     <div class="o-editor">
         <SvgEditor @ref="svgEditor" CssClass="border border-gray-200 rounded-lg shadow-md" MinScale="0.8" ImageSize="(1000,750)" ImageManipulations="ImageManipulations"
-                   OnShapeChanged="EditorShapeChanged" ImageSourceLoadingFunc="GetImageSource" @bind-SelectedShapeId="SelectedShapeId" ReadOnly="false">
+                   OnShapeChanged="EditorShapeChanged" ImageSourceLoadingFunc="GetImageSource"
+                   ClickShape="ClickShape"
+                   @bind-SelectedShapeId="SelectedShapeId" ReadOnly="true">
             <LoadingSpinner>
 
                 <div class="flex items-center justify-center h-full">
@@ -62,6 +64,7 @@
                 <div class="inline-flex mt-2" role="group">
                     <button @onclick="ResetTransform" type="button" class="shadow-sm flex-grow focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2 mr-2">Reset Transformation</button>
                     <button @onclick="ClearAll" type="button" class="shadow-sm flex-grow focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2">Clear</button>
+                    <button @onclick="@(()=> ReadOnly=!ReadOnly)" type="button" class="shadow-sm flex-grow focus:outline-none text-white bg-green-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2">@(ReadOnly? "Read Only":"Editable")</button>
                 </div>
             </div>
 
@@ -123,7 +126,7 @@
 
                 @foreach (var shape in Shapes)
                 {
-                    <div @onclick="() => ShapeSelected(shape.CustomId)" class="cursor-pointer border border-gray-300 p-1.5 inline-flex rounded-lg mb-2 @(shape.CustomId == SelectedShapeId ? "border-red-900 bg-red-300" : "")">
+                    <div @onclick="() => ShapeSelected(shape.CustomId)" class="cursor-pointer border border-gray-300 p-1.5 inline-flex rounded-lg mb-2 @(((shape.CustomId == SelectedShapeId) || (shape.CustomId == ClickedShapeId))  ? "border-red-900 bg-red-300" : "")">
                         <b class="mr-2">@(shape.ShapeType.ToString()):</b>
                         <p>(Id: @shape.CustomId)</p>
                     </div>

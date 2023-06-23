@@ -9,9 +9,10 @@ public partial class Preview
 {
     private SvgEditor? svgEditor;
     private int SelectedShapeId { get; set; }
+    private int ClickedShapeId { get; set; }    
+    private bool ReadOnly { get; set; } = false; //Is the editor read only?
 
-
-    //
+    
     private List<Shape> Shapes = new();
     string status = "--Status--";
 
@@ -111,5 +112,10 @@ public partial class Preview
     private void DeleteShape()
     {
         svgEditor?.RemoveSelectedShape();
+    }
+
+    void ClickShape(int CustomId)
+    {
+        ClickedShapeId = CustomId;
     }
 }

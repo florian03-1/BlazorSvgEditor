@@ -39,6 +39,11 @@ public abstract class ShapeEditor<TShape> : ComponentBase where TShape : Shape
         SvgElement.SvgEditor.SelectShape(SvgElement, eventArgs);
     }
     
+    protected void ClickShape()
+    {
+        SvgElement.SvgEditor.ClickShape.InvokeAsync(SvgElement.CustomId);
+    }
+
     protected void OnAnchorSelected(int anchorIndex)
     {
         SvgElement.SvgEditor.EditMode = EditMode.MoveAnchor;
