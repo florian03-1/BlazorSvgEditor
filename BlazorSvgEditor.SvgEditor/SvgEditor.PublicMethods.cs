@@ -75,6 +75,7 @@ public partial class SvgEditor
         if (newScale != null) Scale = newScale.Value;
         StateHasChanged();
     }
+    public (Coord<double> translation, double scale) GetTranslateAndScale() => (Translate, Scale);
 
     public async Task ReloadImage()
     {
