@@ -19,7 +19,7 @@ public partial class SvgEditor
             if (_lastTouchPoint != new Coord<double>(0, 0))
             {
                 var delta = currentTouchPoint - _lastTouchPoint;
-                Pan(delta.X, delta.Y);
+                await Pan(delta.X, delta.Y);
             }
             _lastTouchPoint = currentTouchPoint;
         }
@@ -44,7 +44,7 @@ public partial class SvgEditor
                 var containerCenter = new Coord<double>(_containerBoundingBox.Width / 2, _containerBoundingBox.Height / 2);
                 
                 var distanceDelta = currentDistance - _lastTouchDistance;
-                TouchZoom(distanceDelta ,containerCenter, delta);
+                await TouchZoom(distanceDelta ,containerCenter, delta);
             }
             
             _lastZoomCenterPoint = new Coord<double>((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2);

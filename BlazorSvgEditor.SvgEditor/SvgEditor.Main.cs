@@ -1,3 +1,4 @@
+using BlazorSvgEditor.SvgEditor.Helper;
 using BlazorSvgEditor.SvgEditor.Misc;
 using BlazorSvgEditor.SvgEditor.Shapes;
 using Microsoft.AspNetCore.Components;
@@ -43,6 +44,8 @@ public partial class SvgEditor
     
     [Parameter] public EventCallback<ShapeChangedEventArgs> OnShapeChanged { get; set; } //Event for shape changes
     
+    [Parameter] public EventCallback<(Coord<double> translate, double scale)> TranslationChanged { get; set; }
+    private async Task InvokeTranslationChanged() => await TranslationChanged.InvokeAsync((Translate, Scale));
     
     //ReadOnly
     [Parameter] public bool ReadOnly { get; set; } = false; //Is the editor read only?

@@ -15,7 +15,7 @@ public partial class SvgEditor
     internal Coord<double> MoveStartDPoint;
 
     //Delta is the amount of change in the mouse wheel (+ -> zoom in, - -> zoom out)
-    private void Zoom(double delta, double x, double y)
+    private async Task Zoom(double delta, double x, double y)
     {
         var previousScale = Scale;
         var newScale = Scale * (1 - delta / 1000.0);
@@ -26,9 +26,11 @@ public partial class SvgEditor
         
         Translate = new (Translate.X + (x - Translate.X) * (1 - Scale / previousScale), Translate.Y + (y - Translate.Y) * (1 - Scale / previousScale));
         Translate = new (Translate.X.Round(3), Translate.Y.Round(3));
+
+        await InvokeTranslationChanged();
     }
 
-    private void TouchZoom(double distanceDelta, Coord<double> containerCenter, Coord<double> delta)
+    private async Task TouchZoom(double distanceDelta, Coord<double> containerCenter, Coord<double> delta)
     {
         //DistanceDelta is the amount of change in the distance between the two fingers (+ -> zoom in, - -> zoom out)
         var distanceDeltaFactor = Scale; //Damit das Skalieren zu jeder Zeit gleichmäßig ist, wird die Distanz mit dem aktuellen Scale multipliziert
@@ -44,18 +46,23 @@ public partial class SvgEditor
         //Set the translation, that the center of the container stays in the center of the image and pan it by the delta
         Translate = new (Translate.X + (containerCenter.X - Translate.X) * (1 - Scale / previousScale) + delta.X, Translate.Y + (containerCenter.Y - Translate.Y) * (1 - Scale / previousScale) + delta.Y);
         Translate = new (Translate.X.Round(3), Translate.Y.Round(3));
+        
+        await InvokeTranslationChanged();
     }
+    
 
     //x and y are the amount of change the current translation 
-    private void Pan(double x, double y)
+    private async Task Pan(double x, double y)
     {
         Translate.X = (Translate.X + x).Round(3);
         Translate.Y = (Translate.Y + y).Round(3);
+        
+        await InvokeTranslationChanged();
     }
 
     
 
-    private void ResetTransformation()
+    private async Task ResetTransformation()
     {
         var containerRatio = (double)_containerBoundingBox.Width / _containerBoundingBox.Height;
         var imageRatio = (double)ImageSize.Width / ImageSize.Height;
@@ -79,6 +86,8 @@ public partial class SvgEditor
         }
         
         StateHasChanged();
+        
+        await InvokeTranslationChanged();
     }
     
     

@@ -42,13 +42,13 @@ public partial class SvgEditor
         SelectedShape?.SnapToInteger();
     }
     
-    private void OnContainerPointerMove(PointerEventArgs e)
+    private async Task OnContainerPointerMove(PointerEventArgs e)
     {
         if(e.PointerType == "touch") return; //Touch events are handled seperately
 
         if(ShowDiagnosticInformation) _pointerPosition = new Coord<int>((int)e.OffsetX, (int) e.OffsetY);
         
-        if (IsTranslating) Pan(e.MovementX, e.MovementY);
+        if (IsTranslating) await Pan(e.MovementX, e.MovementY);
 
         if (SelectedShape != null && ReadOnly == false)
         {
@@ -57,10 +57,10 @@ public partial class SvgEditor
         }
     }
     
-    private void OnContainerWheel(WheelEventArgs e)
+    private async Task OnContainerWheel(WheelEventArgs e)
     {
         //Zoom
-        Zoom(e.DeltaY, e.OffsetX, e.OffsetY);
+        await Zoom(e.DeltaY, e.OffsetX, e.OffsetY);
     }
 
     
