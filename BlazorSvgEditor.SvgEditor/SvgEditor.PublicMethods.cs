@@ -67,6 +67,63 @@ public partial class SvgEditor
         await SetContainerBoundingBox();
         await ResetTransformation();
     }
+
+
+    public async Task ZoomToShape(int shapeId, double marginPercentage)
+    {
+        Shape? shape = Shapes.FirstOrDefault(s => s.CustomId == shapeId);
+        if (shape != null)
+        {
+            await SetContainerBoundingBox();
+            
+            var shapeWidth = shape.Bounds.Right - shape.Bounds.Left;
+            var shapeHeight = shape.Bounds.Bottom - shape.Bounds.Top;
+            var marginPixels = Math.Max(shapeWidth, shapeHeight) * marginPercentage;
+
+            //Die BoundingBox des elements ist im Verhältnis breiter als die des Containers
+            var shapeBoundingBoxWithMargin = new BoundingBox
+            {
+                Left = shape.Bounds.Left - marginPixels,
+                Right = shape.Bounds.Right + marginPixels,
+                Top = shape.Bounds.Top - marginPixels,
+                Bottom = shape.Bounds.Bottom + marginPixels
+            };
+                
+            ZoomToShape(shapeBoundingBoxWithMargin);
+        }
+    }
+    
+    public async Task ZoomToShape(int shapeId, int marginPixels)
+    {
+        Shape? shape = Shapes.FirstOrDefault(s => s.CustomId == shapeId);
+        if (shape != null)
+        {
+            await SetContainerBoundingBox();
+            
+            var shapeWidth = shape.Bounds.Right - shape.Bounds.Left;
+            var shapeHeight = shape.Bounds.Bottom - shape.Bounds.Top;
+            bool isShapeWiderThanContainer = (shapeWidth / shapeHeight) > (_containerBoundingBox.Width / _containerBoundingBox.Height);
+            
+            var scaleForCalculatingMargin = isShapeWiderThanContainer ? (double)_containerBoundingBox.Width / shapeWidth : (double)_containerBoundingBox.Height / shapeHeight;
+
+            //Die BoundingBox des elements ist im Verhältnis breiter als die des Containers
+            var shapeBoundingBoxWithMargin = new BoundingBox
+            {
+                Left = shape.Bounds.Left - marginPixels / scaleForCalculatingMargin,
+                Right = shape.Bounds.Right + marginPixels / scaleForCalculatingMargin,
+                Top = shape.Bounds.Top - marginPixels / scaleForCalculatingMargin,
+                Bottom = shape.Bounds.Bottom + marginPixels / scaleForCalculatingMargin
+            };
+                
+            ZoomToShape(shapeBoundingBoxWithMargin);
+        }
+    }
+    
+    public async Task ZoomToShape(int shapeId)
+    {
+        await ZoomToShape(shapeId, 0.05);
+    }
+
     
     //Use this method to set the translation to a specific value -> e.g. to syncronize the translation of two SvgEditors
     public void SetTranslateAndScale(Coord<double>? newTranslate = null, double? newScale = null)

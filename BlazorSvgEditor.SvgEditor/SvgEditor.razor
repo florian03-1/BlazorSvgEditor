@@ -57,7 +57,7 @@
                     <b>ContainerBox:</b> X: @(Math.Round(_containerBoundingBox.Width, 1))px Y: @(Math.Round(_containerBoundingBox.Height, 1))px
                 </foreignObject>
         
-                <foreignObject visibility="hidden" height="120px" width="300px" class="unselectable" x="0px" y="150" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
+                <foreignObject height="120px" width="300px" class="unselectable" x="0px" y="150" style="font-size:14px;pointer-events:none;touch-action:none; background-color: white">
                     @foreach(var shape in Shapes)
                     {
                         @shape.ToString()

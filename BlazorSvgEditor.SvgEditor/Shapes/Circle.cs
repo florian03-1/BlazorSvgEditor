@@ -18,7 +18,7 @@ public class Circle : Shape
     public double Cy { get; set; }
     public double R { get; set; }
 
-    protected override BoundingBox Bounds => new BoundingBox(Cx -R, Cy - R, Cx + R, Cy + R);
+    public override BoundingBox Bounds => new BoundingBox(Cx -R, Cy - R, Cx + R, Cy + R);
 
     internal override void SnapToInteger()
     {

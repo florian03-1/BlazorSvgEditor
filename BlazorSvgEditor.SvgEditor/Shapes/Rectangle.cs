@@ -19,7 +19,7 @@ public class Rectangle : Shape
 
     private Coord<double> AddPosition = new(-1, -1);
 
-    protected override BoundingBox Bounds => new BoundingBox(X, Y, X + Width, Y + Height);
+    public override BoundingBox Bounds => new BoundingBox(X, Y, X + Width, Y + Height);
 
     internal override void SnapToInteger()
     {

@@ -90,7 +90,7 @@ public abstract class Shape
         FillOpacity = 1;
     }
     
-    protected abstract BoundingBox Bounds { get; }
+    public abstract BoundingBox Bounds { get; }
 
     internal abstract void SnapToInteger();
     internal abstract void HandlePointerMove(PointerEventArgs eventArgs);

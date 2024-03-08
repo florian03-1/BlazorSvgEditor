@@ -1,4 +1,5 @@
 using BlazorSvgEditor.SvgEditor.Helper;
+using BlazorSvgEditor.SvgEditor.Misc;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorSvgEditor.SvgEditor;
@@ -89,6 +90,34 @@ public partial class SvgEditor
         
         await InvokeTranslationChanged();
     }
+    
+    private void ZoomToShape(BoundingBox shapeBoundingBox)
+    {
+        var newShapeWidth = shapeBoundingBox.Right - shapeBoundingBox.Left;
+        var newShapeHeight = shapeBoundingBox.Bottom - shapeBoundingBox.Top;
+        
+        bool isShapeWiderThanContainer = (newShapeWidth / newShapeHeight) > (_containerBoundingBox.Width / _containerBoundingBox.Height);
+
+        if (isShapeWiderThanContainer)
+        {
+            Scale = (double)_containerBoundingBox.Width / newShapeWidth;
+                
+            var translateX = (shapeBoundingBox.Left * Scale * -1) + (_containerBoundingBox.Width - newShapeWidth * Scale) / 2;
+            var translateY = (shapeBoundingBox.Top * Scale * -1) + (_containerBoundingBox.Height - newShapeHeight * Scale) / 2;
+                
+            Translate = new (translateX, translateY);
+        }
+        else
+        {
+            Scale = (double)_containerBoundingBox.Height / newShapeHeight;
+                
+            var translateX = (shapeBoundingBox.Left * Scale * -1) + (_containerBoundingBox.Width - newShapeWidth * Scale) / 2;
+            var translateY = (shapeBoundingBox.Top * Scale * -1) + (_containerBoundingBox.Height - newShapeHeight * Scale) / 2;
+                
+            Translate = new (translateX, translateY);
+        }
+    }
+
     
     
     internal double GetScaledValue(double value, int decimals = 1) => (value *(1/ Scale )).Round(decimals);

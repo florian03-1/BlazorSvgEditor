@@ -14,9 +14,8 @@
 
     <div class="o-editor">
         <SvgEditor @ref="svgEditor" CssClass="border border-gray-200 rounded-lg shadow-md" MinScale="0.8" ImageSize="(1000,750)" ImageManipulations="ImageManipulations"
-                   OnShapeChanged="EditorShapeChanged" ImageSourceLoadingFunc="GetImageSource"
-                   OnShapeClicked="EditorShapeClicked"
-                   @bind-SelectedShapeId="SelectedShapeId" ReadOnly="ReadOnly">
+                   OnShapeChanged="EditorShapeChanged" ImageSourceLoadingFunc="GetImageSource" ShowDiagnosticInformation="false"
+                   @bind-SelectedShapeId="@SelectedShapeId" ReadOnly="@ReadOnly">
             <LoadingSpinner>
 
                 <div class="flex items-center justify-center h-full">
@@ -126,7 +125,7 @@
 
                 @foreach (var shape in Shapes)
                 {
-                    <div @onclick="() => ShapeSelected(shape.CustomId)" class="cursor-pointer border border-gray-300 p-1.5 inline-flex rounded-lg mb-2 @(((shape.CustomId == SelectedShapeId) || (shape.CustomId == ClickedShapeId))  ? "border-red-900 bg-red-300" : "")">
+                    <div @onclick="() => ShapeSelected(shape.CustomId)" class="cursor-pointer border border-gray-300 p-1.5 inline-flex rounded-lg mb-2 @(((shape.CustomId == SelectedShapeId))  ? "border-red-900 bg-red-300" : "")">
                         <b class="mr-2">@(shape.ShapeType.ToString()):</b>
                         <p>(Id: @shape.CustomId)</p>
                     </div>
@@ -139,6 +138,7 @@
                 else
                 {
                     <button @onclick="DeleteShape" type="button" style="flex-grow: 0" class=" shadow-sm flex-grow focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2">Delete Shape</button>
+                    <button @onclick="ZoomToShape" type="button" style="flex-grow: 0"  class="mt-2 shadow-sm flex-grow focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2">Zoom to Shape</button>
                 }
 
             </div>

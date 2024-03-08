@@ -9,7 +9,6 @@ public partial class Preview
 {
     private SvgEditor? svgEditor;
     private int SelectedShapeId { get; set; }
-    private int ClickedShapeId { get; set; }    
     private bool ReadOnly { get; set; } = false; 
 
     
@@ -113,9 +112,11 @@ public partial class Preview
     {
         svgEditor?.RemoveSelectedShape();
     }
-
-    void EditorShapeClicked(int CustomId)
+    
+    private async Task ZoomToShape()
     {
-        ClickedShapeId = CustomId;
+        if (svgEditor == null) return;
+        if (SelectedShapeId <= 0) return;
+        await svgEditor.ZoomToShape(SelectedShapeId);
     }
 }

@@ -124,7 +124,7 @@ public class Polygon : Shape
     }
 
     
-    protected override BoundingBox Bounds => new()
+    public override BoundingBox Bounds => new()
     {
         Left = Points.OrderBy(x => x.X).FirstOrDefault().X,
         Right = Points.OrderByDescending(x => x.X).FirstOrDefault().X,
