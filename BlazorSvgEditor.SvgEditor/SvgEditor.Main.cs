@@ -47,6 +47,8 @@ public partial class SvgEditor
     [Parameter] public EventCallback<(Coord<double> translate, double scale)> TranslationChanged { get; set; }
     private async Task InvokeTranslationChanged() => await TranslationChanged.InvokeAsync((Translate, Scale));
     
+    [Parameter] public EventCallback OnImageLoaded { get; set; } //Event for image loaded
+    
     //ReadOnly
     [Parameter] public bool ReadOnly { get; set; } = false; //Is the editor read only?
     

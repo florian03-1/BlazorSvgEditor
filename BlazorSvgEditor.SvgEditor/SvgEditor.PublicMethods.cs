@@ -148,6 +148,7 @@ public partial class SvgEditor
         }
         
         _imageSourceLoading = false;
+        await OnImageLoaded.InvokeAsync();
         StateHasChanged();
     }
     

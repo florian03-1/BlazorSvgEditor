@@ -9,7 +9,7 @@ public partial class Preview
 {
     private SvgEditor? svgEditor;
     private int SelectedShapeId { get; set; }
-    private bool ReadOnly { get; set; } = false; 
+    private bool ReadOnly { get; set; } = true; 
 
     
     private List<Shape> Shapes = new();
