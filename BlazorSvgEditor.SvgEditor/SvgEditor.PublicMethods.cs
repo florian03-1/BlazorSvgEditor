@@ -25,6 +25,13 @@ public partial class SvgEditor
         SelectedShape = null;
     }
     
+    public void SetEditModeToNone()
+    {
+        EditMode = EditMode.None;
+        SelectedShape?.UnSelectShape();
+        SelectedShape = null;
+    }
+    
     public async Task RemoveSelectedShape()
     {
         if (SelectedShape != null)
